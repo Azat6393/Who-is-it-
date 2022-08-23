@@ -12,6 +12,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -19,17 +20,20 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.woynex.kimbu.R
 import com.woynex.kimbu.core.Constants.dateFormat
+import com.woynex.kimbu.core.Resource
 import com.woynex.kimbu.core.millisToDate
 import com.woynex.kimbu.databinding.FragmentFeedBinding
 import com.woynex.kimbu.feature_search.presentation.SearchFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_search.*
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class FeedFragment : Fragment(R.layout.fragment_feed) {
 
     private lateinit var _binding: FragmentFeedBinding
+    private val viewModel: FeedViewModel by viewModels()
 
     private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
@@ -46,66 +50,52 @@ class FeedFragment : Fragment(R.layout.fragment_feed) {
         _binding.showAllBtn.setOnClickListener {
             requireParentFragment().viewPager.currentItem = 2
         }
+        observe()
     }
 
-    @SuppressLint("Range")
-    private fun getCallLog() {
+    private fun observe() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-
-                val uriCallLogs = Uri.parse("content://call_log/calls")
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    val cursorCallLogs =
-                        requireActivity().contentResolver.query(
-                            uriCallLogs, null, null, null
-                        )
-                    cursorCallLogs?.let {
-                        cursorCallLogs.moveToLast()
-
-                        for (i in 1..3) {
-                            val stringNumber =
-                                cursorCallLogs.getString(cursorCallLogs.getColumnIndex(CallLog.Calls.NUMBER))
-                            val stringName =
-                                cursorCallLogs.getString(cursorCallLogs.getColumnIndex(CallLog.Calls.CACHED_NAME))
-                            val stringDate =
-                                cursorCallLogs.getString(cursorCallLogs.getColumnIndex(CallLog.Calls.DATE))
-                            when (i) {
-                                1 -> {
-                                    _binding.firstName.text =
-                                        if (stringName.isBlank() || stringName == null) stringNumber
-                                        else stringName
-                                    _binding.firstNumber.text = stringNumber
-                                    _binding.firstDate.text = stringDate.toLong().millisToDate(
-                                        dateFormat
-                                    )
-                                }
-                                2 -> {
-                                    _binding.secondName.text =
-                                        if (stringName.isBlank() || stringName == null) stringNumber
-                                        else stringName
-                                    _binding.secondNumber.text = stringNumber
-                                    _binding.secondDate.text = stringDate.toLong().millisToDate(
-                                        dateFormat
-                                    )
-                                }
-                                3 -> {
-                                    _binding.thirdName.text =
-                                        if (stringName.isBlank() || stringName == null) stringNumber
-                                        else stringName
-                                    _binding.thirdNumber.text = stringNumber
-                                    _binding.thirdDate.text = stringDate.toLong().millisToDate(
-                                        dateFormat
-                                    )
+                viewModel.callLogs.collect { results ->
+                    when (results) {
+                        is Resource.Empty -> Unit
+                        is Resource.Error -> Unit
+                        is Resource.Loading -> Unit
+                        is Resource.Success -> {
+                            results.data?.forEachIndexed { index, numberInfo ->
+                                when (index) {
+                                    0 -> {
+                                        _binding.firstName.text = numberInfo.name
+                                        _binding.firstNumber.text = numberInfo.number
+                                        _binding.firstDate.text = numberInfo.date.millisToDate(
+                                            dateFormat
+                                        )
+                                    }
+                                    1 -> {
+                                        _binding.secondName.text = numberInfo.name
+                                        _binding.secondNumber.text = numberInfo.number
+                                        _binding.secondDate.text = numberInfo.date.millisToDate(
+                                            dateFormat
+                                        )
+                                    }
+                                    2 -> {
+                                        _binding.thirdName.text = numberInfo.name
+                                        _binding.thirdNumber.text = numberInfo.number
+                                        _binding.thirdDate.text = numberInfo.date.millisToDate(
+                                            dateFormat
+                                        )
+                                    }
                                 }
                             }
-                            cursorCallLogs.moveToPrevious()
                         }
-                        cursorCallLogs.close()
                     }
                 }
             }
         }
+    }
+
+    private fun getCallLog() {
+        viewModel.getCallLog()
     }
 
     private fun requestPermission() {
