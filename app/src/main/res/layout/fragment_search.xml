@@ -18,7 +18,7 @@
     <ImageView
         android:id="@+id/profile_logo"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="35dp"
         android:src="@drawable/profile_icon"
         app:layout_constraintBottom_toBottomOf="@+id/search_et"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
@@ -28,11 +28,10 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/search_et"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="35dp"
         android:layout_margin="10dp"
         android:backgroundTint="@color/light_gray"
         app:cardCornerRadius="5dp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline2"
         app:layout_constraintTop_toTopOf="parent">
@@ -76,7 +75,7 @@
         android:backgroundTint="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline3"
+        app:layout_constraintTop_toBottomOf="@+id/search_et"
         app:tabIndicatorColor="@color/primary"
         app:tabSelectedTextColor="@color/primary"
         app:tabTextColor="@color/white">
@@ -105,10 +104,4 @@
 
     </androidx.viewpager2.widget.ViewPager2>
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.08" />
 </androidx.constraintlayout.widget.ConstraintLayout>

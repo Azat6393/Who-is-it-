@@ -15,4 +15,8 @@
     <string name="about_us">About us</string>
     <string name="kim_bu_website">Kim Bu website</string>
     <string name="help_support">Help / support</string>
+    <string name="recent_calls">Recent Calls</string>
+    <string name="show_more">Show more</string>
+    <string name="permission_required">Without permission we cannot read you call history</string>
+    <string name="ok">Ok</string>
 </resources>
