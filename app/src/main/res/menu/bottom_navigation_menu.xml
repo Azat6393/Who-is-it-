@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/searchFragment"
+        android:icon="@drawable/search_icon"
+        android:title="@string/search" />
+
+    <item
+        android:id="@+id/logo"
+        android:checkable="false"
+        android:icon="@drawable/ic_baseline_android_24"
+        android:title="@null" />
+
+    <item
+        android:id="@+id/settingsFragment"
+        android:icon="@drawable/setting_icon"
+        android:title="@string/settings" />
+
+</menu>

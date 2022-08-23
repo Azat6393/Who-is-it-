@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Kim Bu</string>
+    <string name="search">Search</string>
+    <string name="settings">Settings</string>
+    <string name="search_by_number">Search by number</string>
+    <string name="feed">Feed</string>
+    <string name="call_history">Call history</string>
+    <string name="notifications">Notifications</string>
+    <string name="number_blocking">Number blocking</string>
+    <string name="statistics">Statistics</string>
+    <string name="trust_score">Trust score</string>
+    <string name="language_settings">Language settings</string>
+    <string name="theme_color">Theme / color</string>
+    <string name="rate_us">Rate us</string>
+    <string name="about_us">About us</string>
+    <string name="kim_bu_website">Kim Bu website</string>
+    <string name="help_support">Help / support</string>
+</resources>
