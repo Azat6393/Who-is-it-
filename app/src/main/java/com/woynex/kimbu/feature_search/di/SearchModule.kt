@@ -1,7 +1,7 @@
 package com.woynex.kimbu.feature_search
 
 import android.content.Context
-import com.woynex.kimbu.feature_search.data.use_case.GetCallLogsUseCase
+import com.woynex.kimbu.feature_search.domain.use_case.GetCallLogsUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
