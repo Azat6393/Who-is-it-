@@ -19,4 +19,9 @@
     <string name="show_more">Show more</string>
     <string name="permission_required">Without permission we cannot read you call history</string>
     <string name="ok">Ok</string>
+    <string name="call">Call</string>
+    <string name="report">Report</string>
+    <string name="add">Add</string>
+    <string name="call_permession_text">Without you permission we cannot call</string>
+    <string name="search_caps">SEARCH</string>
 </resources>

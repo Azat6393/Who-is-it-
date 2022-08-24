@@ -2,7 +2,9 @@ package com.woynex.kimbu.feature_search.presentation
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import com.google.android.material.tabs.TabLayoutMediator
 import com.woynex.kimbu.R
 import com.woynex.kimbu.databinding.FragmentSearchBinding

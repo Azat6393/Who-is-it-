@@ -49,6 +49,7 @@
                     android:textStyle="bold" />
 
                 <LinearLayout
+                    android:id="@+id/first_call_log"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
@@ -86,10 +87,10 @@
                             android:id="@+id/first_name"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            tools:text="+905538504596"
                             android:textAlignment="textStart"
                             android:textColor="@color/white"
-                            android:textSize="15sp" />
+                            android:textSize="15sp"
+                            tools:text="+905538504596" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -102,21 +103,21 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="6"
-                                tools:text="+905538504596"
                                 android:textAlignment="textStart"
                                 android:textColor="@color/white"
                                 android:textSize="12sp"
-                                tools:ignore="NestedWeights" />
+                                tools:ignore="NestedWeights"
+                                tools:text="+905538504596" />
 
                             <TextView
                                 android:id="@+id/first_date"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="4"
-                                tools:text="Tuesday, 23 Aug"
                                 android:textAlignment="textEnd"
                                 android:textColor="@color/white"
-                                android:textSize="12sp" />
+                                android:textSize="12sp"
+                                tools:text="Tuesday, 23 Aug" />
 
                         </LinearLayout>
 
@@ -125,6 +126,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/second_call_log"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
@@ -160,10 +162,10 @@
                             android:id="@+id/second_name"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            tools:text="Arslan Cetin"
                             android:textAlignment="textStart"
                             android:textColor="@color/white"
-                            android:textSize="15sp" />
+                            android:textSize="15sp"
+                            tools:text="Arslan Cetin" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -176,21 +178,21 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="6"
-                                tools:text="+905538504596"
                                 android:textAlignment="textStart"
                                 android:textColor="@color/white"
                                 android:textSize="12sp"
-                                tools:ignore="NestedWeights" />
+                                tools:ignore="NestedWeights"
+                                tools:text="+905538504596" />
 
                             <TextView
                                 android:id="@+id/second_date"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="4"
-                                tools:text="Monday, 22 Aug"
                                 android:textAlignment="textEnd"
                                 android:textColor="@color/white"
-                                android:textSize="12sp" />
+                                android:textSize="12sp"
+                                tools:text="Monday, 22 Aug" />
 
                         </LinearLayout>
 
@@ -199,6 +201,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/third_call_log"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
@@ -233,10 +236,10 @@
                             android:id="@+id/third_name"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            tools:text="Hakan Seker"
                             android:textAlignment="textStart"
                             android:textColor="@color/white"
-                            android:textSize="15sp" />
+                            android:textSize="15sp"
+                            tools:text="Hakan Seker" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -249,21 +252,21 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="6"
-                                tools:text="+905538504596"
                                 android:textAlignment="textStart"
                                 android:textColor="@color/white"
                                 android:textSize="12sp"
-                                tools:ignore="NestedWeights" />
+                                tools:ignore="NestedWeights"
+                                tools:text="+905538504596" />
 
                             <TextView
                                 android:id="@+id/third_date"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="4"
-                                tools:text="Monday, 22 Aug"
                                 android:textAlignment="textEnd"
                                 android:textColor="@color/white"
-                                android:textSize="12sp" />
+                                android:textSize="12sp"
+                                tools:text="Monday, 22 Aug" />
 
                         </LinearLayout>
 
@@ -298,6 +301,7 @@
 
 
         </androidx.cardview.widget.CardView>
+
 
     </LinearLayout>
 
