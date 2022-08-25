@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -16,11 +17,12 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.woynex.kimbu.R
-import com.woynex.kimbu.core.utils.Resource
 import com.woynex.kimbu.databinding.FragmentCallHistoryBinding
-import com.woynex.kimbu.feature_search.data.model.NumberInfo
+import com.woynex.kimbu.feature_search.domain.model.NumberInfo
+import com.woynex.kimbu.feature_search.presentation.SearchFragment
 import com.woynex.kimbu.feature_search.presentation.SearchFragmentDirections
 import com.woynex.kimbu.feature_search.presentation.SearchViewModel
 import com.woynex.kimbu.feature_search.presentation.adapter.CallHistoryAdapter
@@ -53,9 +55,10 @@ class CallHistoryFragment : Fragment(R.layout.fragment_call_history),
     }
 
     private fun initRecyclerView() {
+        val linearLayoutManager = LinearLayoutManager(requireContext())
         _binding.recyclerView.apply {
             adapter = mAdapter
-            layoutManager = LinearLayoutManager(requireContext())
+            layoutManager = linearLayoutManager
             setHasFixedSize(true)
         }
     }
@@ -64,13 +67,8 @@ class CallHistoryFragment : Fragment(R.layout.fragment_call_history),
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.callLogs.collect { result ->
-                    when (result) {
-                        is Resource.Empty -> Unit
-                        is Resource.Error -> Unit
-                        is Resource.Loading -> Unit
-                        is Resource.Success -> {
-                            mAdapter.submitList(result.data)
-                        }
+                    result?.let {
+                        mAdapter.submitData(it)
                     }
                 }
             }
@@ -78,11 +76,13 @@ class CallHistoryFragment : Fragment(R.layout.fragment_call_history),
     }
 
     override fun onClick(numberInfo: NumberInfo) {
+        (requireParentFragment() as SearchFragment).removeGlobalLayoutListener()
         val action = SearchFragmentDirections.actionSearchFragmentToProfileFragment(numberInfo)
         findNavController().navigate(action)
     }
 
     override fun onCallClick(numberInfo: NumberInfo) {
+        (requireParentFragment() as SearchFragment).removeGlobalLayoutListener()
         number = numberInfo.number
         requestPermission()
     }

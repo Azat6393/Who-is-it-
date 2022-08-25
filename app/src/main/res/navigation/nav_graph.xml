@@ -28,6 +28,6 @@
         android:label="ProfileFragment" >
         <argument
             android:name="numberInfo"
-            app:argType="com.woynex.kimbu.feature_search.data.model.NumberInfo" />
+            app:argType="com.woynex.kimbu.feature_search.domain.model.NumberInfo" />
     </fragment>
 </navigation>

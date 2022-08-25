@@ -1,7 +1,11 @@
-package com.woynex.kimbu.feature_search
+package com.woynex.kimbu.feature_search.di
 
 import android.content.Context
+import com.woynex.kimbu.core.data.local.KimBuDatabase
+import com.woynex.kimbu.feature_search.data.repository.SearchRepositoryImpl
+import com.woynex.kimbu.feature_search.domain.repository.SearchRepository
 import com.woynex.kimbu.feature_search.domain.use_case.GetCallLogsUseCase
+import com.woynex.kimbu.feature_search.domain.use_case.UpdateCallLogsUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,10 +19,24 @@ object SearchModule {
 
     @Provides
     @Singleton
-    fun provideGetCallLogsUseCase(
+    fun provideSearchRepository(
+        database: KimBuDatabase,
         @ApplicationContext context: Context
-    ): GetCallLogsUseCase {
-        return GetCallLogsUseCase(context)
+    ): SearchRepository {
+        return SearchRepositoryImpl(database, context)
     }
 
+    @Provides
+    @Singleton
+    fun provideGetCallLogsUseCase(
+        repository: SearchRepository
+    ): GetCallLogsUseCase {
+        return GetCallLogsUseCase(repository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideUpdateCallLogsUseCase(
+        repository: SearchRepository
+    ) = UpdateCallLogsUseCase(repository)
 }

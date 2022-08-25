@@ -13,6 +13,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.woynex.kimbu.R
 import com.woynex.kimbu.databinding.FragmentProfileBinding
@@ -93,5 +94,19 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                 )
             }
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        requireActivity()
+            .findViewById<BottomNavigationView>(R.id.bottom_navigation_view)
+            .visibility = View.GONE
+    }
+
+    override fun onStop() {
+        super.onStop()
+        requireActivity()
+            .findViewById<BottomNavigationView>(R.id.bottom_navigation_view)
+            .visibility = View.VISIBLE
     }
 }

@@ -61,7 +61,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getCallLog() {
-        viewModel.getCallLog()
+        viewModel.updateCallLogs()
     }
 
     private fun requestPermission() {

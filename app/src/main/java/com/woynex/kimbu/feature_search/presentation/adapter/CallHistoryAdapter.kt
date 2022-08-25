@@ -4,6 +4,7 @@ import android.provider.CallLog
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -11,10 +12,10 @@ import com.woynex.kimbu.R
 import com.woynex.kimbu.core.utils.Constants
 import com.woynex.kimbu.core.utils.millisToDate
 import com.woynex.kimbu.databinding.ItemCallLogBinding
-import com.woynex.kimbu.feature_search.data.model.NumberInfo
+import com.woynex.kimbu.feature_search.domain.model.NumberInfo
 
 class CallHistoryAdapter(private val listener: OnItemClickListener) :
-    ListAdapter<NumberInfo, CallHistoryAdapter.CallHistoryViewHolder>(
+    PagingDataAdapter<NumberInfo, CallHistoryAdapter.CallHistoryViewHolder>(
         DiffCallBack
     ) {
 
@@ -29,7 +30,7 @@ class CallHistoryAdapter(private val listener: OnItemClickListener) :
         if (item != null) {
             if (position > 0) {
                 val currentDate = item.date.millisToDate(Constants.dateFormat)
-                val previousDate = getItem(position - 1).date.millisToDate(Constants.dateFormat)
+                val previousDate = getItem(position - 1)?.date?.millisToDate(Constants.dateFormat)
                 when {
                     previousDate.isNullOrBlank() -> {
                         holder.bind(item, hasHeader = true)
@@ -53,7 +54,7 @@ class CallHistoryAdapter(private val listener: OnItemClickListener) :
 
         init {
             _binding.root.setOnClickListener {
-                val position = adapterPosition
+                val position = absoluteAdapterPosition
                 if (position != RecyclerView.NO_POSITION) {
                     val item = getItem(position)
                     if (item != null) {
@@ -62,7 +63,7 @@ class CallHistoryAdapter(private val listener: OnItemClickListener) :
                 }
             }
             _binding.callButton.setOnClickListener {
-                val position = adapterPosition
+                val position = absoluteAdapterPosition
                 if (position != RecyclerView.NO_POSITION) {
                     val item = getItem(position)
                     if (item != null) {
@@ -74,7 +75,7 @@ class CallHistoryAdapter(private val listener: OnItemClickListener) :
 
         fun bind(item: NumberInfo, hasHeader: Boolean) {
             _binding.apply {
-                nameTv.text = item.name
+                nameTv.text = if (item.name.isNullOrBlank()) item.number else item.name
                 timeTv.text = item.date.millisToDate(Constants.timeFormat)
                 dateTv.text = item.date.millisToDate(Constants.dateFormat)
                 dateTv.visibility = if (hasHeader) View.VISIBLE else View.GONE

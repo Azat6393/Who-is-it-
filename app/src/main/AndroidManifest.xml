@@ -71,7 +71,8 @@
         <activity
             android:name=".MainActivity"
             android:hardwareAccelerated="true"
-            android:windowSoftInputMode="adjustPan"
+            android:configChanges="fontScale|density"
+            android:windowSoftInputMode="stateVisible|adjustResize"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
