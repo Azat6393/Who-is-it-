@@ -7,12 +7,15 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewTreeObserver
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import coil.decode.SvgDecoder
 import coil.load
 import coil.transform.CircleCropTransformation
@@ -20,6 +23,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.tabs.TabLayoutMediator
 import com.woynex.kimbu.R
 import com.woynex.kimbu.core.utils.Constants
+import com.woynex.kimbu.core.utils.Resource
 import com.woynex.kimbu.core.utils.fromJsonToCountyList
 import com.woynex.kimbu.core.utils.getJsonFromAssets
 import com.woynex.kimbu.databinding.FragmentSearchBinding
@@ -33,6 +37,8 @@ import kotlinx.coroutines.launch
 class SearchFragment : Fragment(R.layout.fragment_search) {
 
     private lateinit var _binding: FragmentSearchBinding
+    private var selectedCountry: CountryInfo? = null
+    private val viewModel: SearchViewModel by viewModels()
 
     @RequiresApi(Build.VERSION_CODES.R)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -51,14 +57,65 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                 }
             }
         }.attach()
+        _binding.searchButton.setOnClickListener {
+            selectedCountry?.let { country ->
+                val number = _binding.searchEditText.text.toString()
+                if (number.isBlank()) {
+                    Toast.makeText(requireContext(), "Please input number", Toast.LENGTH_LONG)
+                        .show()
+                } else {
+                    val phoneNumber = "${country.number}$number"
+                    viewModel.searchPhoneNumber(phoneNumber)
+                    hideKeyboard()
+                }
+            }
+        }
         setKeyboardVisibilityListener()
         initAutoComplete()
+        observe()
+    }
+
+    private fun observe() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.phoneNumberResponse.collect { result ->
+                    when (result) {
+                        is Resource.Empty -> {
+                            _binding.progressBar.visibility = View.GONE
+                        }
+                        is Resource.Error -> {
+                            _binding.progressBar.visibility = View.GONE
+                            Toast.makeText(requireContext(), result.message, Toast.LENGTH_LONG)
+                                .show()
+                        }
+                        is Resource.Loading -> {
+                            _binding.progressBar.visibility = View.VISIBLE
+                        }
+                        is Resource.Success -> {
+                            _binding.progressBar.visibility = View.GONE
+                            val numberInfo = result.data
+                            numberInfo?.let {
+                                removeGlobalLayoutListener()
+                                val action =
+                                    SearchFragmentDirections.actionSearchFragmentToProfileFragment(
+                                        it
+                                    )
+                                findNavController().navigate(action)
+                                _binding.searchEditText.setText("")
+                                viewModel.clearPhoneNumberResponse()
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private fun initAutoComplete() {
         val countryList = getJsonFromAssets(requireContext(), Constants.countryListJsonName)
             ?.fromJsonToCountyList()
         val currentCountry = countryList?.find { it.name == "Turkey" }
+        selectedCountry = currentCountry
         currentCountry?.let { fillCountryInfo(it) }
         _binding.apply {
             countryInfoContainer.setOnClickListener {
@@ -97,6 +154,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
             }
             countryCode.text = countryInfo.name
             countryCodeNumber.text = countryInfo.number
+            selectedCountry = countryInfo
         }
     }
 
@@ -127,5 +185,10 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
             .findViewById<BottomNavigationView>(R.id.bottom_navigation_view)
             .isVisible = !visible
         _binding.searchContainer.isVisible = visible
+    }
+
+    override fun onStop() {
+        super.onStop()
+        removeGlobalLayoutListener()
     }
 }

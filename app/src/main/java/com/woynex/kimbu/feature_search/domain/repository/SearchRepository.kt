@@ -14,4 +14,6 @@ interface SearchRepository {
     suspend fun getPagedCalls(): Pager<Int, NumberInfo>
 
     suspend fun getLastCallLogs(): List<NumberInfo>
+
+    suspend fun searchPhoneNumber(phoneNumber: String): NumberInfo
 }

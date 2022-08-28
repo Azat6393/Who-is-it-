@@ -42,6 +42,17 @@ class SearchRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun searchPhoneNumber(phoneNumber: String): NumberInfo {
+        return NumberInfo(
+            name = "Unknown",
+            id = 0,
+            number = phoneNumber,
+            countryCode = "TR",
+            type = "",
+            date = 0
+        )
+    }
+
     @SuppressLint("Range")
     override suspend fun getCallLogs(): List<NumberInfo> {
 

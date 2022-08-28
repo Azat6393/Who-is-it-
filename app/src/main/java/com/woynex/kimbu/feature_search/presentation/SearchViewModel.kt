@@ -8,6 +8,7 @@ import com.woynex.kimbu.core.utils.Resource
 import com.woynex.kimbu.feature_search.domain.model.NumberInfo
 import com.woynex.kimbu.feature_search.domain.use_case.GetCallLogsUseCase
 import com.woynex.kimbu.feature_search.domain.use_case.GetLastCallLogsUseCase
+import com.woynex.kimbu.feature_search.domain.use_case.SearchPhoneNumberUseCase
 import com.woynex.kimbu.feature_search.domain.use_case.UpdateCallLogsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,7 +22,8 @@ import javax.inject.Inject
 class SearchViewModel @Inject constructor(
     private val updateCallLogsUseCase: UpdateCallLogsUseCase,
     private val getCallLogsUseCase: GetCallLogsUseCase,
-    private val getLastCallLogsUseCase: GetLastCallLogsUseCase
+    private val getLastCallLogsUseCase: GetLastCallLogsUseCase,
+    private val searchPhoneNumberUseCase: SearchPhoneNumberUseCase
 ) : ViewModel() {
 
     private val _callLogs = MutableStateFlow<PagingData<NumberInfo>?>(null)
@@ -29,6 +31,19 @@ class SearchViewModel @Inject constructor(
 
     private val _lastCallLogs = MutableStateFlow<List<NumberInfo>>(emptyList())
     val lastCallLogs = _lastCallLogs.asStateFlow()
+
+    private val _phoneNumberResponse = MutableStateFlow<Resource<NumberInfo>>(Resource.Empty())
+    val phoneNumberResponse = _phoneNumberResponse.asStateFlow()
+
+    fun searchPhoneNumber(number: String) {
+        searchPhoneNumberUseCase(number).onEach {
+            _phoneNumberResponse.value = it
+        }.launchIn(viewModelScope)
+    }
+
+    fun clearPhoneNumberResponse() {
+        _phoneNumberResponse.value = Resource.Empty()
+    }
 
     fun getCallLog() = viewModelScope.launch {
         getCallLogsUseCase()

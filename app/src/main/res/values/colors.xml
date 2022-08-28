@@ -11,4 +11,21 @@
     <color name="light_gray">#818181</color>
     <color name="primary">#2ba4e2</color>
     <color name="gray">#3e3e3e</color>
+
+    <!-- Dark theme colors -->
+
+    <color name="dark_primary">#2BA4E2</color>
+    <color name="dark_secondary">#FFFFFF</color>
+    <color name="dark_tertiary">#818181</color>
+    <color name="dark_surface">#3E3E3E</color>
+    <color name="dark_background">#000000</color>
+
+    <!-- Light theme colors -->
+
+    <color name="light_primary">#2BA4E2</color>
+    <color name="light_secondary">#1C1C1C</color>
+    <color name="light_tertiary">#C9C9C9</color>
+    <color name="light_surface">#E2E2E2</color>
+    <color name="light_background">#FFFFFF</color>
+
 </resources>

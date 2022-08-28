@@ -1,6 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:app="http://schemas.android.com/apk/res-auto"
-             android:id="@+id/auth_nav_graph">
-
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/auth_nav_graph"
+    app:startDestination="@id/fragmentAuth">
+    <fragment
+        android:id="@+id/fragmentAuth"
+        android:name="com.woynex.kimbu.feature_auth.presentation.sign_up.AuthFragment"
+        android:label="fragment_auth"
+        tools:layout="@layout/fragment_auth" >
+        <action
+            android:id="@+id/action_fragmentAuth_to_fragmentEmailLogIn"
+            app:destination="@id/fragmentEmailLogIn" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentEmailLogIn"
+        android:name="com.woynex.kimbu.feature_auth.presentation.email_log_in.EmailLogInFragment"
+        android:label="fragment_email_log_in"
+        tools:layout="@layout/fragment_email_log_in" >
+        <action
+            android:id="@+id/action_fragmentEmailLogIn_to_fragmentEmailSignUp"
+            app:destination="@id/fragmentEmailSignUp" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentEmailSignUp"
+        android:name="com.woynex.kimbu.feature_auth.presentation.email_sign_up.EmailSignUpFragment"
+        android:label="fragment_email_sign_up"
+        tools:layout="@layout/fragment_email_sign_up" >
+        <action
+            android:id="@+id/action_fragmentEmailSignUp_to_fragmentVerifyNumber"
+            app:destination="@id/fragmentVerifyNumber" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentVerifyNumber"
+        android:name="com.woynex.kimbu.feature_auth.presentation.verify_number.VerifyNumberFragment"
+        android:label="fragment_verify_number"
+        tools:layout="@layout/fragment_verify_number" />
 </navigation>

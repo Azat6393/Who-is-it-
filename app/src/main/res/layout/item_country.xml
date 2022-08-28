@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_weight="6"
-        android:textColor="@color/black"
+        android:textColor="?attr/secondary"
         android:textAppearance="?attr/textAppearanceSubtitle1"
         android:ellipsize="end"
         android:maxLines="1"
@@ -32,7 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_weight="4"
-        android:textColor="@color/black"
+        android:textColor="?attr/secondary"
         android:textAppearance="?attr/textAppearanceSubtitle1"
         tools:text="+90" />
 

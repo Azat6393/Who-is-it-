@@ -38,7 +38,8 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         _binding = FragmentProfileBinding.bind(view)
 
         _binding.apply {
-            nameTv.text = args.numberInfo.name
+            nameTv.text = if (args.numberInfo.name.isNullOrBlank()) args.numberInfo.number
+            else args.numberInfo.name
             phoneNumberTv.text =
                 "${args.numberInfo.number} - ${args.numberInfo.countryCode}"
 
