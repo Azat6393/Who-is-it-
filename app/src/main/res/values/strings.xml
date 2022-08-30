@@ -37,4 +37,17 @@
     <string name="first_name">First name</string>
     <string name="continue_text">Continue</string>
     <string name="verify_your_phone_number">Verify your phone number</string>
+    <string name="add_contact_permission">Without permission we cannon add contact</string>
+    <string name="contact_added">Contact has been added</string>
+    <string name="add_contact_cancelled">Cancelled Added Contact</string>
+    <string name="cancel">Cancel</string>
+    <string name="block_number_message">Are you sure to block number</string>
+    <string name="block_number">Block number</string>
+    <string name="unblock_number_message">Are you sure to unblock number</string>
+    <string name="unblock_number">Unblock number</string>
+    <string name="block_number_permission">Without permission we cannot block number</string>
+    <string name="block">Block</string>
+    <string name="dark_mode">Dark Mode</string>
+    <string name="set_kim_bu_as_default_calling_app_so_that_kim_bu_can_identify_incoming_calls_to_protect_you_from_spam_calls">Set Kim bu as default calling app so that Kim bu can identify incoming calls to protect you from spam calls</string>
+    <string name="set_as_default">Set as default</string>
 </resources>

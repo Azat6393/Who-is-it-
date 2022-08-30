@@ -5,6 +5,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.woynex.kimbu.feature_search.presentation.call_history.CallHistoryFragment
 import com.woynex.kimbu.feature_search.presentation.feed.FeedFragment
 
+
 class ViewPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
 
     override fun getItemCount(): Int {

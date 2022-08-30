@@ -7,6 +7,55 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
+
+    <LinearLayout
+        android:id="@+id/set_as_default_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?attr/background_color"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="center"
+            android:text="@string/set_as_default"
+            android:textAlignment="center"
+            android:textColor="?attr/secondary"
+            android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="30dp"
+            android:fontFamily="sans-serif-light"
+            android:gravity="center"
+            android:text="@string/set_kim_bu_as_default_calling_app_so_that_kim_bu_can_identify_incoming_calls_to_protect_you_from_spam_calls"
+            android:textAlignment="center"
+            android:textColor="?attr/secondary"
+            android:textSize="20sp" />
+
+
+        <ImageView
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_margin="30dp"
+            android:src="@drawable/ic_baseline_security_24" />
+
+        <Button
+            android:id="@+id/set_as_default_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:backgroundTint="?attr/primary_color"
+            android:text="@string/set_as_default" />
+
+    </LinearLayout>
 
 </FrameLayout>

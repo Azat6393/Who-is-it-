@@ -45,18 +45,14 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentSearchBinding.bind(view)
 
-        _binding.viewPager.adapter = ViewPagerAdapter(this)
-        _binding.viewPager.offscreenPageLimit = 1
-        TabLayoutMediator(_binding.tabLayout, _binding.viewPager) { tab, position ->
-            when (position) {
-                0 -> {
-                    tab.text = "Feed"
-                }
-                1 -> {
-                    tab.text = "Call History"
-                }
-            }
-        }.attach()
+        initViewPager()
+        initSearchCountryEditText()
+        setKeyboardVisibilityListener()
+        initAutoComplete()
+        observe()
+    }
+
+    private fun initSearchCountryEditText() {
         _binding.searchButton.setOnClickListener {
             selectedCountry?.let { country ->
                 val number = _binding.searchEditText.text.toString()
@@ -70,10 +66,23 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                 }
             }
         }
-        setKeyboardVisibilityListener()
-        initAutoComplete()
-        observe()
     }
+
+    private fun initViewPager() {
+        _binding.viewPager.adapter = ViewPagerAdapter(this)
+        _binding.viewPager.offscreenPageLimit = 1
+        TabLayoutMediator(_binding.tabLayout, _binding.viewPager) { tab, position ->
+            when (position) {
+                0 -> {
+                    tab.text = "Feed"
+                }
+                1 -> {
+                    tab.text = "Call History"
+                }
+            }
+        }.attach()
+    }
+
 
     private fun observe() {
         lifecycleScope.launch {

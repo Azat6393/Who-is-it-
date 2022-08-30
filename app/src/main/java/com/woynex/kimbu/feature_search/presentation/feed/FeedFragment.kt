@@ -1,25 +1,30 @@
 package com.woynex.kimbu.feature_search.presentation.feed
 
 import android.Manifest
-import android.content.Context
-import android.content.pm.PackageManager
+import android.app.role.RoleManager
+import android.content.Context.ROLE_SERVICE
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.telecom.TelecomManager
+import android.util.Log
 import android.view.View
-import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
+import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.snackbar.Snackbar
+import com.woynex.kimbu.MainActivity
 import com.woynex.kimbu.R
 import com.woynex.kimbu.core.utils.Constants.dateFormat
+import com.woynex.kimbu.core.utils.isAppDefaultDialer
 import com.woynex.kimbu.core.utils.millisToDate
+import com.woynex.kimbu.core.utils.requestPermission
+import com.woynex.kimbu.core.utils.showToastMessage
 import com.woynex.kimbu.databinding.FragmentFeedBinding
 import com.woynex.kimbu.feature_search.domain.model.NumberInfo
 import com.woynex.kimbu.feature_search.presentation.SearchFragment
@@ -28,6 +33,7 @@ import com.woynex.kimbu.feature_search.presentation.SearchViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.coroutines.launch
+
 
 @AndroidEntryPoint
 class FeedFragment : Fragment(R.layout.fragment_feed) {
@@ -42,14 +48,26 @@ class FeedFragment : Fragment(R.layout.fragment_feed) {
             }
         }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentFeedBinding.bind(view)
 
+        if (requireContext().isAppDefaultDialer()) {
+            initContent()
+        } else {
+            _binding.setAsDefaultBtn.setOnClickListener {
+                offerReplacingDefaultDialer()
+            }
+        }
+    }
+
+    private fun initContent() {
+        _binding.setAsDefaultView.visibility = View.GONE
         _binding.showAllBtn.setOnClickListener {
             requireParentFragment().viewPager.currentItem = 2
         }
-        requestPermission()
+        requestReadCallLogPermission()
         observe()
     }
 
@@ -115,32 +133,52 @@ class FeedFragment : Fragment(R.layout.fragment_feed) {
         viewModel.getLastCallLogs()
     }
 
-    private fun requestPermission() {
-        when {
-            ContextCompat.checkSelfPermission(
-                requireActivity(),
-                Manifest.permission.READ_CALL_LOG
-            ) == PackageManager.PERMISSION_GRANTED -> {
-                // Permission is granted
-                getCallLog()
-            }
-            ActivityCompat.shouldShowRequestPermissionRationale(
-                requireActivity(),
-                Manifest.permission.READ_CALL_LOG
-            ) -> {
-                // Additional rationale should be displayed
-                Snackbar.make(
-                    requireActivity().findViewById(R.id.container),
-                    getString(R.string.permission_required),
-                    Snackbar.LENGTH_INDEFINITE
-                ).setAction(getString(R.string.ok)) {
-                    requestPermissionLauncher.launch(
-                        Manifest.permission.READ_CALL_LOG
+    private val resultLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            when (result.resultCode) {
+                AppCompatActivity.RESULT_OK -> {
+                    viewModel.updateCallLogs()
+                    startActivity(Intent(requireActivity(), MainActivity::class.java))
+                    requireActivity().finish()
+                }
+                AppCompatActivity.RESULT_CANCELED -> {
+                    Log.d(
+                        "Default Dialer request",
+                        "User declined request to become default dialer"
                     )
-                }.show()
+                }
+                else -> Log.d("Default Dialer request", "Unexpected result code $result.resultCode")
             }
-            else -> {
-                // Permission has not been asked yet
+        }
+
+
+    private fun offerReplacingDefaultDialer() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            val roleManager = requireContext().getSystemService(ROLE_SERVICE) as RoleManager?
+            val intent = roleManager!!.createRequestRoleIntent(RoleManager.ROLE_DIALER)
+            resultLauncher.launch(intent)
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val intent = Intent(TelecomManager.ACTION_CHANGE_DEFAULT_DIALER).apply {
+                putExtra(
+                    TelecomManager.EXTRA_CHANGE_DEFAULT_DIALER_PACKAGE_NAME,
+                    requireContext().packageName
+                )
+            }
+            resultLauncher.launch(intent)
+        }
+    }
+
+    private fun requestReadCallLogPermission() {
+        requestPermission(
+            requireActivity(),
+            requireView(),
+            Manifest.permission.READ_CALL_LOG,
+            getString(R.string.permission_required)
+        ) { granted ->
+            if (granted) {
+                getCallLog()
+            } else {
                 requestPermissionLauncher.launch(
                     Manifest.permission.READ_CALL_LOG
                 )

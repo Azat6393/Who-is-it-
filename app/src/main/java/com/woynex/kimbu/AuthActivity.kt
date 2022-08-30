@@ -32,7 +32,7 @@ class AuthActivity : AppCompatActivity() {
         }
         setContentView(R.layout.activity_auth)
 
-        val isAuth = false
+        val isAuth = true
         if (isAuth) {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)

@@ -1,15 +1,16 @@
 package com.woynex.kimbu
 
-import android.Manifest
-import android.content.pm.PackageManager
+import android.app.role.RoleManager
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
+import android.telecom.TelecomManager
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
@@ -17,7 +18,8 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.gms.ads.MobileAds
 import com.google.android.material.shape.CornerFamily
 import com.google.android.material.shape.MaterialShapeDrawable
-import com.google.android.material.snackbar.Snackbar
+import com.woynex.kimbu.core.utils.isAppDefaultDialer
+import com.woynex.kimbu.core.utils.showToastMessage
 import com.woynex.kimbu.databinding.ActivityMainBinding
 import com.woynex.kimbu.feature_search.presentation.SearchViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -35,6 +37,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
             setTheme(R.style.Theme_KimBu_Dark)
@@ -58,7 +61,9 @@ class MainActivity : AppCompatActivity() {
                 .setTopLeftCorner(CornerFamily.ROUNDED, 40F)
                 .build()
 
-        requestPermission()
+        if (isAppDefaultDialer()) {
+            getCallLog()
+        }
         MobileAds.initialize(this)
     }
 
@@ -69,38 +74,4 @@ class MainActivity : AppCompatActivity() {
     private fun getCallLog() {
         viewModel.updateCallLogs()
     }
-
-    private fun requestPermission() {
-        when {
-            ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.READ_CALL_LOG
-            ) == PackageManager.PERMISSION_GRANTED -> {
-                // Permission is granted
-                getCallLog()
-            }
-            ActivityCompat.shouldShowRequestPermissionRationale(
-                this,
-                Manifest.permission.READ_CALL_LOG
-            ) -> {
-                // Additional rationale should be displayed
-                Snackbar.make(
-                    this.findViewById(R.id.container),
-                    getString(R.string.permission_required),
-                    Snackbar.LENGTH_INDEFINITE
-                ).setAction(getString(R.string.ok)) {
-                    requestPermissionLauncher.launch(
-                        Manifest.permission.READ_CALL_LOG
-                    )
-                }.show()
-            }
-            else -> {
-                // Permission has not been asked yet
-                requestPermissionLauncher.launch(
-                    Manifest.permission.READ_CALL_LOG
-                )
-            }
-        }
-    }
-
 }

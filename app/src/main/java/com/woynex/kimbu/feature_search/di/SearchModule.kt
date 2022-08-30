@@ -2,7 +2,9 @@ package com.woynex.kimbu.feature_search.di
 
 import android.content.Context
 import com.woynex.kimbu.core.data.local.KimBuDatabase
+import com.woynex.kimbu.feature_search.data.repository.BlockedNumberRepositoryImpl
 import com.woynex.kimbu.feature_search.data.repository.SearchRepositoryImpl
+import com.woynex.kimbu.feature_search.domain.repository.BlockedNumberRepository
 import com.woynex.kimbu.feature_search.domain.repository.SearchRepository
 import com.woynex.kimbu.feature_search.domain.use_case.GetCallLogsUseCase
 import com.woynex.kimbu.feature_search.domain.use_case.GetLastCallLogsUseCase
@@ -26,6 +28,14 @@ object SearchModule {
         @ApplicationContext context: Context
     ): SearchRepository {
         return SearchRepositoryImpl(database, context)
+    }
+
+    @Provides
+    @Singleton
+    fun provideBlockedNumberRepository(
+        @ApplicationContext context: Context
+    ): BlockedNumberRepository {
+        return BlockedNumberRepositoryImpl(context)
     }
 
     @Provides

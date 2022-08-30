@@ -46,11 +46,7 @@
         tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
-    <!--
-     This tells the activity manager to not delay any of our activity
-     start requests, even if they happen immediately after the user
-     presses home.
-    -->
+
     <uses-permission
         android:name="android.permission.STOP_APP_SWITCHES"
         tools:ignore="ProtectedPermissions" />
@@ -83,7 +79,15 @@
             android:exported="false"
             android:hardwareAccelerated="true"
             android:windowSoftInputMode="stateVisible|adjustResize">
-
+            <intent-filter>
+                <action android:name="android.intent.action.DIAL" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.DIAL" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="tel"/>
+            </intent-filter>
         </activity>
 
         <meta-data
