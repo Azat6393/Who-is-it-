@@ -7,6 +7,6 @@ object Constants {
 
     const val countryListJsonName = "country_list.json"
 
-    const val REQUEST_CODE_SET_DEFAULT_DIALER=200
-
+    const val FIREBASE_USERS_COLLECTION = "users"
+    const val FIREBASE_STATISTICS_COLLECTION = "statistics"
 }

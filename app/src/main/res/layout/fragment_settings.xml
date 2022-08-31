@@ -99,7 +99,6 @@
             </LinearLayout>
 
 
-
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
@@ -332,6 +331,39 @@
                     android:gravity="center_vertical"
                     android:text="@string/help_support"
                     android:textColor="?attr/secondary" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@color/light_gray" />
+
+            <LinearLayout
+                android:id="@+id/sign_out_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="@dimen/margin_for_items"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="@dimen/margin_for_items"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/sign_out"
+                    android:textColor="@color/red"
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <View

@@ -50,4 +50,12 @@
     <string name="dark_mode">Dark Mode</string>
     <string name="set_kim_bu_as_default_calling_app_so_that_kim_bu_can_identify_incoming_calls_to_protect_you_from_spam_calls">Set Kim bu as default calling app so that Kim bu can identify incoming calls to protect you from spam calls</string>
     <string name="set_as_default">Set as default</string>
+    <string name="last_name">Last name</string>
+    <string name="phone_number">Phone number</string>
+    <string name="input_email_address">Please input email address</string>
+    <string name="input_password">Please input password</string>
+    <string name="input_first_name">Please input first name</string>
+    <string name="input_last_name">Please input last name</string>
+    <string name="input_phone_number">Please input phone number</string>
+    <string name="sign_out">Sign out</string>
 </resources>

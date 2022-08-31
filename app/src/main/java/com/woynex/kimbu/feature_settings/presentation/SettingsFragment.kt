@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.woynex.kimbu.R
 import com.woynex.kimbu.databinding.FragmentSettingsBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,6 +26,9 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
                 } else {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
                 }
+            }
+            signOutBtn.setOnClickListener {
+                Firebase.auth.signOut()
             }
         }
     }

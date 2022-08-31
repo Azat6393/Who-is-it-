@@ -108,15 +108,6 @@ fun Context.showAlertDialog(message: String, title: String, onPositive: () -> Un
     alert.show()
 }
 
-//        val telecomManager = getSystemService(TELECOM_SERVICE) as TelecomManager
-//        val isAlreadyDefaultDialer = packageName == telecomManager.defaultDialerPackage
-//
-//        if (isAlreadyDefaultDialer) return
-//
-//        val intent = Intent(TelecomManager.ACTION_CHANGE_DEFAULT_DIALER).apply {
-//            putExtra(TelecomManager.EXTRA_CHANGE_DEFAULT_DIALER_PACKAGE_NAME, packageName)
-//        }
-
 @RequiresApi(Build.VERSION_CODES.M)
 fun Context.isAppDefaultDialer(): Boolean {
     val telecomManager = getSystemService(TELECOM_SERVICE) as TelecomManager
