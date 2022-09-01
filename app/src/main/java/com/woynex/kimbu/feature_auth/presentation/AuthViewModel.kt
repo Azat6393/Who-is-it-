@@ -2,10 +2,11 @@ package com.woynex.kimbu.feature_auth.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.facebook.AccessToken
+import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.woynex.kimbu.core.utils.Constants.FIREBASE_USERS_COLLECTION
 import com.woynex.kimbu.core.utils.Resource
@@ -100,6 +101,32 @@ class AuthViewModel @Inject constructor() : ViewModel() {
             }
             .addOnFailureListener {
                 _signInResponse.value = Resource.Error<User>(it.localizedMessage ?: "Error")
+            }
+    }
+
+    fun logInWithFacebook(idToken: AccessToken) = viewModelScope.launch {
+        _signInResponse.value = Resource.Loading<User>()
+        val auth = Firebase.auth
+        val firebaseCredential = FacebookAuthProvider.getCredential(idToken.token)
+        auth.signInWithCredential(firebaseCredential)
+            .addOnSuccessListener {
+                it.user?.let { user ->
+                    createUser(
+                        User(
+                            id = user.uid,
+                            first_name = user.displayName,
+                            last_name = "",
+                            phone_number = user.phoneNumber,
+                            profile_photo = user.photoUrl.toString() ?: "",
+                            email = user.email,
+                            created_date = System.currentTimeMillis()
+                        )
+                    )
+                }
+            }
+            .addOnFailureListener {
+                _signUpResponse.value =
+                    Resource.Error<User>(it.localizedMessage ?: "Error")
             }
     }
 

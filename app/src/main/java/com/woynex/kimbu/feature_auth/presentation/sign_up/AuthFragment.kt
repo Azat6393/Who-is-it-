@@ -5,6 +5,7 @@ import android.content.IntentSender
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -12,6 +13,11 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import com.facebook.CallbackManager
+import com.facebook.FacebookCallback
+import com.facebook.FacebookException
+import com.facebook.login.LoginManager
+import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.auth.api.identity.SignInClient
@@ -37,6 +43,7 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
     private val viewModel: AuthViewModel by viewModels()
     private val REQ_ONE_TAP = 2
     private var showOneTapUI = true
+    private lateinit var callBackManager: CallbackManager
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -51,10 +58,37 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
             loginWithGoogleBtn.setOnClickListener {
                 initGoogleSignInRequest()
                 beginSignIn()
+            }
+            loginWithFacebookBtn.setOnClickListener {
+                callBackManager = CallbackManager.Factory.create()
 
+                LoginManager.getInstance().logInWithReadPermissions(
+                    this@AuthFragment,
+                    arrayListOf("email", "public_profile", "user_friends")
+                )
+                registerFacebookCallBack()
             }
         }
         observe()
+    }
+
+    private fun registerFacebookCallBack() {
+        LoginManager.getInstance()
+            .registerCallback(callBackManager, object : FacebookCallback<LoginResult> {
+                override fun onCancel() {
+                    requireContext().showToastMessage(getString(R.string.canceled))
+                }
+
+                override fun onError(error: FacebookException) {
+                    requireContext().showToastMessage(
+                        "Error is: ${error.localizedMessage}"
+                    )
+                }
+
+                override fun onSuccess(result: LoginResult) {
+                    viewModel.logInWithFacebook(result.accessToken)
+                }
+            })
     }
 
     private fun observe() {
@@ -131,6 +165,7 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        callBackManager.onActivityResult(requestCode, resultCode, data)
 
         when (requestCode) {
             REQ_ONE_TAP -> {
