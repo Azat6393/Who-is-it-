@@ -1,6 +1,5 @@
 package com.woynex.kimbu.feature_settings.presentation.statistics
 
-import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.lifecycle.ViewModel
@@ -10,7 +9,6 @@ import com.google.firebase.ktx.Firebase
 import com.woynex.kimbu.core.data.local.datastore.KimBuPreferencesKey
 import com.woynex.kimbu.core.utils.Constants
 import com.woynex.kimbu.core.utils.Resource
-import com.woynex.kimbu.feature_auth.domain.model.User
 import com.woynex.kimbu.feature_search.domain.model.Statistics
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

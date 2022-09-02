@@ -7,7 +7,7 @@ import android.os.Build
 import android.provider.CallLog
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
-import com.woynex.kimbu.core.data.local.KimBuDatabase
+import com.woynex.kimbu.core.data.local.room.KimBuDatabase
 import com.woynex.kimbu.feature_search.data.local.room.CallHistoryPagingSource
 import com.woynex.kimbu.feature_search.domain.model.NumberInfo
 import com.woynex.kimbu.feature_search.domain.repository.SearchRepository

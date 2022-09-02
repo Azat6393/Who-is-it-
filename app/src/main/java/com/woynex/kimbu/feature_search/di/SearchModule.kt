@@ -1,7 +1,7 @@
 package com.woynex.kimbu.feature_search.di
 
 import android.content.Context
-import com.woynex.kimbu.core.data.local.KimBuDatabase
+import com.woynex.kimbu.core.data.local.room.KimBuDatabase
 import com.woynex.kimbu.feature_search.data.repository.BlockedNumberRepositoryImpl
 import com.woynex.kimbu.feature_search.data.repository.SearchRepositoryImpl
 import com.woynex.kimbu.feature_search.domain.repository.BlockedNumberRepository

@@ -10,7 +10,8 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.preferencesDataStoreFile
 import androidx.room.Room
-import com.woynex.kimbu.core.data.local.KimBuDatabase
+import com.woynex.kimbu.core.data.local.room.KimBuDatabase
+import com.woynex.kimbu.core.data.local.room.NotificationDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -36,6 +37,12 @@ object AppModule {
             KimBuDatabase::class.java,
             "kim_bu_database"
         ).build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideNotificationDao(database: KimBuDatabase): NotificationDao {
+        return database.notificationDao
     }
 
     @Provides
