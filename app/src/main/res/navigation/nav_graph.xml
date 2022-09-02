@@ -19,9 +19,13 @@
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="com.woynex.kimbu.feature_settings.presentation.SettingsFragment"
+        android:name="com.woynex.kimbu.feature_settings.presentation.settings.SettingsFragment"
         android:label="fragment_settings"
-        tools:layout="@layout/fragment_settings" />
+        tools:layout="@layout/fragment_settings" >
+        <action
+            android:id="@+id/action_settingsFragment_to_statisticsFragment"
+            app:destination="@id/statisticsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.woynex.kimbu.feature_search.presentation.profile.ProfileFragment"
@@ -30,4 +34,8 @@
             android:name="numberInfo"
             app:argType="com.woynex.kimbu.feature_search.domain.model.NumberInfo" />
     </fragment>
+    <fragment
+        android:id="@+id/statisticsFragment"
+        android:name="com.woynex.kimbu.feature_settings.presentation.statistics.StatisticsFragment"
+        android:label="StatisticsFragment" />
 </navigation>
