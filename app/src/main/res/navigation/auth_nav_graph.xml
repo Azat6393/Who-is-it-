@@ -12,6 +12,9 @@
         <action
             android:id="@+id/action_fragmentAuth_to_fragmentEmailLogIn"
             app:destination="@id/fragmentEmailLogIn" />
+        <action
+            android:id="@+id/action_fragmentAuth_to_fragmentVerifyNumber"
+            app:destination="@id/fragmentVerifyNumber" />
     </fragment>
     <fragment
         android:id="@+id/fragmentEmailLogIn"
@@ -35,5 +38,9 @@
         android:id="@+id/fragmentVerifyNumber"
         android:name="com.woynex.kimbu.feature_auth.presentation.verify_number.VerifyNumberFragment"
         android:label="fragment_verify_number"
-        tools:layout="@layout/fragment_verify_number" />
+        tools:layout="@layout/fragment_verify_number" >
+        <argument
+            android:name="userId"
+            app:argType="string" />
+    </fragment>
 </navigation>

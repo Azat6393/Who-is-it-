@@ -5,7 +5,6 @@ import android.content.IntentSender
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -30,7 +29,8 @@ import com.woynex.kimbu.core.utils.showToastMessage
 import com.woynex.kimbu.databinding.FragmentAuthBinding
 import com.woynex.kimbu.feature_auth.presentation.AuthViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -49,6 +49,20 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentAuthBinding.bind(view)
+
+        lifecycleScope.launch {
+            if (viewModel.isAuth.value && viewModel.currentUser.first().phone_number.toString()
+                    .isBlank()
+            ) {
+                viewModel.currentUser.first().id?.let {
+                    val action =
+                        AuthFragmentDirections.actionFragmentAuthToFragmentVerifyNumber(
+                            it
+                        )
+                    findNavController().navigate(action)
+                }
+            }
+        }
 
         _binding.apply {
             loginWithEmailBtn.setOnClickListener {
@@ -103,10 +117,23 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
                         }
                         is Resource.Loading -> isLoading(true)
                         is Resource.Success -> {
-                            val intent = Intent(requireActivity(), MainActivity::class.java)
-                            startActivity(intent)
                             isLoading(false)
-                            requireActivity().finish()
+                            if (it.data?.phone_number?.isNotBlank() == true
+                            ) {
+                                val intent = Intent(requireActivity(), MainActivity::class.java)
+                                startActivity(intent)
+                                isLoading(false)
+                                requireActivity().finish()
+                            } else {
+                                requireContext().showToastMessage("Success: ${it.data?.phone_number}")
+                                it.data?.id?.let { id ->
+                                    val action =
+                                        AuthFragmentDirections.actionFragmentAuthToFragmentVerifyNumber(
+                                            id
+                                        )
+                                    findNavController().navigate(action)
+                                }
+                            }
                         }
                     }
                 }
@@ -140,12 +167,12 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
                 }
             }.addOnFailureListener { e ->
                 Log.d("Google Sign in", e.localizedMessage ?: "Error")
-                requireContext().showToastMessage("Google Sign in ${e.localizedMessage}")
+                requireContext().showToastMessage("Google Sign in Error is ${e.localizedMessage}")
             }
     }
 
     private fun initGoogleSignInRequest() {
-        oneTapClient = Identity.getSignInClient(requireContext())
+        oneTapClient = Identity.getSignInClient(requireActivity())
         singInRequest = BeginSignInRequest.builder()
             .setPasswordRequestOptions(
                 BeginSignInRequest.PasswordRequestOptions.builder()
@@ -156,7 +183,7 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
                 BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
                     .setSupported(true)
                     .setServerClientId("1005644502335-ssh1r0q0h0n0ip3q3jtp92ti4ahmo8k4.apps.googleusercontent.com")
-                    .setFilterByAuthorizedAccounts(false)
+                    .setFilterByAuthorizedAccounts(true)
                     .build()
             )
             .setAutoSelectEnabled(true)

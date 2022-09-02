@@ -111,7 +111,11 @@ dependencies {
 
     // login with facebook
     implementation 'com.facebook.android:facebook-login:latest.release'
-    //implementation 'com.facebook.android:facebook-android-sdk:[4,5)'
+
+
+    //Datastore
+    implementation("androidx.datastore:datastore:1.0.0")
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
 
 }
 kapt {

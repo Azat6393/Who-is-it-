@@ -1,6 +1,5 @@
 package com.woynex.kimbu.feature_auth.presentation.email_sign_up
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
@@ -10,14 +9,12 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
-import com.woynex.kimbu.MainActivity
 import com.woynex.kimbu.R
 import com.woynex.kimbu.core.utils.Resource
 import com.woynex.kimbu.core.utils.showToastMessage
 import com.woynex.kimbu.databinding.FragmentEmailSignUpBinding
 import com.woynex.kimbu.feature_auth.presentation.AuthViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -44,8 +41,7 @@ class EmailSignUpFragment : Fragment(R.layout.fragment_email_sign_up) {
                 email = _binding.emailEt.text.toString(),
                 password = _binding.passwordEt.text.toString(),
                 lastName = _binding.lastNameEt.text.toString(),
-                firstName = _binding.firstNameEt.text.toString(),
-                phoneNumber = _binding.phoneNumberTv.text.toString()
+                firstName = _binding.firstNameEt.text.toString()
             )
         }
     }
@@ -62,10 +58,15 @@ class EmailSignUpFragment : Fragment(R.layout.fragment_email_sign_up) {
                         }
                         is Resource.Loading -> isLoading(true)
                         is Resource.Success -> {
-                            val intent = Intent(requireActivity(), MainActivity::class.java)
-                            startActivity(intent)
                             isLoading(false)
-                            requireActivity().finish()
+                            it.data?.id?.let { id ->
+                                val action =
+                                    EmailSignUpFragmentDirections.actionFragmentEmailSignUpToFragmentVerifyNumber(
+                                        id
+                                    )
+                                findNavController().navigate(action)
+                            }
+
                         }
                     }
                 }
@@ -96,10 +97,6 @@ class EmailSignUpFragment : Fragment(R.layout.fragment_email_sign_up) {
             }
             _binding.lastNameEt.text.toString().isBlank() -> {
                 requireContext().showToastMessage(getString(R.string.input_last_name))
-                return false
-            }
-            _binding.phoneNumberTv.text.toString().isBlank() -> {
-                requireContext().showToastMessage(getString(R.string.input_phone_number))
                 return false
             }
             else -> {

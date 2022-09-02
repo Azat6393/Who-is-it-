@@ -69,7 +69,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
             nameTv.text = if (args.numberInfo.name.isNullOrBlank()) args.numberInfo.number
             else args.numberInfo.name
             phoneNumberTv.text =
-                "${args.numberInfo.number} - ${args.numberInfo.countryCode}"
+                "${args.numberInfo.number}  ${args.numberInfo.countryCode}"
 
             callButton.setOnClickListener {
                 requestCallPermission()

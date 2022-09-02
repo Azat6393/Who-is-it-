@@ -40,7 +40,6 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     private var selectedCountry: CountryInfo? = null
     private val viewModel: SearchViewModel by viewModels()
 
-    @RequiresApi(Build.VERSION_CODES.R)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentSearchBinding.bind(view)

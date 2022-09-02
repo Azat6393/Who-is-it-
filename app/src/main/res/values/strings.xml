@@ -65,4 +65,5 @@
     <string name="sign_out">Sign out</string>
     <string name="canceled">Canceled</string>
     <string name="somethine_went_wrong">Something went wrong</string>
+    <string name="sign_out_message">Are you sure to sign out?</string>
 </resources>

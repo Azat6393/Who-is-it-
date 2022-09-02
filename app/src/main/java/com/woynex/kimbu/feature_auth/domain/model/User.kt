@@ -1,5 +1,7 @@
 package com.woynex.kimbu.feature_auth.domain.model
 
+import com.woynex.kimbu.feature_search.domain.model.NumberInfo
+
 data class User(
     val id: String? = null,
     val first_name: String? = null,
@@ -9,3 +11,14 @@ data class User(
     val email: String? = null,
     val created_date: Long? = null,
 )
+
+fun User.toNumberInfo(): NumberInfo {
+    return NumberInfo(
+        id = 0,
+        name = "${this.first_name} ${this.last_name}",
+        number = this.phone_number ?: "",
+        type = "",
+        countryCode = "",
+        date = this.created_date ?: 0
+    )
+}

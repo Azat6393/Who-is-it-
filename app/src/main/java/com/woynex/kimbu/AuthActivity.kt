@@ -6,11 +6,14 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.woynex.kimbu.feature_auth.presentation.AuthViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class AuthActivity : AppCompatActivity() {
@@ -32,10 +35,14 @@ class AuthActivity : AppCompatActivity() {
         }
         setContentView(R.layout.activity_auth)
 
-        if (viewModel.isAuth.value) {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-            finish()
+        lifecycleScope.launch {
+            if (viewModel.isAuth.value && viewModel.currentUser.first().phone_number.toString()
+                    .isNotBlank()
+            ) {
+                val intent = Intent(this@AuthActivity, MainActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
         }
 
 
