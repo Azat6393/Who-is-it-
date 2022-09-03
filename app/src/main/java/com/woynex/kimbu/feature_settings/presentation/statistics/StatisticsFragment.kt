@@ -13,12 +13,15 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.woynex.kimbu.R
-import com.woynex.kimbu.core.utils.Resource
-import com.woynex.kimbu.core.utils.showToastMessage
+import com.woynex.kimbu.core.utils.*
 import com.woynex.kimbu.databinding.FragmentStatisticsBinding
+import com.woynex.kimbu.feature_search.domain.model.SearchedUser
+import com.woynex.kimbu.feature_search.domain.model.Statistics
 import com.woynex.kimbu.feature_settings.presentation.adapter.SearchedDateAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import org.eazegraph.lib.models.ValueLinePoint
+import org.eazegraph.lib.models.ValueLineSeries
 
 
 @AndroidEntryPoint
@@ -56,19 +59,55 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
                         is Resource.Empty -> isLoading(false)
                         is Resource.Error -> {
                             isLoading(false)
-                            requireContext().showToastMessage(result.message ?: "Empty statistics")
+                            if (result.data?.searched_id_list.isNullOrEmpty()) {
+                                _binding.titleTv.text =
+                                    "${getString(R.string.total_count)} 0"
+                                drawChart(Statistics(searched_id_list = arrayListOf()))
+                            }
                         }
                         is Resource.Loading -> isLoading(true)
                         is Resource.Success -> {
                             isLoading(false)
+                            result.data?.let { drawChart(it) }
                             _binding.titleTv.text =
-                                "${getString(R.string.total_count)}${result.data?.searched_id_list?.size}"
+                                "${getString(R.string.total_count)} ${result.data?.searched_id_list?.size}"
                             mAdapter.submitList(result.data?.searched_id_list)
+                            if (result.data?.searched_id_list.isNullOrEmpty()) {
+                                _binding.titleTv.text =
+                                    "${getString(R.string.total_count)} 0"
+                                drawChart(Statistics(searched_id_list = arrayListOf()))
+                            }
                         }
                     }
                 }
             }
         }
+    }
+
+    private fun drawChart(statistics: Statistics) {
+        val searchedList = mutableMapOf<String, Int>()
+
+        statistics.searched_id_list?.forEach {
+            val date = it.date?.millisToDate(Constants.chartDateFormat)
+            if (searchedList.containsKey(date)) {
+                searchedList[date!!] = searchedList[date]!!.plus(1)
+            } else {
+                searchedList[date!!] = 1
+            }
+        }
+
+        val series = ValueLineSeries()
+        series.color = 0xFF56B7F1.toInt()
+
+        series.addPoint(ValueLinePoint(0f))
+
+        searchedList.forEach { (s, i) ->
+            println("$s -> $i")
+            series.addPoint(ValueLinePoint(s, i.toFloat()))
+        }
+        series.addPoint(ValueLinePoint(searchedList.getLastValue().toFloat()))
+        _binding.cubiclinechart.addSeries(series)
+        _binding.cubiclinechart.startAnimation()
     }
 
     private fun isLoading(state: Boolean) {

@@ -67,4 +67,5 @@
     <string name="somethine_went_wrong">Something went wrong</string>
     <string name="sign_out_message">Are you sure to sign out?</string>
     <string name="total_count">Total Search Count: </string>
+    <string name="set_kim_bu_as_default">Please set Kim Bu app as default</string>
 </resources>

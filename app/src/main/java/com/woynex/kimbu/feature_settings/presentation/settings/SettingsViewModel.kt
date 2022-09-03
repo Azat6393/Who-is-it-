@@ -8,15 +8,20 @@ import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.woynex.kimbu.core.data.local.datastore.KimBuPreferencesKey
+import com.woynex.kimbu.core.domain.model.NotificationModel
 import com.woynex.kimbu.feature_auth.domain.model.User
+import com.woynex.kimbu.feature_settings.domain.use_case.SettingsUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
-    private val dataStore: DataStore<Preferences>
+    private val dataStore: DataStore<Preferences>,
+    private val settingsUseCases: SettingsUseCases
 ) : ViewModel() {
 
     val currentUser = dataStore.data.map { preferences ->
@@ -29,6 +34,30 @@ class SettingsViewModel @Inject constructor(
             email = preferences[KimBuPreferencesKey.USER_EMAIL_KEY],
             created_date = preferences[KimBuPreferencesKey.USER_CREATED_DATE]
         )
+    }
+
+    private val _notifications = MutableStateFlow<List<NotificationModel>>(emptyList())
+    val notifications = _notifications.asStateFlow()
+
+    private val _unwatchedNotifications = MutableStateFlow<Int>(0)
+    val unwatchedNotifications = _unwatchedNotifications.asStateFlow()
+
+    fun updateNotification(notification: NotificationModel) = viewModelScope.launch {
+        settingsUseCases.updateNotification(notification)
+    }
+
+    fun deleteNotification(notification: NotificationModel) = viewModelScope.launch {
+        settingsUseCases.deleteNotification(notification)
+    }
+
+    fun getAllNotification() = viewModelScope.launch {
+        val notifications = settingsUseCases.getAllNotifications()
+        _notifications.value = notifications
+    }
+
+    fun getUnwatchedNotifications() = viewModelScope.launch {
+        val size = settingsUseCases.getUnwatchedNotifications().size
+        _unwatchedNotifications.value = size
     }
 
     fun signOut() = viewModelScope.launch {

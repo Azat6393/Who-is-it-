@@ -25,6 +25,9 @@
         <action
             android:id="@+id/action_settingsFragment_to_statisticsFragment"
             app:destination="@id/statisticsFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_notificationsFragment"
+            app:destination="@id/notificationsFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -38,4 +41,20 @@
         android:id="@+id/statisticsFragment"
         android:name="com.woynex.kimbu.feature_settings.presentation.statistics.StatisticsFragment"
         android:label="StatisticsFragment" />
+    <fragment
+        android:id="@+id/notificationsFragment"
+        android:name="com.woynex.kimbu.feature_settings.presentation.notification.NotificationsFragment"
+        android:label="NotificationsFragment" >
+        <action
+            android:id="@+id/action_notificationsFragment_to_notificationDetailsFragment"
+            app:destination="@id/notificationDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/notificationDetailsFragment"
+        android:name="com.woynex.kimbu.feature_settings.presentation.notification.NotificationDetailsFragment"
+        android:label="NotificationDetailsFragment" >
+        <argument
+            android:name="notification"
+            app:argType="com.woynex.kimbu.core.domain.model.NotificationModel" />
+    </fragment>
 </navigation>

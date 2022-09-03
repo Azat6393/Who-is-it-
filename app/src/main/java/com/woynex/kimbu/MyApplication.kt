@@ -3,7 +3,6 @@ package com.woynex.kimbu
 
 import android.app.Application
 import android.util.Log
-import android.widget.Toast
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging

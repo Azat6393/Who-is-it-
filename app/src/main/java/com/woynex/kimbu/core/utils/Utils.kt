@@ -113,3 +113,15 @@ fun Context.isAppDefaultDialer(): Boolean {
     val telecomManager = getSystemService(TELECOM_SERVICE) as TelecomManager
     return packageName == telecomManager.defaultDialerPackage
 }
+
+fun MutableMap<String, Int>.getLastValue(): Int {
+    var lastValue = 0
+    var count = 1
+    for (it in this.entries) {
+        if (count == this.size) {
+            lastValue = it.value
+        }
+        count++
+    }
+    return lastValue
+}

@@ -4,6 +4,7 @@ object Constants {
 
     const val dateFormat = "EEEE, d MMM"
     const val timeFormat = "kk:mm"
+    const val chartDateFormat = "dd/MM"
     const val statisticsDateFormat = "dd/MM/yyyy"
 
     const val countryListJsonName = "country_list.json"

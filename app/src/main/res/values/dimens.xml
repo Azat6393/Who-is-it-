@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="margin_for_items">5dp</dimen>
+    <dimen name="call_button_height">50dp</dimen>
 </resources>

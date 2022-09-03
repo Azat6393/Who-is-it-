@@ -1,7 +1,9 @@
 package com.woynex.kimbu.feature_search.presentation
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Rect
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -22,10 +24,7 @@ import coil.transform.CircleCropTransformation
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.tabs.TabLayoutMediator
 import com.woynex.kimbu.R
-import com.woynex.kimbu.core.utils.Constants
-import com.woynex.kimbu.core.utils.Resource
-import com.woynex.kimbu.core.utils.fromJsonToCountyList
-import com.woynex.kimbu.core.utils.getJsonFromAssets
+import com.woynex.kimbu.core.utils.*
 import com.woynex.kimbu.databinding.FragmentSearchBinding
 import com.woynex.kimbu.feature_search.domain.model.CountryInfo
 import com.woynex.kimbu.feature_search.presentation.adapter.ViewPagerAdapter
@@ -40,15 +39,33 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     private var selectedCountry: CountryInfo? = null
     private val viewModel: SearchViewModel by viewModels()
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentSearchBinding.bind(view)
 
+
+        initFab()
         initViewPager()
         initSearchCountryEditText()
         setKeyboardVisibilityListener()
         initAutoComplete()
         observe()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    private fun initFab() {
+        _binding.callFab.setOnClickListener {
+            CallBottomSheet() { number ->
+                if (requireContext().isAppDefaultDialer()) {
+                    val callIntent = Intent(Intent.ACTION_CALL)
+                    callIntent.data = Uri.parse("tel:$number")
+                    requireActivity().startActivity(callIntent)
+                } else {
+                    requireContext().showToastMessage(getString(R.string.set_kim_bu_as_default))
+                }
+            }.show(childFragmentManager, "Call Bottom Sheet")
+        }
     }
 
     private fun initSearchCountryEditText() {
@@ -193,6 +210,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
             .findViewById<BottomNavigationView>(R.id.bottom_navigation_view)
             .isVisible = !visible
         _binding.searchContainer.isVisible = visible
+        _binding.callFab.isVisible = !visible
     }
 
     override fun onStop() {

@@ -50,6 +50,8 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentAuthBinding.bind(view)
 
+        callBackManager = CallbackManager.Factory.create()
+
         lifecycleScope.launch {
             if (viewModel.isAuth.value && viewModel.currentUser.first().phone_number.toString()
                     .isBlank()
@@ -74,7 +76,6 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
                 beginSignIn()
             }
             loginWithFacebookBtn.setOnClickListener {
-                callBackManager = CallbackManager.Factory.create()
 
                 LoginManager.getInstance().logInWithReadPermissions(
                     this@AuthFragment,
