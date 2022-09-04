@@ -25,6 +25,8 @@ class MyApplication : Application() {
                 Log.d("Firebase Messaging", msg)
             }
 
+        FirebaseMessaging.getInstance().subscribeToTopic("allDevices")
+
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
             if (!task.isSuccessful) {
                 Log.w("FCM", "Fetching FCM registration token failed", task.exception)

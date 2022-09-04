@@ -2,6 +2,7 @@ package com.woynex.kimbu.core.data.local.room
 
 import androidx.room.*
 import com.woynex.kimbu.core.domain.model.NotificationModel
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface NotificationDao {
@@ -16,9 +17,9 @@ interface NotificationDao {
     suspend fun updateNotification(notification: NotificationModel)
 
     @Query("SELECT * FROM notifications")
-    suspend fun getAllNotifications(): List<NotificationModel>
+    fun getAllNotifications(): Flow<List<NotificationModel>>
 
     @Query("SELECT * FROM notifications WHERE is_viewed = 0")
-    suspend fun getUnwatchedNotifications(): List<NotificationModel>
+    fun getUnwatchedNotifications(): Flow<List<NotificationModel>>
 
 }

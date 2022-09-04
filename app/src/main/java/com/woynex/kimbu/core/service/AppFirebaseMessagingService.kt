@@ -9,20 +9,20 @@ import android.content.Intent
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.os.Build
+import androidx.room.Room
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.woynex.kimbu.AuthActivity
 import com.woynex.kimbu.R
-import com.woynex.kimbu.core.data.local.room.NotificationDao
+import com.woynex.kimbu.core.data.local.room.KimBuDatabase
 import com.woynex.kimbu.core.domain.model.NotificationModel
-import com.woynex.kimbu.feature_settings.domain.use_case.InsertNotification
 import com.woynex.kimbu.feature_settings.domain.use_case.SettingsUseCases
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
 
 @AndroidEntryPoint
 class AppFirebaseMessagingService : FirebaseMessagingService() {
@@ -39,14 +39,14 @@ class AppFirebaseMessagingService : FirebaseMessagingService() {
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
 
-        val title = message.data["title"]
-        val text = message.data["text"]
+        val title = message.data["data_title"]
+        val text = message.data["data_text"]
 
         scope.launch {
             settingsUseCases.insertNotification(
                 NotificationModel(
-                    title = message.data["title"] ?: "",
-                    text = message.data["text"] ?: ""
+                    title = message.data["data_title"] ?: "",
+                    text = message.data["data_text"] ?: ""
                 )
             )
         }

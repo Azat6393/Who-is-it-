@@ -12,9 +12,7 @@ import com.woynex.kimbu.core.domain.model.NotificationModel
 import com.woynex.kimbu.feature_auth.domain.model.User
 import com.woynex.kimbu.feature_settings.domain.use_case.SettingsUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -51,13 +49,15 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun getAllNotification() = viewModelScope.launch {
-        val notifications = settingsUseCases.getAllNotifications()
-        _notifications.value = notifications
+        settingsUseCases.getAllNotifications().onEach {
+            _notifications.value = it
+        }.launchIn(viewModelScope)
     }
 
     fun getUnwatchedNotifications() = viewModelScope.launch {
-        val size = settingsUseCases.getUnwatchedNotifications().size
-        _unwatchedNotifications.value = size
+        settingsUseCases.getUnwatchedNotifications().onEach {
+            _unwatchedNotifications.value = it.size
+        }.launchIn(viewModelScope)
     }
 
     fun signOut() = viewModelScope.launch {

@@ -1,6 +1,7 @@
 package com.woynex.kimbu.feature_settings.domain.repository
 
 import com.woynex.kimbu.core.domain.model.NotificationModel
+import kotlinx.coroutines.flow.Flow
 
 interface SettingsRepository {
 
@@ -10,8 +11,8 @@ interface SettingsRepository {
 
     suspend fun updateNotification(notification: NotificationModel)
 
-    suspend fun getAllNotifications(): List<NotificationModel>
+    suspend fun getAllNotifications(): Flow<List<NotificationModel>>
 
-    suspend fun getUnwatchedNotifications(): List<NotificationModel>
+    suspend fun getUnwatchedNotifications(): Flow<List<NotificationModel>>
 
 }

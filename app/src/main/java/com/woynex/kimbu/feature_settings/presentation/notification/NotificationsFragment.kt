@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.woynex.kimbu.R
 import com.woynex.kimbu.core.domain.model.NotificationModel
+import com.woynex.kimbu.core.utils.showAlertDialog
 import com.woynex.kimbu.databinding.FragmentNotificationsBinding
 import com.woynex.kimbu.feature_settings.presentation.adapter.NotificationAdapter
 import com.woynex.kimbu.feature_settings.presentation.settings.SettingsViewModel
