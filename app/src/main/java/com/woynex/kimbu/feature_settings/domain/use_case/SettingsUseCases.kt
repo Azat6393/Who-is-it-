@@ -4,5 +4,6 @@ data class SettingsUseCases(
     val deleteNotification: DeleteNotification,
     val getAllNotifications: GetAllNotifications,
     val getUnwatchedNotifications: GetUnwatchedNotifications,
-    val updateNotification: UpdateNotification
-    )
+    val updateNotification: UpdateNotification,
+    val insertNotification: InsertNotification
+)

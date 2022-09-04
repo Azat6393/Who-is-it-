@@ -8,8 +8,8 @@ import com.woynex.kimbu.feature_search.domain.repository.BlockedNumberRepository
 import com.woynex.kimbu.feature_search.domain.repository.SearchRepository
 import com.woynex.kimbu.feature_search.domain.use_case.GetCallLogsUseCase
 import com.woynex.kimbu.feature_search.domain.use_case.GetLastCallLogsUseCase
-import com.woynex.kimbu.feature_search.domain.use_case.SearchPhoneNumberUseCase
 import com.woynex.kimbu.feature_search.domain.use_case.UpdateCallLogsUseCase
+import com.woynex.kimbu.feature_search.domain.use_case.UpdateCallNumberUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -60,7 +60,7 @@ object SearchModule {
 
     @Provides
     @Singleton
-    fun provideSearchPhoneNumberUseCase(
+    fun provideUpdateCallNumberUseCase(
         repository: SearchRepository
-    ) = SearchPhoneNumberUseCase(repository)
+    ) = UpdateCallNumberUseCase(repository)
 }

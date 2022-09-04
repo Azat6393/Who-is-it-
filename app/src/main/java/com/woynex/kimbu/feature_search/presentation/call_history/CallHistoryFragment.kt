@@ -2,22 +2,20 @@ package com.woynex.kimbu.feature_search.presentation.call_history
 
 import android.Manifest
 import android.app.role.RoleManager
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
+import android.content.IntentFilter
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.provider.Settings
 import android.telecom.TelecomManager
+import android.telephony.TelephonyManager
 import android.util.Log
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
@@ -25,7 +23,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.snackbar.Snackbar
 import com.woynex.kimbu.MainActivity
 import com.woynex.kimbu.R
 import com.woynex.kimbu.core.utils.isAppDefaultDialer
@@ -38,7 +35,9 @@ import com.woynex.kimbu.feature_search.presentation.SearchFragmentDirections
 import com.woynex.kimbu.feature_search.presentation.SearchViewModel
 import com.woynex.kimbu.feature_search.presentation.adapter.CallHistoryAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+
 
 @AndroidEntryPoint
 class CallHistoryFragment : Fragment(R.layout.fragment_call_history),
@@ -70,9 +69,35 @@ class CallHistoryFragment : Fragment(R.layout.fragment_call_history),
         }
     }
 
+   /* private val callBroadcastReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(p0: Context?, p1: Intent?) {
+            p1?.let { intent ->
+                if (intent.getStringExtra(TelephonyManager.EXTRA_STATE)
+                        .equals(TelephonyManager.EXTRA_STATE_IDLE)
+                ) {
+                    lifecycleScope.launch {
+                        delay(2000L)
+                        viewModel.getCallLog()
+                    }
+                }
+            }
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        val filter = IntentFilter(TelephonyManager.EXTRA_STATE)
+        requireActivity().registerReceiver(callBroadcastReceiver, filter)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        requireActivity().unregisterReceiver(callBroadcastReceiver)
+    }*/
+
     private fun initContent() {
         _binding.setAsDefaultView.visibility = View.GONE
-        viewModel.getCallLog()
+        //viewModel.getLogs()
         initRecyclerView()
         observe()
     }
@@ -89,9 +114,10 @@ class CallHistoryFragment : Fragment(R.layout.fragment_call_history),
     private fun observe() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.callLogs.collect { result ->
-                    result?.let {
-                        mAdapter.submitData(it)
+                viewModel.getLogs().collect { result ->
+                    result.let {
+                        mAdapter.submitList(it)
+                        //mAdapter.submitData(it)
                     }
                 }
             }
@@ -137,17 +163,16 @@ class CallHistoryFragment : Fragment(R.layout.fragment_call_history),
 
 
     private fun offerReplacingDefaultDialer() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            val intent = Intent(TelecomManager.ACTION_CHANGE_DEFAULT_DIALER).apply {
-                putExtra(
-                    TelecomManager.EXTRA_CHANGE_DEFAULT_DIALER_PACKAGE_NAME,
-                    requireContext().packageName
-                )
-            }
-            resultLauncher.launch(intent)
+        val intent = Intent(TelecomManager.ACTION_CHANGE_DEFAULT_DIALER).apply {
+            putExtra(
+                TelecomManager.EXTRA_CHANGE_DEFAULT_DIALER_PACKAGE_NAME,
+                requireContext().packageName
+            )
         }
+        resultLauncher.launch(intent)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            val roleManager = requireContext().getSystemService(Context.ROLE_SERVICE) as RoleManager?
+            val roleManager =
+                requireContext().getSystemService(Context.ROLE_SERVICE) as RoleManager?
             val intent = roleManager!!.createRequestRoleIntent(RoleManager.ROLE_DIALER)
             resultLauncher.launch(intent)
         }

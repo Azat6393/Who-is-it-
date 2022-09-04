@@ -127,7 +127,6 @@ class AuthViewModel @Inject constructor(
     }
 
     fun logInWithFacebook(idToken: AccessToken) = viewModelScope.launch {
-        _signInResponse.value = Resource.Loading<User>()
         val auth = Firebase.auth
         val firebaseCredential = FacebookAuthProvider.getCredential(idToken.token)
         auth.signInWithCredential(firebaseCredential)
@@ -154,7 +153,6 @@ class AuthViewModel @Inject constructor(
 
     fun logInWithGoogle(idToken: String, firstName: String, lastName: String) =
         viewModelScope.launch {
-            _signInResponse.value = Resource.Loading<User>()
             val auth = Firebase.auth
             val firebaseCredential = GoogleAuthProvider.getCredential(idToken, null)
             auth.signInWithCredential(firebaseCredential)
@@ -180,6 +178,7 @@ class AuthViewModel @Inject constructor(
         }
 
     private fun getUserIfExists(user: User) {
+        _signInResponse.value = Resource.Loading<User>()
         val db = Firebase.firestore
         db.collection(FIREBASE_USERS_COLLECTION)
             .document(user.id!!)
@@ -204,6 +203,7 @@ class AuthViewModel @Inject constructor(
     }
 
     private fun getUser(id: String) {
+        _signInResponse.value = Resource.Loading<User>()
         val db = Firebase.firestore
         db.collection(FIREBASE_USERS_COLLECTION)
             .document(id)
@@ -223,6 +223,7 @@ class AuthViewModel @Inject constructor(
     private fun createUser(
         user: User
     ) {
+        _signUpResponse.value = Resource.Loading<User>()
         val db = Firebase.firestore
         db.collection(FIREBASE_USERS_COLLECTION)
             .document(user.id!!)

@@ -1,12 +1,8 @@
 package com.woynex.kimbu
 
-import android.app.role.RoleManager
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.provider.Settings
-import android.telecom.TelecomManager
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -18,8 +14,8 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.gms.ads.MobileAds
 import com.google.android.material.shape.CornerFamily
 import com.google.android.material.shape.MaterialShapeDrawable
+import com.woynex.kimbu.core.service.CallReceiver
 import com.woynex.kimbu.core.utils.isAppDefaultDialer
-import com.woynex.kimbu.core.utils.showToastMessage
 import com.woynex.kimbu.databinding.ActivityMainBinding
 import com.woynex.kimbu.feature_search.presentation.SearchViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -30,12 +26,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
     private val viewModel: SearchViewModel by viewModels()
 
-    private val requestPermissionLauncher =
-        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
-            if (isGranted) {
-                getCallLog()
-            }
-        }
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,10 +51,17 @@ class MainActivity : AppCompatActivity() {
                 .setTopLeftCorner(CornerFamily.ROUNDED, 40F)
                 .build()
 
+        if (this.isAppDefaultDialer()){
+            val intent = Intent(this, CallReceiver::class.java)
+            this.sendBroadcast(intent)
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
         if (isAppDefaultDialer()) {
             getCallLog()
         }
-        MobileAds.initialize(this)
     }
 
     override fun onSupportNavigateUp(): Boolean {

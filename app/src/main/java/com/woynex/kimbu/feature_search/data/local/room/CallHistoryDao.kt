@@ -2,6 +2,7 @@ package com.woynex.kimbu.feature_search.data.local.room
 
 import androidx.room.*
 import com.woynex.kimbu.feature_search.domain.model.NumberInfo
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface CallHistoryDao {
@@ -12,6 +13,9 @@ interface CallHistoryDao {
     @Update(onConflict = OnConflictStrategy.REPLACE)
     suspend fun updateCall(call: NumberInfo)
 
+    @Query("SELECT * FROM number_info ORDER BY id DESC")
+    fun getLogs(): Flow<List<NumberInfo>>
+
     @Query("SELECT * FROM number_info")
     suspend fun getAllCall(): List<NumberInfo>
 
@@ -19,6 +23,6 @@ interface CallHistoryDao {
     suspend fun getPagedList(limit: Int, offset: Int): List<NumberInfo>
 
     @Query("SELECT * FROM number_info ORDER BY id DESC LIMIT 3")
-    suspend fun getLastCallLogs(): List<NumberInfo>
+    fun getLastCallLogs(): Flow<List<NumberInfo>>
 
 }

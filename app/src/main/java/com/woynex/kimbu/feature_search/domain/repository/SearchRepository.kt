@@ -2,6 +2,7 @@ package com.woynex.kimbu.feature_search.domain.repository
 
 import androidx.paging.Pager
 import com.woynex.kimbu.feature_search.domain.model.NumberInfo
+import kotlinx.coroutines.flow.Flow
 
 interface SearchRepository {
 
@@ -13,7 +14,8 @@ interface SearchRepository {
 
     suspend fun getPagedCalls(): Pager<Int, NumberInfo>
 
-    suspend fun getLastCallLogs(): List<NumberInfo>
+    suspend fun getLastCallLogs(): Flow<List<NumberInfo>>
 
-    suspend fun searchPhoneNumber(phoneNumber: String): NumberInfo
+    suspend fun updateCallNumber(callNumber: NumberInfo)
+
 }

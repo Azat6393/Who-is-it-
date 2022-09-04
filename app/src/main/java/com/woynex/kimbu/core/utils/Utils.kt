@@ -125,3 +125,7 @@ fun MutableMap<String, Int>.getLastValue(): Int {
     }
     return lastValue
 }
+
+interface OnReceiveMessageListener {
+    fun receiverMessage()
+}

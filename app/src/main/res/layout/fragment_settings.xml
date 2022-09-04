@@ -104,8 +104,8 @@
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/notification_count_card_view"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
                         android:layout_gravity="center_vertical|end"
                         android:visibility="gone"
                         app:cardBackgroundColor="@color/red"
@@ -118,7 +118,7 @@
                             android:layout_height="match_parent"
                             android:gravity="center"
                             android:textColor="@color/white"
-                            android:textSize="15sp"
+                            android:textSize="13sp"
                             tools:text="1" />
 
                     </androidx.cardview.widget.CardView>

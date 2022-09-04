@@ -1,5 +1,7 @@
 package com.woynex.kimbu.feature_settings.presentation.adapter
 
+import android.annotation.SuppressLint
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -12,7 +14,10 @@ import com.woynex.kimbu.databinding.ItemNotificationBinding
 class NotificationAdapter(private val listener: OnItemClickListener) :
     ListAdapter<NotificationModel, NotificationAdapter.NotificationViewHolder>(DiffCallBack) {
 
+    private lateinit var context: Context
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotificationViewHolder {
+        context = parent.context
         return NotificationViewHolder(
             ItemNotificationBinding.inflate(
                 LayoutInflater.from(parent.context),
@@ -53,14 +58,15 @@ class NotificationAdapter(private val listener: OnItemClickListener) :
             }
         }
 
+        @SuppressLint("UseCompatLoadingForDrawables")
         fun bind(item: NotificationModel) {
             _binding.apply {
                 titleTv.text = item.title
                 textTv.text = item.text
                 if (item.is_viewed) {
-                    iconIv.setBackgroundResource(R.drawable.ic_baseline_notifications_24)
+                    iconIv.setImageDrawable(context.getDrawable(R.drawable.ic_baseline_notifications_24))
                 } else {
-                    iconIv.setBackgroundResource(R.drawable.ic_baseline_notifications_active_24)
+                    iconIv.setImageDrawable(context.getDrawable(R.drawable.ic_baseline_notifications_active_24))
                 }
             }
         }

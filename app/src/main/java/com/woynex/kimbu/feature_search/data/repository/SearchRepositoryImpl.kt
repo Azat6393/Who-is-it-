@@ -11,6 +11,7 @@ import com.woynex.kimbu.core.data.local.room.KimBuDatabase
 import com.woynex.kimbu.feature_search.data.local.room.CallHistoryPagingSource
 import com.woynex.kimbu.feature_search.domain.model.NumberInfo
 import com.woynex.kimbu.feature_search.domain.repository.SearchRepository
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class SearchRepositoryImpl @Inject constructor(
@@ -18,7 +19,11 @@ class SearchRepositoryImpl @Inject constructor(
     private val context: Context
 ) : SearchRepository {
 
-    override suspend fun getLastCallLogs(): List<NumberInfo> {
+    override suspend fun updateCallNumber(callNumber: NumberInfo) {
+        return database.callHistoryDao.updateCall(callNumber)
+    }
+
+    override suspend fun getLastCallLogs(): Flow<List<NumberInfo>> {
         return database.callHistoryDao.getLastCallLogs()
     }
 
@@ -40,17 +45,6 @@ class SearchRepositoryImpl @Inject constructor(
         ) {
             CallHistoryPagingSource(database.callHistoryDao)
         }
-    }
-
-    override suspend fun searchPhoneNumber(phoneNumber: String): NumberInfo {
-        return NumberInfo(
-            name = "Unknown",
-            id = 0,
-            number = phoneNumber,
-            countryCode = "TR",
-            type = "",
-            date = 0
-        )
     }
 
     @SuppressLint("Range")

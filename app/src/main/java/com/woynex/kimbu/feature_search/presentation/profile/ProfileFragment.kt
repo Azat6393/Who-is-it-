@@ -20,6 +20,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.woynex.kimbu.R
+import com.woynex.kimbu.core.utils.Resource
 import com.woynex.kimbu.core.utils.requestPermission
 import com.woynex.kimbu.core.utils.showAlertDialog
 import com.woynex.kimbu.core.utils.showToastMessage
@@ -65,11 +66,17 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentProfileBinding.bind(view)
 
+
+
         _binding.apply {
             nameTv.text = if (args.numberInfo.name.isNullOrBlank()) args.numberInfo.number
             else args.numberInfo.name
             phoneNumberTv.text =
                 "${args.numberInfo.number}  ${args.numberInfo.countryCode}"
+
+            if (args.numberInfo.name.isNullOrBlank()) {
+                viewModel.searchNumber(args.numberInfo)
+            }
 
             callButton.setOnClickListener {
                 requestCallPermission()
@@ -133,6 +140,20 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                 }
             }
         }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.numberResponse.collect { result ->
+                    when (result) {
+                        is Resource.Empty -> Unit
+                        is Resource.Error -> Unit
+                        is Resource.Loading -> Unit
+                        is Resource.Success -> {
+                            _binding.nameTv.text = result.data?.name
+                        }
+                    }
+                }
+            }
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
@@ -141,7 +162,6 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         viewModel.checkForBlockedNumber(args.numberInfo.number)
     }
 
-    @RequiresApi(Build.VERSION_CODES.N)
     private fun unblockNumber() {
         viewModel.unblockNumber(number = args.numberInfo.number)
         viewModel.checkForBlockedNumber(args.numberInfo.number)

@@ -39,21 +39,17 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     private var selectedCountry: CountryInfo? = null
     private val viewModel: SearchViewModel by viewModels()
 
-    @RequiresApi(Build.VERSION_CODES.N)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentSearchBinding.bind(view)
 
-
         initFab()
         initViewPager()
         initSearchCountryEditText()
-        setKeyboardVisibilityListener()
         initAutoComplete()
         observe()
     }
 
-    @RequiresApi(Build.VERSION_CODES.N)
     private fun initFab() {
         _binding.callFab.setOnClickListener {
             CallBottomSheet() { number ->
@@ -70,16 +66,20 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
     private fun initSearchCountryEditText() {
         _binding.searchButton.setOnClickListener {
-            selectedCountry?.let { country ->
-                val number = _binding.searchEditText.text.toString()
-                if (number.isBlank()) {
-                    Toast.makeText(requireContext(), "Please input number", Toast.LENGTH_LONG)
-                        .show()
-                } else {
-                    val phoneNumber = "${country.number}$number"
-                    viewModel.searchPhoneNumber(phoneNumber)
-                    hideKeyboard()
+            if (requireContext().isAppDefaultDialer()) {
+                selectedCountry?.let { country ->
+                    val number = _binding.searchEditText.text.toString()
+                    if (number.isBlank()) {
+                        Toast.makeText(requireContext(), "Please input number", Toast.LENGTH_LONG)
+                            .show()
+                    } else {
+                        val phoneNumber = "${country.number}$number"
+                        viewModel.searchPhoneNumber(phoneNumber)
+                        hideKeyboard()
+                    }
                 }
+            } else {
+                requireContext().showToastMessage(getString(R.string.set_kim_bu_as_default))
             }
         }
     }
@@ -216,5 +216,10 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     override fun onStop() {
         super.onStop()
         removeGlobalLayoutListener()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        setKeyboardVisibilityListener()
     }
 }

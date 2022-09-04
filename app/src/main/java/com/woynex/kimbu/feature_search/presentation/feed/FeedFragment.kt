@@ -18,6 +18,10 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import com.google.android.gms.ads.AdListener
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.MobileAds
 import com.woynex.kimbu.MainActivity
 import com.woynex.kimbu.R
 import com.woynex.kimbu.core.utils.Constants.dateFormat
@@ -59,6 +63,51 @@ class FeedFragment : Fragment(R.layout.fragment_feed) {
             _binding.setAsDefaultBtn.setOnClickListener {
                 offerReplacingDefaultDialer()
             }
+        }
+        initAdMob()
+    }
+
+    private fun initAdMob() {
+        MobileAds.initialize(requireContext())
+        val adRequest = AdRequest.Builder().build()
+        _binding.adView.adListener = adListener
+        _binding.adView.loadAd(adRequest)
+    }
+
+    private val adListener = object : AdListener() {
+        override fun onAdClicked() {
+            // Code to be executed when the user clicks on an ad.
+        }
+
+        override fun onAdClosed() {
+            // Code to be executed when the user is about to return
+            // to the app after tapping on an ad.
+            requireContext().showToastMessage("Add Closed")
+        }
+
+        override fun onAdFailedToLoad(adError: LoadAdError) {
+            // Code to be executed when an ad request fails.
+            println("Ad error: ${adError.message}")
+            requireContext().showToastMessage("Add Failed to load")
+        }
+
+        override fun onAdImpression() {
+            // Code to be executed when an impression is recorded
+            // for an ad.
+            requireContext().showToastMessage("onAdImpression")
+        }
+
+        override fun onAdLoaded() {
+            // Code to be executed when an ad finishes loading.
+            requireContext().showToastMessage("Loaded")
+
+        }
+
+        override fun onAdOpened() {
+            // Code to be executed when an ad opens an overlay that
+            // covers the screen.
+            requireContext().showToastMessage("Opened")
+
         }
     }
 

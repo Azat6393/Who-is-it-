@@ -12,11 +12,5 @@ import javax.inject.Inject
 class GetLastCallLogsUseCase @Inject constructor(
     private val repo: SearchRepository
 ) {
-    operator fun invoke(): Flow<List<NumberInfo>> = flow {
-        try {
-            emit(repo.getLastCallLogs())
-        } catch (e: Exception) {
-            Log.d("GetLastCallLogs:", e.localizedMessage ?: "GetLastCallLogs error")
-        }
-    }
+    suspend operator fun invoke(): Flow<List<NumberInfo>> = repo.getLastCallLogs()
 }

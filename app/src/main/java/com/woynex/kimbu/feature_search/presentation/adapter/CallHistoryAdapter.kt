@@ -15,7 +15,7 @@ import com.woynex.kimbu.databinding.ItemCallLogBinding
 import com.woynex.kimbu.feature_search.domain.model.NumberInfo
 
 class CallHistoryAdapter(private val listener: OnItemClickListener) :
-    PagingDataAdapter<NumberInfo, CallHistoryAdapter.CallHistoryViewHolder>(
+    ListAdapter<NumberInfo, CallHistoryAdapter.CallHistoryViewHolder>(
         DiffCallBack
     ) {
 

@@ -28,7 +28,8 @@ object SettingsModule {
             deleteNotification = DeleteNotification(repo),
             getAllNotifications = GetAllNotifications(repo),
             getUnwatchedNotifications = GetUnwatchedNotifications(repo),
-            updateNotification = UpdateNotification(repo)
+            updateNotification = UpdateNotification(repo),
+            insertNotification = InsertNotification(repo)
         )
     }
 }

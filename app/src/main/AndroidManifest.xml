@@ -120,11 +120,20 @@
             android:resource="@drawable/ic_launcher_foreground" />
 
         <service
-            android:name=".core.utils.AppFirebaseMessagingService"
+            android:name=".core.service.AppFirebaseMessagingService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
+        <receiver
+            android:name=".core.service.CallReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.PHONE_STATE" />
+            </intent-filter>
+        </receiver>
     </application>
 </manifest>

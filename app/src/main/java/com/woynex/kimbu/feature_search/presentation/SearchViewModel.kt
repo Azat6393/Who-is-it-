@@ -10,17 +10,18 @@ import androidx.paging.cachedIn
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.woynex.kimbu.core.data.local.datastore.KimBuPreferencesKey
+import com.woynex.kimbu.core.data.local.room.KimBuDatabase
 import com.woynex.kimbu.core.utils.Constants
 import com.woynex.kimbu.core.utils.Constants.FIREBASE_USERS_COLLECTION
 import com.woynex.kimbu.core.utils.Resource
 import com.woynex.kimbu.feature_auth.domain.model.User
 import com.woynex.kimbu.feature_auth.domain.model.toNumberInfo
+import com.woynex.kimbu.feature_search.data.local.room.CallHistoryDao
 import com.woynex.kimbu.feature_search.domain.model.NumberInfo
 import com.woynex.kimbu.feature_search.domain.model.SearchedUser
 import com.woynex.kimbu.feature_search.domain.model.Statistics
 import com.woynex.kimbu.feature_search.domain.use_case.GetCallLogsUseCase
 import com.woynex.kimbu.feature_search.domain.use_case.GetLastCallLogsUseCase
-import com.woynex.kimbu.feature_search.domain.use_case.SearchPhoneNumberUseCase
 import com.woynex.kimbu.feature_search.domain.use_case.UpdateCallLogsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
@@ -32,8 +33,8 @@ class SearchViewModel @Inject constructor(
     private val updateCallLogsUseCase: UpdateCallLogsUseCase,
     private val getCallLogsUseCase: GetCallLogsUseCase,
     private val getLastCallLogsUseCase: GetLastCallLogsUseCase,
-    private val searchPhoneNumberUseCase: SearchPhoneNumberUseCase,
-    private val dataStore: DataStore<Preferences>
+    private val dataStore: DataStore<Preferences>,
+    private val database: KimBuDatabase
 ) : ViewModel() {
 
     private val _callLogs = MutableStateFlow<PagingData<NumberInfo>?>(null)
@@ -131,9 +132,11 @@ class SearchViewModel @Inject constructor(
         updateCallLogsUseCase()
     }
 
-    fun getLastCallLogs() {
+    fun getLastCallLogs() = viewModelScope.launch {
         getLastCallLogsUseCase().onEach {
             _lastCallLogs.value = it
         }.launchIn(viewModelScope)
     }
+
+    fun getLogs() = database.callHistoryDao.getLogs()
 }
