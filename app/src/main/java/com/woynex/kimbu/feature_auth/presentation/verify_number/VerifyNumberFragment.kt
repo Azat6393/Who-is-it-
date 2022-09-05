@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import coil.decode.SvgDecoder
 import coil.load
@@ -36,6 +37,11 @@ class VerifyNumberFragment : Fragment(R.layout.fragment_verify_number) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentVerifyNumberBinding.bind(view)
+
+        _binding.closeButton.setOnClickListener {
+            val action = VerifyNumberFragmentDirections.actionFragmentVerifyNumberToFragmentAuth()
+            findNavController().navigate(action)
+        }
         _binding.continueBtn.setOnClickListener {
             if (isInputFilled()) {
                 viewModel.updatePhoneNumber(

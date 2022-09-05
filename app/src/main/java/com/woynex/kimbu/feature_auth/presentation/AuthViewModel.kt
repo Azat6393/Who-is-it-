@@ -254,4 +254,8 @@ class AuthViewModel @Inject constructor(
                 _phoneNumberResponse.value = Resource.Error<String>(e.localizedMessage ?: "Error")
             }
     }
+
+    fun clearSignUpResponse() {
+        _signUpResponse.value = Resource.Empty<User>()
+    }
 }

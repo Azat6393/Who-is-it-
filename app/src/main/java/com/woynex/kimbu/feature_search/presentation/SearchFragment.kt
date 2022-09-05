@@ -109,6 +109,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                             _binding.progressBar.visibility = View.GONE
                         }
                         is Resource.Error -> {
+                            viewModel.clearPhoneNumberResponse()
                             _binding.progressBar.visibility = View.GONE
                             Toast.makeText(requireContext(), result.message, Toast.LENGTH_LONG)
                                 .show()

@@ -72,6 +72,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
                     _binding.nameTv.text = "${user.first_name} ${user.last_name}"
                     _binding.profilePhotoIv.load(user.profile_photo) {
                         crossfade(false)
+                        placeholder(R.drawable.profile_photo)
                         decoderFactory(SvgDecoder.Factory())
                         transformations(CircleCropTransformation())
                         scale(Scale.FILL)

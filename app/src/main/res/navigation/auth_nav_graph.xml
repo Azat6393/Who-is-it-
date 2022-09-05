@@ -24,6 +24,9 @@
         <action
             android:id="@+id/action_fragmentEmailLogIn_to_fragmentEmailSignUp"
             app:destination="@id/fragmentEmailSignUp" />
+        <action
+            android:id="@+id/action_fragmentEmailLogIn_to_fragmentVerifyNumber"
+            app:destination="@id/fragmentVerifyNumber" />
     </fragment>
     <fragment
         android:id="@+id/fragmentEmailSignUp"
@@ -42,5 +45,8 @@
         <argument
             android:name="userId"
             app:argType="string" />
+        <action
+            android:id="@+id/action_fragmentVerifyNumber_to_fragmentAuth"
+            app:destination="@id/fragmentAuth" />
     </fragment>
 </navigation>

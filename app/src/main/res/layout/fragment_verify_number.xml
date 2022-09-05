@@ -8,6 +8,17 @@
     tools:context=".feature_auth.presentation.verify_number.VerifyNumberFragment">
 
 
+    <ImageView
+        android:id="@+id/close_button"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/ic_baseline_close_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="?attr/secondary" />
+
     <TextView
         android:id="@+id/textView2"
         android:layout_width="0dp"

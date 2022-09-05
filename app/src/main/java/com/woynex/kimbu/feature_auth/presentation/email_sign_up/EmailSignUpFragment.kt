@@ -60,13 +60,13 @@ class EmailSignUpFragment : Fragment(R.layout.fragment_email_sign_up) {
                         is Resource.Success -> {
                             isLoading(false)
                             it.data?.id?.let { id ->
+                                viewModel.clearSignUpResponse()
                                 val action =
                                     EmailSignUpFragmentDirections.actionFragmentEmailSignUpToFragmentVerifyNumber(
                                         id
                                     )
                                 findNavController().navigate(action)
                             }
-
                         }
                     }
                 }

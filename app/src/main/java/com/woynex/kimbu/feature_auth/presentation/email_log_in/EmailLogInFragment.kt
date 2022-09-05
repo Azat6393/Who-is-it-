@@ -16,6 +16,7 @@ import com.woynex.kimbu.core.utils.Resource
 import com.woynex.kimbu.core.utils.showToastMessage
 import com.woynex.kimbu.databinding.FragmentEmailLogInBinding
 import com.woynex.kimbu.feature_auth.presentation.AuthViewModel
+import com.woynex.kimbu.feature_auth.presentation.sign_up.AuthFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import kotlin.math.log
@@ -64,10 +65,22 @@ class EmailLogInFragment : Fragment(R.layout.fragment_email_log_in) {
                         }
                         is Resource.Loading -> isLoading(true)
                         is Resource.Success -> {
-                            val intent = Intent(requireActivity(), MainActivity::class.java)
-                            startActivity(intent)
-                            isLoading(false)
-                            requireActivity().finish()
+                            if (it.data?.phone_number?.isNotBlank() == true
+                            ) {
+                                val intent = Intent(requireActivity(), MainActivity::class.java)
+                                startActivity(intent)
+                                isLoading(false)
+                                requireActivity().finish()
+                            } else {
+                                requireContext().showToastMessage("Success: ${it.data?.phone_number}")
+                                it.data?.id?.let { id ->
+                                    val action =
+                                        AuthFragmentDirections.actionFragmentAuthToFragmentVerifyNumber(
+                                            id
+                                        )
+                                    findNavController().navigate(action)
+                                }
+                            }
                         }
                     }
                 }
