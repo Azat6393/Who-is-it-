@@ -4,13 +4,12 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Rect
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.ViewTreeObserver
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -21,12 +20,19 @@ import androidx.navigation.fragment.findNavController
 import coil.decode.SvgDecoder
 import coil.load
 import coil.transform.CircleCropTransformation
+import com.google.android.gms.ads.AdError
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.FullScreenContentCallback
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.tabs.TabLayoutMediator
 import com.woynex.kimbu.R
 import com.woynex.kimbu.core.utils.*
 import com.woynex.kimbu.databinding.FragmentSearchBinding
 import com.woynex.kimbu.feature_search.domain.model.CountryInfo
+import com.woynex.kimbu.feature_search.domain.model.NumberInfo
 import com.woynex.kimbu.feature_search.presentation.adapter.ViewPagerAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -39,15 +45,86 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     private var selectedCountry: CountryInfo? = null
     private val viewModel: SearchViewModel by viewModels()
 
+    private var mInterstitialAd: InterstitialAd? = null
+    private var searchedNumber: NumberInfo? = null
+    private final var TAG = "SearchFragment"
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentSearchBinding.bind(view)
 
+        initAdMob()
         initFab()
         initViewPager()
         initSearchCountryEditText()
         initAutoComplete()
         observe()
+    }
+
+    private fun initAdMob() {
+        var adRequest = AdRequest.Builder().build()
+
+        InterstitialAd.load(
+            requireContext(),
+            "ca-app-pub-3940256099942544/5224354917",
+            adRequest,
+            object : InterstitialAdLoadCallback() {
+                override fun onAdFailedToLoad(p0: LoadAdError) {
+                    super.onAdFailedToLoad(p0)
+                    p0.toString().let { Log.d(TAG, it) }
+                    mInterstitialAd = null
+                }
+
+                override fun onAdLoaded(p0: InterstitialAd) {
+                    super.onAdLoaded(p0)
+                    Log.d(TAG, "Ad was loaded.")
+                    mInterstitialAd = p0
+                    mInterstitialAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
+                        override fun onAdClicked() {
+                            Log.d(TAG, "Ad was clicked.")
+                            searchedNumber?.let { navigateToProfileScreen(it) }
+                        }
+
+                        override fun onAdDismissedFullScreenContent() {
+                            Log.d(TAG, "Ad dismissed fullscreen content.")
+                            searchedNumber?.let { navigateToProfileScreen(it) }
+                            mInterstitialAd = null
+                        }
+
+                        override fun onAdFailedToShowFullScreenContent(p0: AdError) {
+                            Log.e(TAG, "Ad failed to show fullscreen content.")
+                            searchedNumber?.let { navigateToProfileScreen(it) }
+                            mInterstitialAd = null
+                        }
+
+                        override fun onAdImpression() {
+                            Log.d(TAG, "Ad recorded an impression.")
+                            searchedNumber?.let { navigateToProfileScreen(it) }
+                        }
+
+                        override fun onAdShowedFullScreenContent() {
+                            Log.d(TAG, "Ad showed fullscreen content.")
+                        }
+                    }
+                }
+            })
+    }
+
+    private fun showFullScreenAd(number: NumberInfo) {
+        if (mInterstitialAd != null) {
+            mInterstitialAd?.show(requireActivity())
+        } else {
+            navigateToProfileScreen(number)
+        }
+    }
+
+    private fun navigateToProfileScreen(number: NumberInfo) {
+        _binding.progressBar.visibility = View.GONE
+        val action =
+            SearchFragmentDirections.actionSearchFragmentToProfileFragment(
+                number
+            )
+        findNavController().navigate(action)
     }
 
     private fun initFab() {
@@ -99,7 +176,6 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         }.attach()
     }
 
-
     private fun observe() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -118,15 +194,11 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                             _binding.progressBar.visibility = View.VISIBLE
                         }
                         is Resource.Success -> {
-                            _binding.progressBar.visibility = View.GONE
                             val numberInfo = result.data
                             numberInfo?.let {
                                 removeGlobalLayoutListener()
-                                val action =
-                                    SearchFragmentDirections.actionSearchFragmentToProfileFragment(
-                                        it
-                                    )
-                                findNavController().navigate(action)
+                                searchedNumber = it
+                                showFullScreenAd(it)
                                 _binding.searchEditText.setText("")
                                 viewModel.clearPhoneNumberResponse()
                             }

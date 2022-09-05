@@ -18,6 +18,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.MobileAds
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.woynex.kimbu.R
 import com.woynex.kimbu.core.utils.Resource
@@ -66,8 +68,6 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentProfileBinding.bind(view)
 
-
-
         _binding.apply {
             nameTv.text = if (args.numberInfo.name.isNullOrBlank()) args.numberInfo.number
             else args.numberInfo.name
@@ -105,9 +105,17 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                 findNavController().popBackStack()
             }
         }
+        initAdMob()
         viewModel.checkForBlockedNumber(args.numberInfo.number)
         observe()
     }
+
+    private fun initAdMob() {
+        MobileAds.initialize(requireContext())
+        val adRequest = AdRequest.Builder().build()
+        _binding.adView.loadAd(adRequest)
+    }
+
 
     private fun observe() {
         lifecycleScope.launch {

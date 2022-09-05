@@ -55,6 +55,7 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, CallReceiver::class.java)
             this.sendBroadcast(intent)
         }
+        MobileAds.initialize(this)
     }
 
     override fun onStart() {

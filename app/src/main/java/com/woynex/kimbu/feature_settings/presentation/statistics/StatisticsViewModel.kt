@@ -9,6 +9,7 @@ import com.google.firebase.ktx.Firebase
 import com.woynex.kimbu.core.data.local.datastore.KimBuPreferencesKey
 import com.woynex.kimbu.core.utils.Constants
 import com.woynex.kimbu.core.utils.Resource
+import com.woynex.kimbu.feature_auth.domain.model.User
 import com.woynex.kimbu.feature_search.domain.model.Statistics
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -30,8 +31,29 @@ class StatisticsViewModel @Inject constructor(
     private val _statisticsResponse = MutableStateFlow<Resource<Statistics>>(Resource.Empty())
     val statisticsResponse = _statisticsResponse.asStateFlow()
 
+    private val _userResponse = MutableStateFlow<Resource<User>>(Resource.Empty())
+    val userResponse = _userResponse.asStateFlow()
+
     init {
         getStatistics()
+    }
+
+    fun getUser(id: String) = viewModelScope.launch {
+        _userResponse.value = Resource.Loading<User>()
+        val db = Firebase.firestore
+        db.collection(Constants.FIREBASE_USERS_COLLECTION)
+            .document(id)
+            .get()
+            .addOnSuccessListener {
+                val user = it.toObject(User::class.java)
+                if (user != null) {
+                    _userResponse.value = Resource.Success<User>(user)
+                }
+            }
+            .addOnFailureListener {
+                _userResponse.value =
+                    Resource.Error<User>(it.localizedMessage ?: "Something went wrong")
+            }
     }
 
     private fun getStatistics() = viewModelScope.launch {

@@ -10,9 +10,10 @@ import com.woynex.kimbu.core.utils.millisToDate
 import com.woynex.kimbu.databinding.ItemSearchedDateBinding
 import com.woynex.kimbu.feature_search.domain.model.SearchedUser
 
-class SearchedDateAdapter : ListAdapter<SearchedUser, SearchedDateAdapter.SearchedDateViewHolder>(
-    DiffCallBack
-) {
+class SearchedDateAdapter(private val listener: OnItemClickListener) :
+    ListAdapter<SearchedUser, SearchedDateAdapter.SearchedDateViewHolder>(
+        DiffCallBack
+    ) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchedDateViewHolder {
         return SearchedDateViewHolder(
@@ -34,6 +35,18 @@ class SearchedDateAdapter : ListAdapter<SearchedUser, SearchedDateAdapter.Search
     inner class SearchedDateViewHolder(private val _binding: ItemSearchedDateBinding) :
         RecyclerView.ViewHolder(_binding.root) {
 
+        init {
+            _binding.root.setOnClickListener {
+                val position = absoluteAdapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    val item = getItem(position)
+                    if (item != null) {
+                        listener.onClick(item.id!!)
+                    }
+                }
+            }
+        }
+
         fun bind(item: SearchedUser) {
             _binding.apply {
                 dateTv.text = item.date?.millisToDate(Constants.statisticsDateFormat)
@@ -52,5 +65,9 @@ class SearchedDateAdapter : ListAdapter<SearchedUser, SearchedDateAdapter.Search
                 return oldItem == newItem
             }
         }
+    }
+
+    interface OnItemClickListener {
+        fun onClick(id: String)
     }
 }

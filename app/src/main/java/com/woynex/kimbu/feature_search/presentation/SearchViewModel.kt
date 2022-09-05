@@ -59,6 +59,7 @@ class SearchViewModel @Inject constructor(
     }
 
     fun searchPhoneNumber(number: String) = viewModelScope.launch {
+        _phoneNumberResponse.value = Resource.Loading<NumberInfo>()
         val db = Firebase.firestore
         db.collection(FIREBASE_USERS_COLLECTION)
             .whereEqualTo("phone_number", number)
