@@ -19,8 +19,10 @@ import com.woynex.kimbu.AuthActivity
 import com.woynex.kimbu.R
 import com.woynex.kimbu.core.utils.showAlertDialog
 import com.woynex.kimbu.databinding.FragmentSettingsBinding
+import com.woynex.kimbu.feature_auth.domain.model.toNumberInfo
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -59,6 +61,13 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
                 val action =
                     SettingsFragmentDirections.actionSettingsFragmentToNotificationsFragment()
                 findNavController().navigate(action)
+            }
+            nameTv.setOnClickListener {
+                viewModel.user.let {
+                    val action =
+                        SettingsFragmentDirections.actionSettingsFragmentToProfileFragment(it.toNumberInfo())
+                    findNavController().navigate(action)
+                }
             }
         }
         viewModel.getUnwatchedNotifications()

@@ -72,6 +72,7 @@ class AuthViewModel @Inject constructor(
             preferences[KimBuPreferencesKey.USER_PROFILE_PHOTO_KEY] = user.profile_photo ?: ""
             preferences[KimBuPreferencesKey.USER_EMAIL_KEY] = user.email ?: ""
             preferences[KimBuPreferencesKey.USER_CREATED_DATE] = user.created_date ?: 0
+            preferences[KimBuPreferencesKey.CONTACTS_UPLOADED] = user.contacts_uploaded ?: false
         }
     }
 

@@ -28,6 +28,9 @@
         <action
             android:id="@+id/action_settingsFragment_to_notificationsFragment"
             app:destination="@id/notificationsFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"

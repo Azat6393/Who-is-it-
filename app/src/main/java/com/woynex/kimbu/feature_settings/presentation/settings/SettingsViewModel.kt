@@ -34,11 +34,19 @@ class SettingsViewModel @Inject constructor(
         )
     }
 
+    lateinit var user: User
+
     private val _notifications = MutableStateFlow<List<NotificationModel>>(emptyList())
     val notifications = _notifications.asStateFlow()
 
     private val _unwatchedNotifications = MutableStateFlow<Int>(0)
     val unwatchedNotifications = _unwatchedNotifications.asStateFlow()
+
+    init {
+        viewModelScope.launch {
+            user = currentUser.first()
+        }
+    }
 
     fun updateNotification(notification: NotificationModel) = viewModelScope.launch {
         settingsUseCases.updateNotification(notification)

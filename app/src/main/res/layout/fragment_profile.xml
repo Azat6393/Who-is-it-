@@ -170,6 +170,11 @@
             android:layout_height="1dp"
             android:layout_marginTop="10dp"
             android:background="?attr/secondary" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
     </LinearLayout>
 
 
@@ -190,7 +195,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             ads:adSize="LARGE_BANNER"
-            ads:adUnitId="ca-app-pub-3940256099942544/6300978111" />
+            ads:adUnitId="ca-app-pub-8594335878312175/2932452655" />
 
     </androidx.cardview.widget.CardView>
 

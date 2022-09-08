@@ -10,6 +10,7 @@ data class User(
     val profile_photo: String? = null,
     val email: String? = null,
     val created_date: Long? = null,
+    val contacts_uploaded: Boolean = false
 )
 
 fun User.toNumberInfo(): NumberInfo {

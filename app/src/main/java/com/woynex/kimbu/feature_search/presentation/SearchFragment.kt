@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewTreeObserver
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -66,7 +67,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
         InterstitialAd.load(
             requireContext(),
-            "ca-app-pub-3940256099942544/5224354917",
+            "ca-app-pub-8594335878312175/2469418225",
             adRequest,
             object : InterstitialAdLoadCallback() {
                 override fun onAdFailedToLoad(p0: LoadAdError) {
@@ -79,33 +80,34 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                     super.onAdLoaded(p0)
                     Log.d(TAG, "Ad was loaded.")
                     mInterstitialAd = p0
-                    mInterstitialAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
-                        override fun onAdClicked() {
-                            Log.d(TAG, "Ad was clicked.")
-                            searchedNumber?.let { navigateToProfileScreen(it) }
-                        }
+                    mInterstitialAd?.fullScreenContentCallback =
+                        object : FullScreenContentCallback() {
+                            override fun onAdClicked() {
+                                Log.d(TAG, "Ad was clicked.")
+                                searchedNumber?.let { navigateToProfileScreen(it) }
+                            }
 
-                        override fun onAdDismissedFullScreenContent() {
-                            Log.d(TAG, "Ad dismissed fullscreen content.")
-                            searchedNumber?.let { navigateToProfileScreen(it) }
-                            mInterstitialAd = null
-                        }
+                            override fun onAdDismissedFullScreenContent() {
+                                Log.d(TAG, "Ad dismissed fullscreen content.")
+                                searchedNumber?.let { navigateToProfileScreen(it) }
+                                mInterstitialAd = null
+                            }
 
-                        override fun onAdFailedToShowFullScreenContent(p0: AdError) {
-                            Log.e(TAG, "Ad failed to show fullscreen content.")
-                            searchedNumber?.let { navigateToProfileScreen(it) }
-                            mInterstitialAd = null
-                        }
+                            override fun onAdFailedToShowFullScreenContent(p0: AdError) {
+                                Log.e(TAG, "Ad failed to show fullscreen content.")
+                                searchedNumber?.let { navigateToProfileScreen(it) }
+                                mInterstitialAd = null
+                            }
 
-                        override fun onAdImpression() {
-                            Log.d(TAG, "Ad recorded an impression.")
-                            searchedNumber?.let { navigateToProfileScreen(it) }
-                        }
+                            override fun onAdImpression() {
+                                Log.d(TAG, "Ad recorded an impression.")
+                                searchedNumber?.let { navigateToProfileScreen(it) }
+                            }
 
-                        override fun onAdShowedFullScreenContent() {
-                            Log.d(TAG, "Ad showed fullscreen content.")
+                            override fun onAdShowedFullScreenContent() {
+                                Log.d(TAG, "Ad showed fullscreen content.")
+                            }
                         }
-                    }
                 }
             })
     }
@@ -280,7 +282,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
     private fun searchContentVisibility(visible: Boolean) {
         requireActivity()
-            .findViewById<BottomNavigationView>(R.id.bottom_navigation_view)
+            .findViewById<CoordinatorLayout>(R.id.coordinatorLayout)
             .isVisible = !visible
         _binding.searchContainer.isVisible = visible
         _binding.callFab.isVisible = !visible

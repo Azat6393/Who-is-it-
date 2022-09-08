@@ -183,8 +183,8 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
             .setGoogleIdTokenRequestOptions(
                 BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
                     .setSupported(true)
-                    .setServerClientId("1005644502335-ssh1r0q0h0n0ip3q3jtp92ti4ahmo8k4.apps.googleusercontent.com")
-                    .setFilterByAuthorizedAccounts(true)
+                    .setServerClientId("809821627700-4ef0dg2bsd7t4kub7epl7t8sofmcme99.apps.googleusercontent.com")
+                    .setFilterByAuthorizedAccounts(false)
                     .build()
             )
             .setAutoSelectEnabled(true)

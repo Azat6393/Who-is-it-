@@ -1,5 +1,6 @@
 package com.woynex.kimbu.core.data.local.datastore
 
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 
@@ -11,4 +12,5 @@ object KimBuPreferencesKey {
     val USER_PROFILE_PHOTO_KEY = stringPreferencesKey("profile_photo")
     val USER_EMAIL_KEY = stringPreferencesKey("email")
     val USER_CREATED_DATE = longPreferencesKey("created_date")
+    val CONTACTS_UPLOADED = booleanPreferencesKey("contacts_uploaded")
 }

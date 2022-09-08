@@ -2,6 +2,7 @@ package com.woynex.kimbu.feature_settings.presentation.notification
 
 import android.os.Bundle
 import android.view.View
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -73,14 +74,14 @@ class NotificationsFragment : Fragment(R.layout.fragment_notifications),
     override fun onStart() {
         super.onStart()
         requireActivity()
-            .findViewById<BottomNavigationView>(R.id.bottom_navigation_view)
+            .findViewById<CoordinatorLayout>(R.id.coordinatorLayout)
             .visibility = View.GONE
     }
 
     override fun onStop() {
         super.onStop()
         requireActivity()
-            .findViewById<BottomNavigationView>(R.id.bottom_navigation_view)
+            .findViewById<CoordinatorLayout>(R.id.coordinatorLayout)
             .visibility = View.VISIBLE
     }
 }

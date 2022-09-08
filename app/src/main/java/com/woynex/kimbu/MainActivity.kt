@@ -12,8 +12,6 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.gms.ads.MobileAds
-import com.google.android.material.shape.CornerFamily
-import com.google.android.material.shape.MaterialShapeDrawable
 import com.woynex.kimbu.core.service.CallReceiver
 import com.woynex.kimbu.core.utils.isAppDefaultDialer
 import com.woynex.kimbu.databinding.ActivityMainBinding
@@ -25,7 +23,6 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var navController: NavController
     private val viewModel: SearchViewModel by viewModels()
-
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,19 +40,27 @@ class MainActivity : AppCompatActivity() {
         navController = navHostController.findNavController()
         binding.bottomNavigationView.setupWithNavController(navController)
 
-        val bottomNavigationViewBackground =
+        /*val bottomNavigationViewBackground =
             binding.bottomNavigationView.background as MaterialShapeDrawable
         bottomNavigationViewBackground.shapeAppearanceModel =
             bottomNavigationViewBackground.shapeAppearanceModel.toBuilder()
                 .setTopRightCorner(CornerFamily.ROUNDED, 40F)
                 .setTopLeftCorner(CornerFamily.ROUNDED, 40F)
-                .build()
+                .build()*/
 
-        if (this.isAppDefaultDialer()){
+        binding.bottomNavigationView.setupWithNavController(navController)
+        binding.bottomNavigationView.background = null
+        binding.bottomNavigationView.menu.getItem(1).isEnabled = false
+
+        if (isAppDefaultDialer()) {
             val intent = Intent(this, CallReceiver::class.java)
             this.sendBroadcast(intent)
         }
         MobileAds.initialize(this)
+
+        if (isAppDefaultDialer()) {
+            viewModel.uploadContactsToDatabase()
+        }
     }
 
     override fun onStart() {

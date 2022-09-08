@@ -11,6 +11,7 @@ import android.provider.ContactsContract
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -18,6 +19,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.MobileAds
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -27,6 +29,7 @@ import com.woynex.kimbu.core.utils.requestPermission
 import com.woynex.kimbu.core.utils.showAlertDialog
 import com.woynex.kimbu.core.utils.showToastMessage
 import com.woynex.kimbu.databinding.FragmentProfileBinding
+import com.woynex.kimbu.feature_search.presentation.adapter.TagsAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -36,6 +39,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
     private lateinit var _binding: FragmentProfileBinding
     private val args: ProfileFragmentArgs by navArgs()
     private val viewModel: ProfileViewModel by viewModels()
+    private val mAdapter: TagsAdapter by lazy { TagsAdapter() }
     private var isBlocked = false
 
     private val requestCallPermissionLauncher =
@@ -105,7 +109,9 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                 findNavController().popBackStack()
             }
         }
+        initRecyclerView()
         initAdMob()
+        viewModel.getTags(args.numberInfo.number)
         viewModel.checkForBlockedNumber(args.numberInfo.number)
         observe()
     }
@@ -161,6 +167,28 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                     }
                 }
             }
+        }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.tagsResponse.collect { result ->
+                    when (result) {
+                        is Resource.Empty -> Unit
+                        is Resource.Error -> Unit
+                        is Resource.Loading -> Unit
+                        is Resource.Success -> {
+                            mAdapter.submitList(result.data)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun initRecyclerView() {
+        _binding.recyclerView.apply {
+            adapter = mAdapter
+            layoutManager = LinearLayoutManager(requireContext())
+            setHasFixedSize(true)
         }
     }
 
@@ -227,14 +255,14 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
     override fun onStart() {
         super.onStart()
         requireActivity()
-            .findViewById<BottomNavigationView>(R.id.bottom_navigation_view)
+            .findViewById<CoordinatorLayout>(R.id.coordinatorLayout)
             .visibility = View.GONE
     }
 
     override fun onStop() {
         super.onStop()
         requireActivity()
-            .findViewById<BottomNavigationView>(R.id.bottom_navigation_view)
+            .findViewById<CoordinatorLayout>(R.id.coordinatorLayout)
             .visibility = View.VISIBLE
     }
 }

@@ -1,20 +1,20 @@
 {
   "project_info": {
-    "project_number": "1005644502335",
-    "project_id": "kim-bu-9cd74",
-    "storage_bucket": "kim-bu-9cd74.appspot.com"
+    "project_number": "809821627700",
+    "project_id": "kim-bu-1024b",
+    "storage_bucket": "kim-bu-1024b.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1005644502335:android:aabb264982c34023236f8a",
+        "mobilesdk_app_id": "1:809821627700:android:96e2d1b46f5f6e8eddf161",
         "android_client_info": {
           "package_name": "com.woynex.kimbu"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1005644502335-1ltut2o16eq0j2q1iaq012l027qtd3a2.apps.googleusercontent.com",
+          "client_id": "809821627700-qekd4783i5sg18phgav85k304c0v0iru.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.woynex.kimbu",
@@ -22,20 +22,20 @@
           }
         },
         {
-          "client_id": "1005644502335-ssh1r0q0h0n0ip3q3jtp92ti4ahmo8k4.apps.googleusercontent.com",
+          "client_id": "809821627700-4ef0dg2bsd7t4kub7epl7t8sofmcme99.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBG7u6LodIm9kmM6LpCaciTHhNcFbPk7hw"
+          "current_key": "AIzaSyB9TLeGAwIwnMW-7Xq4X4Mo43mR0Th84OI"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1005644502335-ssh1r0q0h0n0ip3q3jtp92ti4ahmo8k4.apps.googleusercontent.com",
+              "client_id": "809821627700-4ef0dg2bsd7t4kub7epl7t8sofmcme99.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

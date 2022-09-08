@@ -8,10 +8,8 @@
         android:title="@string/search" />
 
     <item
-        android:id="@+id/logo"
-        android:checkable="false"
-        android:icon="@drawable/ic_baseline_android_24"
-        android:title="@null" />
+        android:id="@+id/place_holder"
+        android:title="" />
 
     <item
         android:id="@+id/settingsFragment"

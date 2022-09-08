@@ -3,24 +3,28 @@ package com.woynex.kimbu.feature_search.presentation
 import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import com.google.firebase.database.ktx.database
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.woynex.kimbu.core.data.local.datastore.KimBuPreferencesKey
 import com.woynex.kimbu.core.data.local.room.KimBuDatabase
 import com.woynex.kimbu.core.utils.Constants
+import com.woynex.kimbu.core.utils.Constants.FIREBASE_NUMBERS_COLLECTION
 import com.woynex.kimbu.core.utils.Constants.FIREBASE_USERS_COLLECTION
 import com.woynex.kimbu.core.utils.Resource
 import com.woynex.kimbu.feature_auth.domain.model.User
 import com.woynex.kimbu.feature_auth.domain.model.toNumberInfo
-import com.woynex.kimbu.feature_search.data.local.room.CallHistoryDao
 import com.woynex.kimbu.feature_search.domain.model.NumberInfo
 import com.woynex.kimbu.feature_search.domain.model.SearchedUser
 import com.woynex.kimbu.feature_search.domain.model.Statistics
+import com.woynex.kimbu.feature_search.domain.model.Tag
 import com.woynex.kimbu.feature_search.domain.use_case.GetCallLogsUseCase
+import com.woynex.kimbu.feature_search.domain.use_case.GetContactsUseCase
 import com.woynex.kimbu.feature_search.domain.use_case.GetLastCallLogsUseCase
 import com.woynex.kimbu.feature_search.domain.use_case.UpdateCallLogsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -28,11 +32,13 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     private val updateCallLogsUseCase: UpdateCallLogsUseCase,
     private val getCallLogsUseCase: GetCallLogsUseCase,
     private val getLastCallLogsUseCase: GetLastCallLogsUseCase,
+    private val getContactsUseCase: GetContactsUseCase,
     private val dataStore: DataStore<Preferences>,
     private val database: KimBuDatabase
 ) : ViewModel() {
@@ -54,8 +60,44 @@ class SearchViewModel @Inject constructor(
             phone_number = preferences[KimBuPreferencesKey.USER_PHONE_NUMBER_KEY],
             profile_photo = preferences[KimBuPreferencesKey.USER_PROFILE_PHOTO_KEY],
             email = preferences[KimBuPreferencesKey.USER_EMAIL_KEY],
-            created_date = preferences[KimBuPreferencesKey.USER_CREATED_DATE]
+            created_date = preferences[KimBuPreferencesKey.USER_CREATED_DATE],
+            contacts_uploaded = preferences[KimBuPreferencesKey.CONTACTS_UPLOADED] ?: false
         )
+    }
+
+    fun uploadContactsToDatabase() = viewModelScope.launch {
+        currentUser.first().contacts_uploaded.let { isUploaded ->
+            if (!isUploaded) {
+                viewModelScope.launch {
+                    val userId = currentUser.first().id
+                    userId?.let { uuid ->
+                        val database = Firebase.database.reference
+                        getContactsUseCase().forEach { contact ->
+                            database.child(FIREBASE_NUMBERS_COLLECTION)
+                                .child(contact.number)
+                                .push()
+                                .setValue(Tag(name = contact.name, uuid = uuid))
+                                .addOnSuccessListener {
+                                    updateContactsUploaded(uuid)
+                                }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun updateContactsUploaded(uuid: String) {
+        viewModelScope.launch {
+            dataStore.edit { preferences ->
+                preferences[KimBuPreferencesKey.CONTACTS_UPLOADED] = true
+            }
+
+            val db = Firebase.firestore
+            db.collection(FIREBASE_USERS_COLLECTION)
+                .document(uuid)
+                .update("contacts_uploaded", true)
+        }
     }
 
     fun searchPhoneNumber(number: String) = viewModelScope.launch {

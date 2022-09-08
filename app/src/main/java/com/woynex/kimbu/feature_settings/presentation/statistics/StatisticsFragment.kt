@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -58,7 +59,7 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics),
 
         RewardedAd.load(
             requireContext(),
-            "ca-app-pub-3940256099942544/5224354917",
+            "ca-app-pub-8594335878312175/9020731745",
             adRequest,
             object : RewardedAdLoadCallback() {
                 override fun onAdFailedToLoad(p0: LoadAdError) {
@@ -223,14 +224,14 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics),
     override fun onStart() {
         super.onStart()
         requireActivity()
-            .findViewById<BottomNavigationView>(R.id.bottom_navigation_view)
+            .findViewById<CoordinatorLayout>(R.id.coordinatorLayout)
             .visibility = View.GONE
     }
 
     override fun onStop() {
         super.onStop()
         requireActivity()
-            .findViewById<BottomNavigationView>(R.id.bottom_navigation_view)
+            .findViewById<CoordinatorLayout>(R.id.coordinatorLayout)
             .visibility = View.VISIBLE
     }
 

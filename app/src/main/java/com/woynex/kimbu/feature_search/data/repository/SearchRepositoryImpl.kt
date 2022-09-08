@@ -1,14 +1,17 @@
 package com.woynex.kimbu.feature_search.data.repository
 
 import android.annotation.SuppressLint
+import android.content.ContentResolver
 import android.content.Context
 import android.net.Uri
 import android.os.Build
 import android.provider.CallLog
+import android.provider.ContactsContract
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import com.woynex.kimbu.core.data.local.room.KimBuDatabase
 import com.woynex.kimbu.feature_search.data.local.room.CallHistoryPagingSource
+import com.woynex.kimbu.feature_search.domain.model.Contact
 import com.woynex.kimbu.feature_search.domain.model.NumberInfo
 import com.woynex.kimbu.feature_search.domain.repository.SearchRepository
 import kotlinx.coroutines.flow.Flow
@@ -46,6 +49,57 @@ class SearchRepositoryImpl @Inject constructor(
             CallHistoryPagingSource(database.callHistoryDao)
         }
     }
+
+    @SuppressLint("Range")
+    override suspend fun getAllContacts(): List<Contact> {
+        val resolver: ContentResolver = context.contentResolver;
+
+        val cursorContacts =
+            context.contentResolver.query(
+                ContactsContract.Contacts.CONTENT_URI,
+                null, null, null, null
+            )
+        val contacts = arrayListOf<Contact>()
+        cursorContacts?.let {
+            cursorContacts.moveToFirst()
+            cursorContacts.let {
+                while (cursorContacts.moveToNext()) {
+                    val id = cursorContacts.getString(
+                        cursorContacts.getColumnIndex(ContactsContract.Contacts._ID)
+                    )
+                    val name = cursorContacts.getString(
+                        cursorContacts.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME)
+                    )
+                    val phoneNumber = (cursorContacts.getString(
+                        cursorContacts.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER)
+                    )).toInt()
+
+                    if (phoneNumber > 0) {
+                        val cursorPhone = context.contentResolver.query(
+                            ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                            null,
+                            ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "=?",
+                            arrayOf(id),
+                            null
+                        )
+
+                        if (cursorPhone?.count!! > 0) {
+                            while (cursorPhone.moveToNext()) {
+                                val phoneNumValue = cursorPhone.getString(
+                                    cursorPhone.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)
+                                ).filter { !it.isWhitespace() }
+                                contacts.add(Contact(id = id, number = phoneNumValue, name = name))
+                            }
+                        }
+                        cursorPhone.close()
+                    }
+                }
+                cursorContacts.close()
+            }
+        }
+        return contacts
+    }
+
 
     @SuppressLint("Range")
     override suspend fun getCallLogs(): List<NumberInfo> {

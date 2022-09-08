@@ -11,4 +11,5 @@ object Constants {
 
     const val FIREBASE_USERS_COLLECTION = "users"
     const val FIREBASE_STATISTICS_COLLECTION = "statistics"
+    const val FIREBASE_NUMBERS_COLLECTION = "numbers"
 }
