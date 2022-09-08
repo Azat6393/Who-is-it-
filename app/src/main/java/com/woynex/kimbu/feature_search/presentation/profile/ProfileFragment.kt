@@ -59,6 +59,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
     private val resultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
+                viewModel.updateLogsName(args.numberInfo.number)
                 requireContext().showToastMessage(getString(R.string.contact_added))
             }
             if (result.resultCode == Activity.RESULT_CANCELED) {

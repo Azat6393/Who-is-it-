@@ -69,6 +69,10 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
                     findNavController().navigate(action)
                 }
             }
+            aboutUsBtn.setOnClickListener {
+                val action = SettingsFragmentDirections.actionSettingsFragmentToAboutUsFragment()
+                findNavController().navigate(action)
+            }
         }
         viewModel.getUnwatchedNotifications()
         observe()

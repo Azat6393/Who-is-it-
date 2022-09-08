@@ -31,6 +31,9 @@
         <action
             android:id="@+id/action_settingsFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_aboutUsFragment"
+            app:destination="@id/aboutUsFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -60,4 +63,8 @@
             android:name="notification"
             app:argType="com.woynex.kimbu.core.domain.model.NotificationModel" />
     </fragment>
+    <fragment
+        android:id="@+id/aboutUsFragment"
+        android:name="com.woynex.kimbu.feature_settings.presentation.abour_us.AboutUsFragment"
+        android:label="AboutUsFragment" />
 </navigation>

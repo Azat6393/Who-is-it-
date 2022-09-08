@@ -68,5 +68,6 @@
     <string name="sign_out_message">Вы уверены, что хотите выйти?</string>
     <string name="total_count">Общее количество поисковых запросов: </string>
     <string name="set_kim_bu_as_default">Пожалуйста, установите приложение Kim Bu по умолчанию для звонков</string>
+    <string name="about_us_text">Сочетая удобный дизайн с современными и инновационными технологиями, мы предлагаем совместимые и удобные приложения бесплатно.</string>
 
 </resources>

@@ -20,4 +20,6 @@ interface SearchRepository {
     suspend fun updateCallNumber(callNumber: NumberInfo)
 
     suspend fun getAllContacts(): List<Contact>
+
+    suspend fun updateLogsName(number: String): String
 }

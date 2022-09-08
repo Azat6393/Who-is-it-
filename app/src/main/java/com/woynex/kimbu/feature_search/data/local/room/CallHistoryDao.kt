@@ -13,6 +13,9 @@ interface CallHistoryDao {
     @Update(onConflict = OnConflictStrategy.REPLACE)
     suspend fun updateCall(call: NumberInfo)
 
+    @Query("UPDATE number_info SET name=:name WHERE number=:number")
+    suspend fun updateLogs(name: String, number: String)
+
     @Query("SELECT * FROM number_info ORDER BY id DESC")
     fun getLogs(): Flow<List<NumberInfo>>
 

@@ -3,8 +3,10 @@ package com.woynex.kimbu.feature_search.data.repository
 import android.annotation.SuppressLint
 import android.content.ContentResolver
 import android.content.Context
+import android.database.Cursor
 import android.net.Uri
 import android.os.Build
+import android.provider.BaseColumns
 import android.provider.CallLog
 import android.provider.ContactsContract
 import androidx.paging.Pager
@@ -16,6 +18,7 @@ import com.woynex.kimbu.feature_search.domain.model.NumberInfo
 import com.woynex.kimbu.feature_search.domain.repository.SearchRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
+
 
 class SearchRepositoryImpl @Inject constructor(
     private val database: KimBuDatabase,
@@ -38,6 +41,39 @@ class SearchRepositoryImpl @Inject constructor(
         database.callHistoryDao.insertCalls(calls)
     }
 
+    override suspend fun updateLogsName(number: String): String {
+        val name = searchContactByNumber(number)
+        database.callHistoryDao.updateLogs(name, number)
+        return name
+    }
+
+    @SuppressLint("Range")
+    private fun searchContactByNumber(number: String): String {
+        val uri = Uri.withAppendedPath(
+            ContactsContract.PhoneLookup.CONTENT_FILTER_URI,
+            Uri.encode(number)
+        )
+        var name = ""
+
+        val contentResolver: ContentResolver = context.contentResolver
+        val contactLookup: Cursor? = contentResolver.query(
+            uri, arrayOf(
+                BaseColumns._ID,
+                ContactsContract.PhoneLookup.DISPLAY_NAME
+            ), null, null, null
+        )
+
+        contactLookup.use { contactLookup ->
+            if (contactLookup != null && contactLookup.count > 0) {
+                contactLookup.moveToNext()
+                name =
+                    contactLookup.getString(contactLookup.getColumnIndex(ContactsContract.Data.DISPLAY_NAME))
+                //String contactId = contactLookup.getString(contactLookup.getColumnIndex(BaseColumns._ID));
+            }
+        }
+        return name
+    }
+
     override suspend fun getPagedCalls(): Pager<Int, NumberInfo> {
         return Pager(
             config = PagingConfig(
@@ -52,8 +88,6 @@ class SearchRepositoryImpl @Inject constructor(
 
     @SuppressLint("Range")
     override suspend fun getAllContacts(): List<Contact> {
-        val resolver: ContentResolver = context.contentResolver;
-
         val cursorContacts =
             context.contentResolver.query(
                 ContactsContract.Contacts.CONTENT_URI,
