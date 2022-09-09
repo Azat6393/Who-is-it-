@@ -30,7 +30,7 @@ class SettingsViewModel @Inject constructor(
             phone_number = preferences[KimBuPreferencesKey.USER_PHONE_NUMBER_KEY],
             profile_photo = preferences[KimBuPreferencesKey.USER_PROFILE_PHOTO_KEY],
             email = preferences[KimBuPreferencesKey.USER_EMAIL_KEY],
-            created_date = preferences[KimBuPreferencesKey.USER_CREATED_DATE]
+            created_date = preferences[KimBuPreferencesKey.USER_CREATED_DATE_KEY]
         )
     }
 
@@ -77,7 +77,7 @@ class SettingsViewModel @Inject constructor(
             preferences[KimBuPreferencesKey.USER_PHONE_NUMBER_KEY] = ""
             preferences[KimBuPreferencesKey.USER_PROFILE_PHOTO_KEY] = ""
             preferences[KimBuPreferencesKey.USER_EMAIL_KEY] = ""
-            preferences[KimBuPreferencesKey.USER_CREATED_DATE] = 0
+            preferences[KimBuPreferencesKey.USER_CREATED_DATE_KEY] = 0
         }
     }
 }

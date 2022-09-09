@@ -70,5 +70,9 @@
     <string name="set_kim_bu_as_default">Please set Kim Bu app as default</string>
     <string name="about_us_text">By combining user-friendly designs with up-to-date and innovative technologies, we offer compatible and convenient applications free of charge.</string>
     <string name="save">Save</string>
+    <string name="Forgot_password">Forgot password</string>
+    <string name="send">Send</string>
+    <string name="back">Back</string>
+    <string name="please_check_your_mail">Please check your mail</string>
 
 </resources>

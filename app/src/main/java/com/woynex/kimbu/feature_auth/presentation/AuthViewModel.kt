@@ -36,7 +36,7 @@ class AuthViewModel @Inject constructor(
             phone_number = preferences[KimBuPreferencesKey.USER_PHONE_NUMBER_KEY] ?: "",
             profile_photo = preferences[KimBuPreferencesKey.USER_PROFILE_PHOTO_KEY] ?: "",
             email = preferences[KimBuPreferencesKey.USER_EMAIL_KEY] ?: "",
-            created_date = preferences[KimBuPreferencesKey.USER_CREATED_DATE] ?: 0
+            created_date = preferences[KimBuPreferencesKey.USER_CREATED_DATE_KEY] ?: 0
         )
     }
 
@@ -71,8 +71,8 @@ class AuthViewModel @Inject constructor(
             preferences[KimBuPreferencesKey.USER_PHONE_NUMBER_KEY] = user.phone_number ?: ""
             preferences[KimBuPreferencesKey.USER_PROFILE_PHOTO_KEY] = user.profile_photo ?: ""
             preferences[KimBuPreferencesKey.USER_EMAIL_KEY] = user.email ?: ""
-            preferences[KimBuPreferencesKey.USER_CREATED_DATE] = user.created_date ?: 0
-            preferences[KimBuPreferencesKey.CONTACTS_UPLOADED] = user.contacts_uploaded ?: false
+            preferences[KimBuPreferencesKey.USER_CREATED_DATE_KEY] = user.created_date ?: 0
+            preferences[KimBuPreferencesKey.CONTACTS_UPLOADED_KEY] = user.contacts_uploaded ?: false
         }
     }
 

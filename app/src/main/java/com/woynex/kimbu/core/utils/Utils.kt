@@ -108,6 +108,7 @@ fun Context.showAlertDialog(message: String, title: String, onPositive: () -> Un
     alert.show()
 }
 
+
 @RequiresApi(Build.VERSION_CODES.M)
 fun Context.isAppDefaultDialer(): Boolean {
     val telecomManager = getSystemService(TELECOM_SERVICE) as TelecomManager

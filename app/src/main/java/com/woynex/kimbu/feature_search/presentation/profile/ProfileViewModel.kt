@@ -61,8 +61,8 @@ class ProfileViewModel @Inject constructor(
             phone_number = preferences[KimBuPreferencesKey.USER_PHONE_NUMBER_KEY],
             profile_photo = preferences[KimBuPreferencesKey.USER_PROFILE_PHOTO_KEY],
             email = preferences[KimBuPreferencesKey.USER_EMAIL_KEY],
-            created_date = preferences[KimBuPreferencesKey.USER_CREATED_DATE],
-            contacts_uploaded = preferences[KimBuPreferencesKey.CONTACTS_UPLOADED] ?: false
+            created_date = preferences[KimBuPreferencesKey.USER_CREATED_DATE_KEY],
+            contacts_uploaded = preferences[KimBuPreferencesKey.CONTACTS_UPLOADED_KEY] ?: false
         )
     }
 

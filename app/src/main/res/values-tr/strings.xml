@@ -70,5 +70,6 @@
     <string name="set_kim_bu_as_default">Lütfen Kim Bu uygulamasını varsayılan olarak ayarlayın</string>
     <string name="about_us_text">Kullanıcı dostu tasarımlarla, güncel ve yenilikçi teknolojileri bir araya getirerek, uyumlu ve kolaylık sağlayan uygulamaları ücretsiz bir şekilde sizlere sunuyoruz.</string>
     <string name="save">Kayıt et</string>
+    <string name="back">Back</string>
 
 </resources>

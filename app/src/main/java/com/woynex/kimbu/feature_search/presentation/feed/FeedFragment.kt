@@ -24,11 +24,8 @@ import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.MobileAds
 import com.woynex.kimbu.MainActivity
 import com.woynex.kimbu.R
+import com.woynex.kimbu.core.utils.*
 import com.woynex.kimbu.core.utils.Constants.dateFormat
-import com.woynex.kimbu.core.utils.isAppDefaultDialer
-import com.woynex.kimbu.core.utils.millisToDate
-import com.woynex.kimbu.core.utils.requestPermission
-import com.woynex.kimbu.core.utils.showToastMessage
 import com.woynex.kimbu.databinding.FragmentFeedBinding
 import com.woynex.kimbu.feature_search.domain.model.NumberInfo
 import com.woynex.kimbu.feature_search.presentation.SearchFragment
@@ -61,7 +58,12 @@ class FeedFragment : Fragment(R.layout.fragment_feed) {
             initContent()
         } else {
             _binding.setAsDefaultBtn.setOnClickListener {
-                offerReplacingDefaultDialer()
+                if (_binding.chackBox.isChecked) {
+                    viewModel.updateHasPermission(true)
+                    offerReplacingDefaultDialer()
+                } else {
+                    requireContext().showToastMessage("Please accept permission")
+                }
             }
         }
         initAdMob()

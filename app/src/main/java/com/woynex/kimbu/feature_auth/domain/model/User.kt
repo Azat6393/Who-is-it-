@@ -10,7 +10,8 @@ data class User(
     var profile_photo: String? = null,
     val email: String? = null,
     val created_date: Long? = null,
-    val contacts_uploaded: Boolean = false
+    val contacts_uploaded: Boolean = false,
+    val has_permission: Boolean = false
 )
 
 fun User.toNumberInfo(): NumberInfo {
@@ -21,6 +22,7 @@ fun User.toNumberInfo(): NumberInfo {
         type = "",
         countryCode = "",
         profilePhoto = this.profile_photo ?: "",
-        date = this.created_date ?: 0
+        date = this.created_date ?: 0,
+        has_permission = this.has_permission
     )
 }

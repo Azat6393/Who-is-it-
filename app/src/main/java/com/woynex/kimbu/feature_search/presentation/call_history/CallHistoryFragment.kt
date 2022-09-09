@@ -2,15 +2,12 @@ package com.woynex.kimbu.feature_search.presentation.call_history
 
 import android.Manifest
 import android.app.role.RoleManager
-import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.telecom.TelecomManager
-import android.telephony.TelephonyManager
 import android.util.Log
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
@@ -35,7 +32,6 @@ import com.woynex.kimbu.feature_search.presentation.SearchFragmentDirections
 import com.woynex.kimbu.feature_search.presentation.SearchViewModel
 import com.woynex.kimbu.feature_search.presentation.adapter.CallHistoryAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
@@ -64,40 +60,18 @@ class CallHistoryFragment : Fragment(R.layout.fragment_call_history),
             initContent()
         } else {
             _binding.setAsDefaultBtn.setOnClickListener {
-                offerReplacingDefaultDialer()
-            }
-        }
-    }
-
-   /* private val callBroadcastReceiver: BroadcastReceiver = object : BroadcastReceiver() {
-        override fun onReceive(p0: Context?, p1: Intent?) {
-            p1?.let { intent ->
-                if (intent.getStringExtra(TelephonyManager.EXTRA_STATE)
-                        .equals(TelephonyManager.EXTRA_STATE_IDLE)
-                ) {
-                    lifecycleScope.launch {
-                        delay(2000L)
-                        viewModel.getCallLog()
-                    }
+                if (_binding.chackBox.isChecked){
+                    viewModel.updateHasPermission(true)
+                    offerReplacingDefaultDialer()
+                }else{
+                    requireContext().showToastMessage("Please accept permission")
                 }
             }
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        val filter = IntentFilter(TelephonyManager.EXTRA_STATE)
-        requireActivity().registerReceiver(callBroadcastReceiver, filter)
-    }
-
-    override fun onStop() {
-        super.onStop()
-        requireActivity().unregisterReceiver(callBroadcastReceiver)
-    }*/
-
     private fun initContent() {
         _binding.setAsDefaultView.visibility = View.GONE
-        //viewModel.getLogs()
         initRecyclerView()
         observe()
     }

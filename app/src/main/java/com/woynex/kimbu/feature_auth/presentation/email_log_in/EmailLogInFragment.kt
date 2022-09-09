@@ -40,6 +40,9 @@ class EmailLogInFragment : Fragment(R.layout.fragment_email_log_in) {
             loginBtn.setOnClickListener {
                 logIn()
             }
+            forgotPasswordBtn.setOnClickListener {
+                ForgotPasswordBottomSheet().show(childFragmentManager, "EmailLogInFragment")
+            }
         }
         observe()
     }

@@ -133,7 +133,7 @@ class SearchRepositoryImpl @Inject constructor(
                 ContactsContract.Contacts.CONTENT_URI,
                 null, null, null, null
             )
-        val contacts = arrayListOf<Contact>()
+        val contacts = mutableSetOf<Contact>()
         cursorContacts?.let {
             cursorContacts.moveToFirst()
             cursorContacts.let {
@@ -171,7 +171,7 @@ class SearchRepositoryImpl @Inject constructor(
                 cursorContacts.close()
             }
         }
-        return contacts
+        return contacts.toList()
     }
 
 
@@ -216,7 +216,8 @@ class SearchRepositoryImpl @Inject constructor(
                                 countryCode = if (countryCodeString.isNullOrBlank()) ""
                                 else countryCodeString,
                                 date = stringDate.toLong(),
-                                profilePhoto = ""
+                                profilePhoto = "",
+                                has_permission = false
                             )
                         )
                         size++

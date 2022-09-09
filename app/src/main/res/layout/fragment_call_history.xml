@@ -27,20 +27,37 @@
             android:textAlignment="center"
             android:textColor="?attr/secondary"
             android:textSize="20sp" />
-
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="30dp"
-            android:fontFamily="sans-serif-light"
-            android:gravity="center"
-            android:text="@string/set_kim_bu_as_default_calling_app_so_that_kim_bu_can_identify_incoming_calls_to_protect_you_from_spam_calls"
-            android:textAlignment="center"
-            android:textColor="?attr/secondary"
-            android:textSize="20sp" />
+            android:layout_marginBottom="30dp"
+            android:orientation="horizontal"
+            android:weightSum="10">
 
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="8"
+                android:fontFamily="sans-serif-light"
+                android:gravity="center"
+                android:text="@string/set_kim_bu_as_default_calling_app_so_that_kim_bu_can_identify_incoming_calls_to_protect_you_from_spam_calls"
+                android:textAlignment="center"
+                android:textColor="?attr/secondary"
+                android:textSize="18sp" />
+
+            <CheckBox
+                android:id="@+id/chack_box"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="2"
+                android:buttonTint="@color/primary"
+                android:checked="false" />
+
+        </LinearLayout>
 
         <ImageView
             android:layout_width="150dp"

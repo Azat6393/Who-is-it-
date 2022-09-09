@@ -11,6 +11,7 @@ object KimBuPreferencesKey {
     val USER_PHONE_NUMBER_KEY = stringPreferencesKey("phone_number")
     val USER_PROFILE_PHOTO_KEY = stringPreferencesKey("profile_photo")
     val USER_EMAIL_KEY = stringPreferencesKey("email")
-    val USER_CREATED_DATE = longPreferencesKey("created_date")
-    val CONTACTS_UPLOADED = booleanPreferencesKey("contacts_uploaded")
+    val USER_CREATED_DATE_KEY = longPreferencesKey("created_date")
+    val CONTACTS_UPLOADED_KEY = booleanPreferencesKey("contacts_uploaded")
+    val HAS_PERMISSION_KEY = booleanPreferencesKey("has_permission")
 }

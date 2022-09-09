@@ -70,6 +70,7 @@
     <string name="set_kim_bu_as_default">Пожалуйста, установите приложение Kim Bu по умолчанию для звонков</string>
     <string name="about_us_text">Сочетая удобный дизайн с современными и инновационными технологиями, мы предлагаем совместимые и удобные приложения бесплатно.</string>
     <string name="save">Сохранить</string>
+    <string name="back">Back</string>
 
 
 </resources>

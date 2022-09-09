@@ -14,15 +14,12 @@ import com.google.firebase.ktx.Firebase
 import com.woynex.kimbu.core.data.local.datastore.KimBuPreferencesKey
 import com.woynex.kimbu.core.data.local.room.KimBuDatabase
 import com.woynex.kimbu.core.utils.Constants
-import com.woynex.kimbu.core.utils.Constants.FIREBASE_REALTIME_NUMBERS_COLLECTION
 import com.woynex.kimbu.core.utils.Constants.FIREBASE_FIRESTORE_USERS_COLLECTION
+import com.woynex.kimbu.core.utils.Constants.FIREBASE_REALTIME_NUMBERS_COLLECTION
 import com.woynex.kimbu.core.utils.Resource
 import com.woynex.kimbu.feature_auth.domain.model.User
 import com.woynex.kimbu.feature_auth.domain.model.toNumberInfo
-import com.woynex.kimbu.feature_search.domain.model.NumberInfo
-import com.woynex.kimbu.feature_search.domain.model.SearchedUser
-import com.woynex.kimbu.feature_search.domain.model.Statistics
-import com.woynex.kimbu.feature_search.domain.model.Tag
+import com.woynex.kimbu.feature_search.domain.model.*
 import com.woynex.kimbu.feature_search.domain.use_case.GetCallLogsUseCase
 import com.woynex.kimbu.feature_search.domain.use_case.GetContactsUseCase
 import com.woynex.kimbu.feature_search.domain.use_case.GetLastCallLogsUseCase
@@ -60,26 +57,43 @@ class SearchViewModel @Inject constructor(
             phone_number = preferences[KimBuPreferencesKey.USER_PHONE_NUMBER_KEY],
             profile_photo = preferences[KimBuPreferencesKey.USER_PROFILE_PHOTO_KEY],
             email = preferences[KimBuPreferencesKey.USER_EMAIL_KEY],
-            created_date = preferences[KimBuPreferencesKey.USER_CREATED_DATE],
-            contacts_uploaded = preferences[KimBuPreferencesKey.CONTACTS_UPLOADED] ?: false
+            created_date = preferences[KimBuPreferencesKey.USER_CREATED_DATE_KEY],
+            contacts_uploaded = preferences[KimBuPreferencesKey.CONTACTS_UPLOADED_KEY] ?: false,
+            has_permission = preferences[KimBuPreferencesKey.HAS_PERMISSION_KEY] ?: false
         )
     }
 
-    fun uploadContactsToDatabase() = viewModelScope.launch {
-        currentUser.first().contacts_uploaded.let { isUploaded ->
-            if (!isUploaded) {
+    fun updateHasPermission(state: Boolean) = viewModelScope.launch {
+        val db = Firebase.firestore
+        db.collection(FIREBASE_FIRESTORE_USERS_COLLECTION)
+            .document(currentUser.first().id!!)
+            .update("has_permission", true)
+            .addOnSuccessListener {
                 viewModelScope.launch {
-                    val userId = currentUser.first().id
-                    userId?.let { uuid ->
-                        val database = Firebase.database.reference
-                        getContactsUseCase().forEach { contact ->
-                            database.child(FIREBASE_REALTIME_NUMBERS_COLLECTION)
-                                .child(contact.number)
-                                .push()
-                                .setValue(Tag(name = contact.name, uuid = uuid))
-                                .addOnSuccessListener {
-                                    updateContactsUploaded(uuid)
+                    dataStore.edit { preferences ->
+                        preferences[KimBuPreferencesKey.HAS_PERMISSION_KEY] = state
+                    }
+                }
+            }
+    }
+
+    fun uploadContactsToDatabase() = viewModelScope.launch {
+        currentUser.first().has_permission.let { hasPermission ->
+            if (hasPermission) {
+                currentUser.first().contacts_uploaded.let { isUploaded ->
+                    if (!isUploaded) {
+                        viewModelScope.launch {
+                            val userId = currentUser.first().id
+                            userId?.let { uuid ->
+                                val database = Firebase.database.reference
+                                getContactsUseCase().forEach { contact ->
+                                    database.child(FIREBASE_REALTIME_NUMBERS_COLLECTION)
+                                        .child(contact.number)
+                                        .push()
+                                        .setValue(Tag(name = contact.name, uuid = uuid))
                                 }
+                                updateContactsUploaded(uuid)
+                            }
                         }
                     }
                 }
@@ -88,16 +102,17 @@ class SearchViewModel @Inject constructor(
     }
 
     private fun updateContactsUploaded(uuid: String) {
-        viewModelScope.launch {
-            dataStore.edit { preferences ->
-                preferences[KimBuPreferencesKey.CONTACTS_UPLOADED] = true
+        val db = Firebase.firestore
+        db.collection(FIREBASE_FIRESTORE_USERS_COLLECTION)
+            .document(uuid)
+            .update("contacts_uploaded", true)
+            .addOnSuccessListener {
+                viewModelScope.launch {
+                    dataStore.edit { preferences ->
+                        preferences[KimBuPreferencesKey.CONTACTS_UPLOADED_KEY] = true
+                    }
+                }
             }
-
-            val db = Firebase.firestore
-            db.collection(FIREBASE_FIRESTORE_USERS_COLLECTION)
-                .document(uuid)
-                .update("contacts_uploaded", true)
-        }
     }
 
     fun searchPhoneNumber(number: String) = viewModelScope.launch {
