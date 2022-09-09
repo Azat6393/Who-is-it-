@@ -65,7 +65,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             nameTv.setOnClickListener {
                 viewModel.user.let {
                     val action =
-                        SettingsFragmentDirections.actionSettingsFragmentToProfileFragment(it.toNumberInfo())
+                        SettingsFragmentDirections.actionSettingsFragmentToUserProfileFragment()
                     findNavController().navigate(action)
                 }
             }

@@ -109,6 +109,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore-ktx'
     implementation 'com.google.firebase:firebase-database-ktx'
     implementation 'com.google.android.gms:play-services-auth:20.3.0'
+    implementation 'com.google.firebase:firebase-storage-ktx'
+
 
     // Firebase Cloud Messaging and Analytics libraries
     implementation 'com.google.firebase:firebase-messaging-ktx'

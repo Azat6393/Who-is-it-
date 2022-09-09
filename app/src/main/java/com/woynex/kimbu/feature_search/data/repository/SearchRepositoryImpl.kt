@@ -41,14 +41,54 @@ class SearchRepositoryImpl @Inject constructor(
         database.callHistoryDao.insertCalls(calls)
     }
 
-    override suspend fun updateLogsName(number: String): String {
-        val name = searchContactByNumber(number)
-        database.callHistoryDao.updateLogs(name, number)
-        return name
+    @SuppressLint("Range")
+    override suspend fun updateLogsName() {
+        val cursorContacts =
+            context.contentResolver.query(
+                ContactsContract.Contacts.CONTENT_URI,
+                null, null, null, null
+            )
+        cursorContacts?.let {
+            cursorContacts.moveToFirst()
+            cursorContacts.let {
+                while (cursorContacts.moveToNext()) {
+                    val id = cursorContacts.getString(
+                        cursorContacts.getColumnIndex(ContactsContract.Contacts._ID)
+                    )
+                    val name = cursorContacts.getString(
+                        cursorContacts.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME)
+                    )
+                    val phoneNumber = (cursorContacts.getString(
+                        cursorContacts.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER)
+                    )).toInt()
+
+                    if (phoneNumber > 0) {
+                        val cursorPhone = context.contentResolver.query(
+                            ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                            null,
+                            ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "=?",
+                            arrayOf(id),
+                            null
+                        )
+
+                        if (cursorPhone?.count!! > 0) {
+                            while (cursorPhone.moveToNext()) {
+                                val phoneNumValue = cursorPhone.getString(
+                                    cursorPhone.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)
+                                ).filter { !it.isWhitespace() }
+                                database.callHistoryDao.updateLogs(name, phoneNumValue)
+                            }
+                        }
+                        cursorPhone.close()
+                    }
+                }
+                cursorContacts.close()
+            }
+        }
     }
 
     @SuppressLint("Range")
-    private fun searchContactByNumber(number: String): String {
+    override fun searchContactByNumber(number: String): String {
         val uri = Uri.withAppendedPath(
             ContactsContract.PhoneLookup.CONTENT_FILTER_URI,
             Uri.encode(number)
@@ -175,7 +215,8 @@ class SearchRepositoryImpl @Inject constructor(
                                 type = typeString,
                                 countryCode = if (countryCodeString.isNullOrBlank()) ""
                                 else countryCodeString,
-                                date = stringDate.toLong()
+                                date = stringDate.toLong(),
+                                profilePhoto = ""
                             )
                         )
                         size++

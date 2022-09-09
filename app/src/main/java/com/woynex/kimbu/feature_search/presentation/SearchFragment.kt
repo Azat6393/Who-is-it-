@@ -50,9 +50,17 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     private var searchedNumber: NumberInfo? = null
     private final var TAG = "SearchFragment"
 
+    private var searchedNumberString = ""
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentSearchBinding.bind(view)
+
+
+        _binding.profileLogo.setOnClickListener {
+            val action = SearchFragmentDirections.actionSearchFragmentToUserProfileFragment()
+            findNavController().navigate(action)
+        }
 
         initAdMob()
         initFab()
@@ -143,6 +151,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         }
     }
 
+
     private fun initSearchCountryEditText() {
         _binding.searchButton.setOnClickListener {
             if (requireContext().isAppDefaultDialer()) {
@@ -153,6 +162,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                             .show()
                     } else {
                         val phoneNumber = "${country.number}$number"
+                        searchedNumberString = phoneNumber
                         viewModel.searchPhoneNumber(phoneNumber)
                         hideKeyboard()
                     }
@@ -169,10 +179,10 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         TabLayoutMediator(_binding.tabLayout, _binding.viewPager) { tab, position ->
             when (position) {
                 0 -> {
-                    tab.text = "Feed"
+                    tab.text = getString(R.string.feed)
                 }
                 1 -> {
-                    tab.text = "Call History"
+                    tab.text = getString(R.string.call_history)
                 }
             }
         }.attach()
@@ -191,6 +201,17 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                             _binding.progressBar.visibility = View.GONE
                             Toast.makeText(requireContext(), result.message, Toast.LENGTH_LONG)
                                 .show()
+                            searchedNumber = NumberInfo(
+                                id = 0,
+                                name = "",
+                                number = searchedNumberString,
+                                type = "",
+                                countryCode = "",
+                                date = 0,
+                                profilePhoto = ""
+                            )
+                            showFullScreenAd(searchedNumber!!)
+                            viewModel.clearPhoneNumberResponse()
                         }
                         is Resource.Loading -> {
                             _binding.progressBar.visibility = View.VISIBLE

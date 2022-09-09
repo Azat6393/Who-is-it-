@@ -14,8 +14,8 @@ import com.google.firebase.ktx.Firebase
 import com.woynex.kimbu.core.data.local.datastore.KimBuPreferencesKey
 import com.woynex.kimbu.core.data.local.room.KimBuDatabase
 import com.woynex.kimbu.core.utils.Constants
-import com.woynex.kimbu.core.utils.Constants.FIREBASE_NUMBERS_COLLECTION
-import com.woynex.kimbu.core.utils.Constants.FIREBASE_USERS_COLLECTION
+import com.woynex.kimbu.core.utils.Constants.FIREBASE_REALTIME_NUMBERS_COLLECTION
+import com.woynex.kimbu.core.utils.Constants.FIREBASE_FIRESTORE_USERS_COLLECTION
 import com.woynex.kimbu.core.utils.Resource
 import com.woynex.kimbu.feature_auth.domain.model.User
 import com.woynex.kimbu.feature_auth.domain.model.toNumberInfo
@@ -73,7 +73,7 @@ class SearchViewModel @Inject constructor(
                     userId?.let { uuid ->
                         val database = Firebase.database.reference
                         getContactsUseCase().forEach { contact ->
-                            database.child(FIREBASE_NUMBERS_COLLECTION)
+                            database.child(FIREBASE_REALTIME_NUMBERS_COLLECTION)
                                 .child(contact.number)
                                 .push()
                                 .setValue(Tag(name = contact.name, uuid = uuid))
@@ -94,7 +94,7 @@ class SearchViewModel @Inject constructor(
             }
 
             val db = Firebase.firestore
-            db.collection(FIREBASE_USERS_COLLECTION)
+            db.collection(FIREBASE_FIRESTORE_USERS_COLLECTION)
                 .document(uuid)
                 .update("contacts_uploaded", true)
         }
@@ -103,7 +103,7 @@ class SearchViewModel @Inject constructor(
     fun searchPhoneNumber(number: String) = viewModelScope.launch {
         _phoneNumberResponse.value = Resource.Loading<NumberInfo>()
         val db = Firebase.firestore
-        db.collection(FIREBASE_USERS_COLLECTION)
+        db.collection(FIREBASE_FIRESTORE_USERS_COLLECTION)
             .whereEqualTo("phone_number", number)
             .get()
             .addOnSuccessListener {
@@ -129,7 +129,7 @@ class SearchViewModel @Inject constructor(
         val currentUserId = currentUser.first().id
         currentUserId?.let { id ->
             val db = Firebase.firestore
-            db.collection(Constants.FIREBASE_STATISTICS_COLLECTION)
+            db.collection(Constants.FIREBASE_FIRESTORE_STATISTICS_COLLECTION)
                 .document(searchedUserId)
                 .get()
                 .addOnSuccessListener {
@@ -140,7 +140,7 @@ class SearchViewModel @Inject constructor(
                             System.currentTimeMillis()
                         )
                     )
-                    db.collection(Constants.FIREBASE_STATISTICS_COLLECTION)
+                    db.collection(Constants.FIREBASE_FIRESTORE_STATISTICS_COLLECTION)
                         .document(searchedUserId)
                         .set(
                             list ?: Statistics(

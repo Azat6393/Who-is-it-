@@ -34,7 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:backgroundTint="?attr/tertiary_color"
+            android:backgroundTint="#3e3e3e"
             app:elevation="28dp"
             app:fabCradleMargin="0dp"
             app:fabCradleRoundedCornerRadius="0dp"
@@ -46,15 +46,15 @@
                 android:layout_height="match_parent"
                 android:layout_marginEnd="16dp"
                 android:background="@android:color/transparent"
-                app:itemIconTint="@color/primary"
-                app:itemTextColor="@color/primary"
+                app:itemIconTint="@color/bnv_tab_item_foreground"
+                app:itemTextColor="@color/bnv_tab_item_foreground"
                 app:labelVisibilityMode="labeled"
                 app:menu="@menu/bottom_navigation_menu" />
 
         </com.google.android.material.bottomappbar.BottomAppBar>
 
         <ImageView
-            android:id="@+id/floatingActionButton2"
+            android:id="@+id/bottom_nav_logo"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginBottom="5dp"

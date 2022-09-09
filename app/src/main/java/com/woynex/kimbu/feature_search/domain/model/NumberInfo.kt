@@ -14,5 +14,6 @@ data class NumberInfo(
     val number: String,
     val type: String,
     val countryCode: String,
+    val profilePhoto: String,
     val date: Long
 ): java.io.Serializable

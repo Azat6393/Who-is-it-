@@ -4,7 +4,7 @@
     <string name="fb_login_protocol_scheme">fb1234</string>
     <string name="facebook_client_token">087340d1f24a0a4c03a3cc031c46ac25</string>
 
-    <string name="app_name">Kim Bu</string>
+    <string name="app_name">KimBu</string>
     <string name="search">Search</string>
     <string name="settings">Settings</string>
     <string name="search_by_number">Search by number</string>
@@ -69,5 +69,6 @@
     <string name="total_count">Total Search Count: </string>
     <string name="set_kim_bu_as_default">Please set Kim Bu app as default</string>
     <string name="about_us_text">By combining user-friendly designs with up-to-date and innovative technologies, we offer compatible and convenient applications free of charge.</string>
+    <string name="save">Save</string>
 
 </resources>

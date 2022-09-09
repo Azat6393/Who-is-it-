@@ -12,6 +12,7 @@ import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -20,6 +21,10 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import coil.decode.SvgDecoder
+import coil.load
+import coil.size.Scale
+import coil.transform.CircleCropTransformation
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.MobileAds
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -59,7 +64,8 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
     private val resultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
-                viewModel.updateLogsName(args.numberInfo.number)
+                viewModel.updateLogsName()
+                _binding.nameTv.text = viewModel.searchContactByNumber(args.numberInfo.number)
                 requireContext().showToastMessage(getString(R.string.contact_added))
             }
             if (result.resultCode == Activity.RESULT_CANCELED) {
@@ -79,9 +85,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
             phoneNumberTv.text =
                 "${args.numberInfo.number}  ${args.numberInfo.countryCode}"
 
-            if (args.numberInfo.name.isNullOrBlank()) {
-                viewModel.searchNumber(args.numberInfo)
-            }
+            viewModel.searchNumber(args.numberInfo)
 
             callButton.setOnClickListener {
                 requestCallPermission()
@@ -164,6 +168,14 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                         is Resource.Loading -> Unit
                         is Resource.Success -> {
                             _binding.nameTv.text = result.data?.name
+                            _binding.profilePhotoIv.load(result.data?.profilePhoto) {
+                                crossfade(false)
+                                placeholder(R.drawable.profile_photo)
+                                decoderFactory(SvgDecoder.Factory())
+                                transformations(CircleCropTransformation())
+                                scale(Scale.FILL)
+                                build()
+                            }
                         }
                     }
                 }
@@ -173,10 +185,12 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.tagsResponse.collect { result ->
                     when (result) {
-                        is Resource.Empty -> Unit
-                        is Resource.Error -> Unit
-                        is Resource.Loading -> Unit
+                        is Resource.Empty -> _binding.progressBar.isVisible = false
+
+                        is Resource.Error -> _binding.progressBar.isVisible = false
+                        is Resource.Loading -> _binding.progressBar.isVisible = true
                         is Resource.Success -> {
+                            _binding.progressBar.isVisible = false
                             mAdapter.submitList(result.data)
                         }
                     }

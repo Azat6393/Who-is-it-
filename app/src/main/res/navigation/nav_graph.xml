@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_searchFragment_to_profileFragment2"
             app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_searchFragment_to_userProfileFragment"
+            app:destination="@id/userProfileFragment" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
@@ -29,11 +32,11 @@
             android:id="@+id/action_settingsFragment_to_notificationsFragment"
             app:destination="@id/notificationsFragment" />
         <action
-            android:id="@+id/action_settingsFragment_to_profileFragment"
-            app:destination="@id/profileFragment" />
-        <action
             android:id="@+id/action_settingsFragment_to_aboutUsFragment"
             app:destination="@id/aboutUsFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_userProfileFragment"
+            app:destination="@id/userProfileFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -67,4 +70,9 @@
         android:id="@+id/aboutUsFragment"
         android:name="com.woynex.kimbu.feature_settings.presentation.abour_us.AboutUsFragment"
         android:label="AboutUsFragment" />
+    <fragment
+        android:id="@+id/userProfileFragment"
+        android:name="com.woynex.kimbu.feature_search.presentation.profile.UserProfileFragment"
+        android:label="fragment_user_profile"
+        tools:layout="@layout/fragment_user_profile" />
 </navigation>

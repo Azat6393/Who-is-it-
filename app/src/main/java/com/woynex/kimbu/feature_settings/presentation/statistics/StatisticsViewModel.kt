@@ -41,7 +41,7 @@ class StatisticsViewModel @Inject constructor(
     fun getUser(id: String) = viewModelScope.launch {
         _userResponse.value = Resource.Loading<User>()
         val db = Firebase.firestore
-        db.collection(Constants.FIREBASE_USERS_COLLECTION)
+        db.collection(Constants.FIREBASE_FIRESTORE_USERS_COLLECTION)
             .document(id)
             .get()
             .addOnSuccessListener {
@@ -60,7 +60,7 @@ class StatisticsViewModel @Inject constructor(
         currentUserId.first()?.let { id ->
             _statisticsResponse.value = Resource.Loading<Statistics>()
             val db = Firebase.firestore
-            db.collection(Constants.FIREBASE_STATISTICS_COLLECTION)
+            db.collection(Constants.FIREBASE_FIRESTORE_STATISTICS_COLLECTION)
                 .document(id)
                 .get()
                 .addOnSuccessListener {

@@ -4,7 +4,7 @@
     <string name="fb_login_protocol_scheme">fb1234</string>
     <string name="facebook_client_token">087340d1f24a0a4c03a3cc031c46ac25</string>
 
-    <string name="app_name">Kim Bu</string>
+    <string name="app_name">KimBu</string>
     <string name="search">Arama</string>
     <string name="settings">Ayarlar</string>
     <string name="search_by_number">Numaraya göre ara</string>
@@ -69,4 +69,6 @@
     <string name="total_count">Toplam Arama Sayısı: </string>
     <string name="set_kim_bu_as_default">Lütfen Kim Bu uygulamasını varsayılan olarak ayarlayın</string>
     <string name="about_us_text">Kullanıcı dostu tasarımlarla, güncel ve yenilikçi teknolojileri bir araya getirerek, uyumlu ve kolaylık sağlayan uygulamaları ücretsiz bir şekilde sizlere sunuyoruz.</string>
+    <string name="save">Kayıt et</string>
+
 </resources>

@@ -14,5 +14,6 @@ class UpdateCallLogsUseCase @Inject constructor(
 
         cursorCalls.minus(daoCalls)
         repo.insertCall(cursorCalls.toList())
+        repo.updateLogsName()
     }
 }

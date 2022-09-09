@@ -80,6 +80,7 @@
             android:background="?attr/secondary"
             android:hint="@string/password"
             android:paddingStart="30dp"
+            android:inputType="textPassword"
             android:textColor="?attr/background_color"
             android:textColorHint="?attr/tertiary_color"
             android:textSize="15sp"

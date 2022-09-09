@@ -4,7 +4,7 @@
     <string name="fb_login_protocol_scheme">fb1234</string>
     <string name="facebook_client_token">087340d1f24a0a4c03a3cc031c46ac25</string>
 
-    <string name="app_name">Kim Bu</string>
+    <string name="app_name">KimBu</string>
     <string name="search">Поиск</string>
     <string name="settings">Настройки</string>
     <string name="search_by_number">Поиск по номеру</string>
@@ -69,5 +69,7 @@
     <string name="total_count">Общее количество поисковых запросов: </string>
     <string name="set_kim_bu_as_default">Пожалуйста, установите приложение Kim Bu по умолчанию для звонков</string>
     <string name="about_us_text">Сочетая удобный дизайн с современными и инновационными технологиями, мы предлагаем совместимые и удобные приложения бесплатно.</string>
+    <string name="save">Сохранить</string>
+
 
 </resources>

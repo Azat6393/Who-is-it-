@@ -9,7 +9,10 @@ object Constants {
 
     const val countryListJsonName = "country_list.json"
 
-    const val FIREBASE_USERS_COLLECTION = "users"
-    const val FIREBASE_STATISTICS_COLLECTION = "statistics"
-    const val FIREBASE_NUMBERS_COLLECTION = "numbers"
+    const val FIREBASE_FIRESTORE_USERS_COLLECTION = "users"
+    const val FIREBASE_FIRESTORE_STATISTICS_COLLECTION = "statistics"
+    const val FIREBASE_REALTIME_NUMBERS_COLLECTION = "numbers"
+
+    const val FIREBASE_STORAGE_PROFILE_IMAGES_CHILD = "profile_images"
+    
 }

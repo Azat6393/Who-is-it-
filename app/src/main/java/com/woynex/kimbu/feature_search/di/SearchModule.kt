@@ -72,4 +72,10 @@ object SearchModule {
     fun provideUpdateLogsNameUseCase(
         repository: SearchRepository
     ) = UpdateLogsNameUseCase(repository)
+
+    @Provides
+    @Singleton
+    fun provideSearchContactByNameUseCase(
+        repository: SearchRepository
+    ) = SearchContactByNumberUseCase(repository)
 }

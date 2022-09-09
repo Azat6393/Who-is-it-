@@ -4,10 +4,10 @@ import com.woynex.kimbu.feature_search.domain.model.NumberInfo
 
 data class User(
     val id: String? = null,
-    val first_name: String? = null,
-    val last_name: String? = null,
+    var first_name: String? = null,
+    var last_name: String? = null,
     val phone_number: String? = null,
-    val profile_photo: String? = null,
+    var profile_photo: String? = null,
     val email: String? = null,
     val created_date: Long? = null,
     val contacts_uploaded: Boolean = false
@@ -20,6 +20,7 @@ fun User.toNumberInfo(): NumberInfo {
         number = this.phone_number ?: "",
         type = "",
         countryCode = "",
+        profilePhoto = this.profile_photo ?: "",
         date = this.created_date ?: 0
     )
 }

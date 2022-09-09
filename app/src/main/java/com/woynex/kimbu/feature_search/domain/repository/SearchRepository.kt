@@ -21,5 +21,7 @@ interface SearchRepository {
 
     suspend fun getAllContacts(): List<Contact>
 
-    suspend fun updateLogsName(number: String): String
+    suspend fun updateLogsName()
+
+    fun searchContactByNumber(number: String): String
 }

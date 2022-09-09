@@ -12,7 +12,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.woynex.kimbu.core.data.local.datastore.KimBuPreferencesKey
-import com.woynex.kimbu.core.utils.Constants.FIREBASE_USERS_COLLECTION
+import com.woynex.kimbu.core.utils.Constants.FIREBASE_FIRESTORE_USERS_COLLECTION
 import com.woynex.kimbu.core.utils.Resource
 import com.woynex.kimbu.feature_auth.domain.model.User
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -58,7 +58,7 @@ class AuthViewModel @Inject constructor(
     init {
         _isAuth.value = Firebase.auth.currentUser != null
         viewModelScope.launch {
-            delay(2000)
+            delay(1000)
             _isLoading.value = false
         }
     }
@@ -181,7 +181,7 @@ class AuthViewModel @Inject constructor(
     private fun getUserIfExists(user: User) {
         _signInResponse.value = Resource.Loading<User>()
         val db = Firebase.firestore
-        db.collection(FIREBASE_USERS_COLLECTION)
+        db.collection(FIREBASE_FIRESTORE_USERS_COLLECTION)
             .document(user.id!!)
             .get()
             .addOnCompleteListener {
@@ -206,7 +206,7 @@ class AuthViewModel @Inject constructor(
     private fun getUser(id: String) {
         _signInResponse.value = Resource.Loading<User>()
         val db = Firebase.firestore
-        db.collection(FIREBASE_USERS_COLLECTION)
+        db.collection(FIREBASE_FIRESTORE_USERS_COLLECTION)
             .document(id)
             .get()
             .addOnSuccessListener { documentSnapshot ->
@@ -226,7 +226,7 @@ class AuthViewModel @Inject constructor(
     ) {
         _signUpResponse.value = Resource.Loading<User>()
         val db = Firebase.firestore
-        db.collection(FIREBASE_USERS_COLLECTION)
+        db.collection(FIREBASE_FIRESTORE_USERS_COLLECTION)
             .document(user.id!!)
             .set(user)
             .addOnSuccessListener {
@@ -244,7 +244,7 @@ class AuthViewModel @Inject constructor(
     ) {
         _phoneNumberResponse.value = Resource.Loading<String>()
         val db = Firebase.firestore
-        db.collection(FIREBASE_USERS_COLLECTION)
+        db.collection(FIREBASE_FIRESTORE_USERS_COLLECTION)
             .document(userId)
             .update("phone_number", number)
             .addOnSuccessListener {

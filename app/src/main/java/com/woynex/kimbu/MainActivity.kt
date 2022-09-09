@@ -12,6 +12,8 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.gms.ads.MobileAds
+import com.google.android.material.shape.CornerFamily
+import com.google.android.material.shape.MaterialShapeDrawable
 import com.woynex.kimbu.core.service.CallReceiver
 import com.woynex.kimbu.core.utils.isAppDefaultDialer
 import com.woynex.kimbu.databinding.ActivityMainBinding
@@ -51,6 +53,10 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNavigationView.setupWithNavController(navController)
         binding.bottomNavigationView.background = null
         binding.bottomNavigationView.menu.getItem(1).isEnabled = false
+
+        binding.bottomNavLogo.setOnClickListener {
+            binding.bottomNavigationView.selectedItemId = R.id.searchFragment
+        }
 
         if (isAppDefaultDialer()) {
             val intent = Intent(this, CallReceiver::class.java)
