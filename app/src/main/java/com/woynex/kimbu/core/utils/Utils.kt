@@ -7,6 +7,7 @@ import android.content.Context.TELECOM_SERVICE
 import android.content.pm.PackageManager
 import android.os.Build
 import android.telecom.TelecomManager
+import android.telephony.PhoneNumberUtils
 import android.view.View
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -15,6 +16,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
+import com.google.i18n.phonenumbers.PhoneNumberUtil
 import com.woynex.kimbu.R
 import com.woynex.kimbu.feature_search.domain.model.CountryInfo
 import java.text.SimpleDateFormat
@@ -129,4 +131,20 @@ fun MutableMap<String, Int>.getLastValue(): Int {
 
 interface OnReceiveMessageListener {
     fun receiverMessage()
+}
+
+fun String.deleteCountryCode(): String {
+    val phoneInstance = PhoneNumberUtil.getInstance()
+    try {
+        if (this.startsWith("+")) {
+            val phoneNumber = phoneInstance.parse(this, null)
+            return phoneNumber?.nationalNumber?.toString() ?: this
+        } else {
+            val phoneNumber = phoneInstance.parse(this, "CN")
+            return phoneNumber?.nationalNumber?.toString() ?: this
+        }
+    } catch (e: Exception) {
+
+    }
+    return this
 }

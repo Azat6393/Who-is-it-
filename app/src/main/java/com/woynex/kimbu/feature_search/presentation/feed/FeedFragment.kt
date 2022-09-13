@@ -62,7 +62,7 @@ class FeedFragment : Fragment(R.layout.fragment_feed) {
                     viewModel.updateHasPermission(true)
                     offerReplacingDefaultDialer()
                 } else {
-                    requireContext().showToastMessage("Please accept permission")
+                    requireContext().showToastMessage(getString(R.string.please_accept_permission))
                 }
             }
         }

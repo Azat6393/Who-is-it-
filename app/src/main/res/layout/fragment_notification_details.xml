@@ -17,6 +17,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:tint="?attr/secondary" />
 
+
     <TextView
         android:id="@+id/title_tv"
         android:layout_width="match_parent"

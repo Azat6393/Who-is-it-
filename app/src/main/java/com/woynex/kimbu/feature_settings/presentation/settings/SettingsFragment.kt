@@ -73,6 +73,16 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
                 val action = SettingsFragmentDirections.actionSettingsFragmentToAboutUsFragment()
                 findNavController().navigate(action)
             }
+            kimbuWebsiteBtn.setOnClickListener {
+                val action =
+                    SettingsFragmentDirections.actionSettingsFragmentToKimBuWebsiteFragment()
+                findNavController().navigate(action)
+            }
+            privacyPolicyBtn.setOnClickListener {
+                val action =
+                    SettingsFragmentDirections.actionSettingsFragmentToPrivacyPolicyFragment()
+                findNavController().navigate(action)
+            }
         }
         viewModel.getUnwatchedNotifications()
         observe()

@@ -10,11 +10,10 @@ class CheckForBlockedNumberUseCase @Inject constructor(
 ) {
     suspend operator fun invoke(number: String): Flow<Boolean> = flow {
         val blockedList = repo.getBlockedNumbers()
-        blockedList.forEach { blockedNumber ->
-            if (blockedNumber == number) {
-                emit(true)
-                return@forEach
-            }
+        if (blockedList.contains(number)) {
+            emit(true)
+        } else {
+            emit(false)
         }
     }
 }

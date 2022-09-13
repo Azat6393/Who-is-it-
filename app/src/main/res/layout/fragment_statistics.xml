@@ -17,6 +17,20 @@
         app:layout_constraintTop_toTopOf="parent"
         app:tint="?attr/secondary" />
 
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="15dp"
+        android:fontFamily="sans-serif-medium"
+        android:gravity="center_vertical"
+        android:text="@string/statistics"
+        android:textColor="?attr/secondary"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/back_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/back_btn"
+        app:layout_constraintTop_toTopOf="@+id/back_btn" />
+
     <org.eazegraph.lib.charts.ValueLineChart
         android:id="@+id/cubiclinechart"
         android:layout_width="match_parent"

@@ -43,7 +43,7 @@
                 android:layout_weight="8"
                 android:fontFamily="sans-serif-light"
                 android:gravity="center"
-                android:text="@string/set_kim_bu_as_default_calling_app_so_that_kim_bu_can_identify_incoming_calls_to_protect_you_from_spam_calls"
+                android:text="@string/set_kim_bu_as_default_calling_app_text"
                 android:textAlignment="center"
                 android:textColor="?attr/secondary"
                 android:textSize="18sp" />

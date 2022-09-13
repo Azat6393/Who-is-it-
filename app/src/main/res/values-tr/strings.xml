@@ -18,7 +18,7 @@
     <string name="theme_color">Tema / renk</string>
     <string name="rate_us">Bizi değerlendirin</string>
     <string name="about_us">Hakkımızda</string>
-    <string name="kim_bu_website">Kim Bu web sitesi</string>
+    <string name="kim_bu_website">KimBu web sitesi</string>
     <string name="help_support">Yardım desteği</string>
     <string name="recent_calls">Son aramalar</string>
     <string name="show_more">Daha fazla göster</string>
@@ -53,7 +53,7 @@
     <string name="block_number_permission">İzinsiz numarayı engelleyemeyiz</string>
     <string name="block">Engellemek</string>
     <string name="dark_mode">Karanlık Mod</string>
-    <string name="set_kim_bu_as_default_calling_app_so_that_kim_bu_can_identify_incoming_calls_to_protect_you_from_spam_calls">Kim bu\`nun sizi istenmeyen aramalardan korumak için gelen aramaları tanımlayabilmesi için Kim bu\`yu varsayılan arama uygulaması olarak ayarlayın</string>
+    <string name="set_kim_bu_as_default_calling_app_text">Kim bu\`nun sizi istenmeyen aramalardan korumak için gelen aramaları tanımlayabilmesi için Kim bu\`yu varsayılan arama uygulaması olarak ayarlayın</string>
     <string name="set_as_default">Varsayılan olarak ayarla</string>
     <string name="last_name">Soy isim</string>
     <string name="phone_number">Telefon numarası</string>
@@ -70,6 +70,11 @@
     <string name="set_kim_bu_as_default">Lütfen Kim Bu uygulamasını varsayılan olarak ayarlayın</string>
     <string name="about_us_text">Kullanıcı dostu tasarımlarla, güncel ve yenilikçi teknolojileri bir araya getirerek, uyumlu ve kolaylık sağlayan uygulamaları ücretsiz bir şekilde sizlere sunuyoruz.</string>
     <string name="save">Kayıt et</string>
-    <string name="back">Back</string>
+    <string name="Forgot_password">Şifreyi unuttum</string>
+    <string name="send">Gönder</string>
+    <string name="back">Geri</string>
+    <string name="please_check_your_mail">Lütfen emailinizi kontrol edin</string>
+    <string name="privacy_policy">Gizlilik Politikası</string>
+    <string name="please_accept_permission">Please accept permission</string>
 
 </resources>

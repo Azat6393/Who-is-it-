@@ -20,6 +20,7 @@ import com.woynex.kimbu.core.data.local.datastore.KimBuPreferencesKey
 import com.woynex.kimbu.core.utils.Constants
 import com.woynex.kimbu.core.utils.Constants.FIREBASE_STORAGE_PROFILE_IMAGES_CHILD
 import com.woynex.kimbu.core.utils.Resource
+import com.woynex.kimbu.core.utils.deleteCountryCode
 import com.woynex.kimbu.feature_auth.domain.model.User
 import com.woynex.kimbu.feature_auth.domain.model.toNumberInfo
 import com.woynex.kimbu.feature_search.domain.model.NumberInfo
@@ -51,8 +52,6 @@ class ProfileViewModel @Inject constructor(
     private val _tagsResponse = MutableStateFlow<Resource<List<Tag>>>(Resource.Empty())
     val tagsResponse = _tagsResponse.asStateFlow()
 
-    var _newName = ""
-
     private val currentUser = dataStore.data.map { preferences ->
         User(
             id = preferences[KimBuPreferencesKey.USER_ID_KEY],
@@ -78,7 +77,7 @@ class ProfileViewModel @Inject constructor(
         _tagsResponse.value = Resource.Loading<List<Tag>>()
         val database = Firebase.database.reference
         database.child(Constants.FIREBASE_REALTIME_NUMBERS_COLLECTION)
-            .child(number)
+            .child(number.deleteCountryCode())
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     if (snapshot.exists() && snapshot.value != null) {
@@ -110,11 +109,15 @@ class ProfileViewModel @Inject constructor(
 
     @RequiresApi(Build.VERSION_CODES.N)
     fun blockNumber(number: String) = viewModelScope.launch {
-        blockNumberUseCase(number)
+        blockNumberUseCase(number).also {
+            checkForBlockedNumber(number)
+        }
     }
 
     fun unblockNumber(number: String) = viewModelScope.launch {
-        unblockNumberUseCase(number)
+        unblockNumberUseCase(number).also {
+            checkForBlockedNumber(number)
+        }
     }
 
     fun checkForBlockedNumber(number: String) = viewModelScope.launch {

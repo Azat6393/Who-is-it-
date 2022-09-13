@@ -274,6 +274,7 @@
                 android:background="@color/light_gray" />
 
             <LinearLayout
+                android:id="@+id/kimbu_website_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
@@ -295,6 +296,40 @@
                     android:layout_marginEnd="10dp"
                     android:gravity="center_vertical"
                     android:text="@string/kim_bu_website"
+                    android:textColor="?attr/secondary" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@color/light_gray" />
+
+            <LinearLayout
+                android:id="@+id/privacy_policy_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="@dimen/margin_for_items"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="@dimen/margin_for_items"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:padding="10dp"
+                    android:src="@drawable/gizlilik"
+                    app:tint="?attr/primary_color" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/privacy_policy"
                     android:textColor="?attr/secondary" />
             </LinearLayout>
 

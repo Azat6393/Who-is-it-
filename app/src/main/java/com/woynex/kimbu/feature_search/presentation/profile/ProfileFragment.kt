@@ -27,7 +27,6 @@ import coil.size.Scale
 import coil.transform.CircleCropTransformation
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.MobileAds
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.woynex.kimbu.R
 import com.woynex.kimbu.core.utils.Resource
 import com.woynex.kimbu.core.utils.requestPermission
@@ -134,26 +133,10 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                 viewModel.isBlocked.collect { result ->
                     isBlocked = result
                     if (result) {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                            _binding.reportButton.setColorFilter(requireContext().getColor(R.color.red))
-                        } else {
-                            _binding.reportButton.setColorFilter(
-                                requireContext().resources.getColor(
-                                    R.color.red
-                                )
-                            )
-                        }
+                        _binding.reportButton.setColorFilter(requireContext().getColor(R.color.red))
                         _binding.reportText.text = getString(R.string.unblock_number)
                     } else {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                            _binding.reportButton.setColorFilter(requireContext().getColor(R.color.black))
-                        } else {
-                            _binding.reportButton.setColorFilter(
-                                requireContext().resources.getColor(
-                                    R.color.black
-                                )
-                            )
-                        }
+                        _binding.reportButton.setColorFilter(requireContext().getColor(R.color.black))
                         _binding.reportText.text = getString(R.string.block)
                     }
                 }
@@ -210,12 +193,11 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
     @RequiresApi(Build.VERSION_CODES.N)
     private fun blockNumber() {
         viewModel.blockNumber(number = args.numberInfo.number)
-        viewModel.checkForBlockedNumber(args.numberInfo.number)
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     private fun unblockNumber() {
         viewModel.unblockNumber(number = args.numberInfo.number)
-        viewModel.checkForBlockedNumber(args.numberInfo.number)
     }
 
     private fun startCall() {

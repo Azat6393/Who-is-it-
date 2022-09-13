@@ -83,4 +83,9 @@ class MainActivity : AppCompatActivity() {
     private fun getCallLog() {
         viewModel.updateCallLogs()
     }
+
+    override fun finish() {
+        super.finish()
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+    }
 }

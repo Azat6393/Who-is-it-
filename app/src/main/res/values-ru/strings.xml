@@ -18,7 +18,7 @@
     <string name="theme_color">Тема/цвет</string>
     <string name="rate_us">Оцените нас</string>
     <string name="about_us">О нас</string>
-    <string name="kim_bu_website">Веб-сайт Ким Bu</string>
+    <string name="kim_bu_website">Веб-сайт КимBu</string>
     <string name="help_support">Справка/поддержка</string>
     <string name="recent_calls">Последние звонки</string>
     <string name="show_more">Ещё</string>
@@ -53,7 +53,7 @@
     <string name="block_number_permission">Без разрешения мы не можем заблокировать номер</string>
     <string name="block">Заблокировать</string>
     <string name="dark_mode">Темный режим</string>
-    <string name="set_kim_bu_as_default_calling_app_so_that_kim_bu_can_identify_incoming_calls_to_protect_you_from_spam_calls">Установите Kim bu в качестве приложения для звонков по умолчанию, чтобы Kim bu мог идентифицировать входящие звонки и защитить вас от спам-звонков</string>
+    <string name="set_kim_bu_as_default_calling_app_text">Установите Kim bu в качестве приложения для звонков по умолчанию, чтобы Kim bu мог идентифицировать входящие звонки и защитить вас от спам-звонков</string>
     <string name="set_as_default">Установить по умолчанию</string>
     <string name="last_name">Фамилия</string>
     <string name="phone_number">Номер телефона</string>
@@ -70,7 +70,11 @@
     <string name="set_kim_bu_as_default">Пожалуйста, установите приложение Kim Bu по умолчанию для звонков</string>
     <string name="about_us_text">Сочетая удобный дизайн с современными и инновационными технологиями, мы предлагаем совместимые и удобные приложения бесплатно.</string>
     <string name="save">Сохранить</string>
-    <string name="back">Back</string>
-
+    <string name="Forgot_password">Забыл пароль</string>
+    <string name="send">Отправлять</string>
+    <string name="back">Назад</string>
+    <string name="please_check_your_mail">Пожалуйста, проверьте свою электронную почту</string>
+    <string name="privacy_policy">Политика конфиденциальности</string>
+    <string name="please_accept_permission">Пожалуйста, примите разрешение</string>
 
 </resources>

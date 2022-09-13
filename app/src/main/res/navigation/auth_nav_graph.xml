@@ -8,45 +8,69 @@
         android:id="@+id/fragmentAuth"
         android:name="com.woynex.kimbu.feature_auth.presentation.sign_up.AuthFragment"
         android:label="fragment_auth"
-        tools:layout="@layout/fragment_auth" >
+        tools:layout="@layout/fragment_auth">
         <action
             android:id="@+id/action_fragmentAuth_to_fragmentEmailLogIn"
-            app:destination="@id/fragmentEmailLogIn" />
+            app:destination="@id/fragmentEmailLogIn"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
         <action
             android:id="@+id/action_fragmentAuth_to_fragmentVerifyNumber"
-            app:destination="@id/fragmentVerifyNumber" />
+            app:destination="@id/fragmentVerifyNumber"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
     </fragment>
     <fragment
         android:id="@+id/fragmentEmailLogIn"
         android:name="com.woynex.kimbu.feature_auth.presentation.email_log_in.EmailLogInFragment"
         android:label="fragment_email_log_in"
-        tools:layout="@layout/fragment_email_log_in" >
+        tools:layout="@layout/fragment_email_log_in">
         <action
             android:id="@+id/action_fragmentEmailLogIn_to_fragmentEmailSignUp"
-            app:destination="@id/fragmentEmailSignUp" />
+            app:destination="@id/fragmentEmailSignUp"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
         <action
             android:id="@+id/action_fragmentEmailLogIn_to_fragmentVerifyNumber"
-            app:destination="@id/fragmentVerifyNumber" />
+            app:destination="@id/fragmentVerifyNumber"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
     </fragment>
     <fragment
         android:id="@+id/fragmentEmailSignUp"
         android:name="com.woynex.kimbu.feature_auth.presentation.email_sign_up.EmailSignUpFragment"
         android:label="fragment_email_sign_up"
-        tools:layout="@layout/fragment_email_sign_up" >
+        tools:layout="@layout/fragment_email_sign_up">
         <action
             android:id="@+id/action_fragmentEmailSignUp_to_fragmentVerifyNumber"
-            app:destination="@id/fragmentVerifyNumber" />
+            app:destination="@id/fragmentVerifyNumber"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
     </fragment>
     <fragment
         android:id="@+id/fragmentVerifyNumber"
         android:name="com.woynex.kimbu.feature_auth.presentation.verify_number.VerifyNumberFragment"
         android:label="fragment_verify_number"
-        tools:layout="@layout/fragment_verify_number" >
+        tools:layout="@layout/fragment_verify_number">
         <argument
             android:name="userId"
             app:argType="string" />
         <action
             android:id="@+id/action_fragmentVerifyNumber_to_fragmentAuth"
-            app:destination="@id/fragmentAuth" />
+            app:destination="@id/fragmentAuth"
+            app:enterAnim="@anim/from_left"
+            app:exitAnim="@anim/to_right"
+            app:popEnterAnim="@anim/from_right"
+            app:popExitAnim="@anim/to_left" />
     </fragment>
 </navigation>

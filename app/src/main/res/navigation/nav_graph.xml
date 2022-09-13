@@ -9,39 +9,77 @@
         android:id="@+id/searchFragment"
         android:name="com.woynex.kimbu.feature_search.presentation.SearchFragment"
         android:label="fragment_search"
-        tools:layout="@layout/fragment_search" >
+        tools:layout="@layout/fragment_search">
         <action
             android:id="@+id/action_searchFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
         <action
             android:id="@+id/action_searchFragment_to_profileFragment2"
-            app:destination="@id/profileFragment" />
+            app:destination="@id/profileFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
         <action
             android:id="@+id/action_searchFragment_to_userProfileFragment"
-            app:destination="@id/userProfileFragment" />
+            app:destination="@id/userProfileFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.woynex.kimbu.feature_settings.presentation.settings.SettingsFragment"
         android:label="fragment_settings"
-        tools:layout="@layout/fragment_settings" >
+        tools:layout="@layout/fragment_settings">
         <action
             android:id="@+id/action_settingsFragment_to_statisticsFragment"
-            app:destination="@id/statisticsFragment" />
+            app:destination="@id/statisticsFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
         <action
             android:id="@+id/action_settingsFragment_to_notificationsFragment"
-            app:destination="@id/notificationsFragment" />
+            app:destination="@id/notificationsFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
         <action
             android:id="@+id/action_settingsFragment_to_aboutUsFragment"
-            app:destination="@id/aboutUsFragment" />
+            app:destination="@id/aboutUsFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
         <action
             android:id="@+id/action_settingsFragment_to_userProfileFragment"
-            app:destination="@id/userProfileFragment" />
+            app:destination="@id/userProfileFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
+        <action
+            android:id="@+id/action_settingsFragment_to_kimBuWebsiteFragment"
+            app:destination="@id/kimBuWebsiteFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
+        <action
+            android:id="@+id/action_settingsFragment_to_privacyPolicyFragment"
+            app:destination="@id/privacyPolicyFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.woynex.kimbu.feature_search.presentation.profile.ProfileFragment"
-        android:label="ProfileFragment" >
+        android:label="ProfileFragment">
         <argument
             android:name="numberInfo"
             app:argType="com.woynex.kimbu.feature_search.domain.model.NumberInfo" />
@@ -53,18 +91,26 @@
     <fragment
         android:id="@+id/notificationsFragment"
         android:name="com.woynex.kimbu.feature_settings.presentation.notification.NotificationsFragment"
-        android:label="NotificationsFragment" >
+        android:label="NotificationsFragment">
         <action
             android:id="@+id/action_notificationsFragment_to_notificationDetailsFragment"
-            app:destination="@id/notificationDetailsFragment" />
+            app:destination="@id/notificationDetailsFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
     </fragment>
     <fragment
         android:id="@+id/notificationDetailsFragment"
         android:name="com.woynex.kimbu.feature_settings.presentation.notification.NotificationDetailsFragment"
-        android:label="NotificationDetailsFragment" >
+        android:label="NotificationDetailsFragment">
         <argument
             android:name="notification"
-            app:argType="com.woynex.kimbu.core.domain.model.NotificationModel" />
+            app:argType="com.woynex.kimbu.core.domain.model.NotificationModel"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
     </fragment>
     <fragment
         android:id="@+id/aboutUsFragment"
@@ -75,4 +121,12 @@
         android:name="com.woynex.kimbu.feature_search.presentation.profile.UserProfileFragment"
         android:label="fragment_user_profile"
         tools:layout="@layout/fragment_user_profile" />
+    <fragment
+        android:id="@+id/privacyPolicyFragment"
+        android:name="com.woynex.kimbu.feature_settings.presentation.privacy_policy.PrivacyPolicyFragment"
+        android:label="PrivacyPolicyFragment" />
+    <fragment
+        android:id="@+id/kimBuWebsiteFragment"
+        android:name="com.woynex.kimbu.feature_settings.presentation.website.KimBuWebsiteFragment"
+        android:label="KimBuWebsiteFragment" />
 </navigation>

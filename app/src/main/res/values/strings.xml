@@ -18,7 +18,7 @@
     <string name="theme_color">Theme / color</string>
     <string name="rate_us">Rate us</string>
     <string name="about_us">About us</string>
-    <string name="kim_bu_website">Kim Bu website</string>
+    <string name="kim_bu_website">KimBu website</string>
     <string name="help_support">Help / support</string>
     <string name="recent_calls">Recent Calls</string>
     <string name="show_more">Show more</string>
@@ -53,7 +53,7 @@
     <string name="block_number_permission">Without permission we cannot block number</string>
     <string name="block">Block</string>
     <string name="dark_mode">Dark Mode</string>
-    <string name="set_kim_bu_as_default_calling_app_so_that_kim_bu_can_identify_incoming_calls_to_protect_you_from_spam_calls">Set Kim bu as default calling app so that Kim bu can identify incoming calls to protect you from spam calls</string>
+    <string name="set_kim_bu_as_default_calling_app_text">Set Kim bu as default calling app so that Kim bu can identify incoming calls to protect you from spam calls</string>
     <string name="set_as_default">Set as default</string>
     <string name="last_name">Last name</string>
     <string name="phone_number">Phone number</string>
@@ -73,6 +73,8 @@
     <string name="Forgot_password">Forgot password</string>
     <string name="send">Send</string>
     <string name="back">Back</string>
-    <string name="please_check_your_mail">Please check your mail</string>
+    <string name="please_check_your_mail">Please check your email</string>
+    <string name="privacy_policy">Privacy policy</string>
+    <string name="please_accept_permission">Please accept permission</string>
 
 </resources>
