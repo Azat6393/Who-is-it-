@@ -1,7 +1,7 @@
 <resources>
 
     <string name="facebook_app_id">2168686673304455</string>
-    <string name="fb_login_protocol_scheme">fb1234</string>
+    <string name="fb_login_protocol_scheme" translatable="false">fb1234</string>
     <string name="facebook_client_token">087340d1f24a0a4c03a3cc031c46ac25</string>
 
     <string name="app_name">KimBu</string>
