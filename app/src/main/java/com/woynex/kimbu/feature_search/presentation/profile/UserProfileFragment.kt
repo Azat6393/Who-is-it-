@@ -116,13 +116,15 @@ class UserProfileFragment : Fragment(R.layout.fragment_user_profile) {
     @SuppressLint("SetTextI18n")
     private fun initProfileDetails() {
         _binding.apply {
-            profilePhotoIv.load(viewModel.user.profile_photo) {
-                crossfade(false)
-                placeholder(R.drawable.profile_photo)
-                decoderFactory(SvgDecoder.Factory())
-                transformations(CircleCropTransformation())
-                scale(Scale.FILL)
-                build()
+            if (!viewModel.user.profile_photo.isNullOrBlank()){
+                profilePhotoIv.load(viewModel.user.profile_photo) {
+                    crossfade(false)
+                    placeholder(R.drawable.profile_photo)
+                    decoderFactory(SvgDecoder.Factory())
+                    transformations(CircleCropTransformation())
+                    scale(Scale.FILL)
+                    build()
+                }
             }
             nameTv.setText("${viewModel.user.first_name} ${viewModel.user.last_name}")
             phoneNumberTv.text = viewModel.user.phone_number
@@ -142,6 +144,21 @@ class UserProfileFragment : Fragment(R.layout.fragment_user_profile) {
                         is Resource.Success -> {
                             _binding.progressBar.isVisible = false
                             mAdapter.submitList(result.data)
+                        }
+                    }
+                }
+            }
+        }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.uploadingResponse.collect { result ->
+                    when (result) {
+                        is Resource.Empty -> _binding.progressBarProfile.isVisible = false
+
+                        is Resource.Error -> _binding.progressBarProfile.isVisible = false
+                        is Resource.Loading -> _binding.progressBarProfile.isVisible = true
+                        is Resource.Success -> {
+                            _binding.progressBarProfile.isVisible = false
                         }
                     }
                 }

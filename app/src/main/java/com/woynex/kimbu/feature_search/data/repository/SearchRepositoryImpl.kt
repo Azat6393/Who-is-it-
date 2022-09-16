@@ -163,8 +163,7 @@ class SearchRepositoryImpl @Inject constructor(
                                 val phoneNumValue = cursorPhone.getString(
                                     cursorPhone.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)
                                 ).filter { !it.isWhitespace() }
-                                val newPhoneNumber = phoneNumValue.deleteCountryCode()
-                                contacts.add(Contact(id = id, number = newPhoneNumber, name = name))
+                                contacts.add(Contact(id = id, number = phoneNumValue, name = name))
                             }
                         }
                         cursorPhone.close()

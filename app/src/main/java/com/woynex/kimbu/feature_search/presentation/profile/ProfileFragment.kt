@@ -151,13 +151,15 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                         is Resource.Loading -> Unit
                         is Resource.Success -> {
                             _binding.nameTv.text = result.data?.name
-                            _binding.profilePhotoIv.load(result.data?.profilePhoto) {
-                                crossfade(false)
-                                placeholder(R.drawable.profile_photo)
-                                decoderFactory(SvgDecoder.Factory())
-                                transformations(CircleCropTransformation())
-                                scale(Scale.FILL)
-                                build()
+                            if (!result.data?.profilePhoto.isNullOrBlank()){
+                                _binding.profilePhotoIv.load(result.data?.profilePhoto) {
+                                    crossfade(false)
+                                    placeholder(R.drawable.profile_photo)
+                                    decoderFactory(SvgDecoder.Factory())
+                                    transformations(CircleCropTransformation())
+                                    scale(Scale.FILL)
+                                    build()
+                                }
                             }
                         }
                     }

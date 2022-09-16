@@ -7,7 +7,7 @@
     <string name="app_name">KimBu</string>
     <string name="search">Arama</string>
     <string name="settings">Ayarlar</string>
-    <string name="search_by_number">Numaraya göre ara</string>
+    <string name="search_by_number">Ülke kodunu yazmadan arama yapınız</string>
     <string name="feed">Akış</string>
     <string name="call_history">Arama geçmişi</string>
     <string name="notifications">Bildirimler</string>
@@ -24,7 +24,7 @@
     <string name="show_more">Daha fazla göster</string>
     <string name="permission_required">İzinsiz arama geçmişinizi okuyamayız</string>
     <string name="ok">Tamam</string>
-    <string name="call">Telefon etmek</string>
+    <string name="call">Ara</string>
     <string name="report">Bildiri</string>
     <string name="add">Ekle</string>
     <string name="call_permession_text">İznin olmadan arama yapamayız</string>
@@ -44,24 +44,24 @@
     <string name="verify_your_phone_number">Telefon numaranı doğrula</string>
     <string name="add_contact_permission">İzin olmadan kişi ekleyemiyoruz</string>
     <string name="contact_added">Kişi eklendi</string>
-    <string name="add_contact_cancelled">İptal Edilen Kişi Eklendi</string>
+    <string name="add_contact_cancelled">Kişi eklenemedi</string>
     <string name="cancel">İptal</string>
     <string name="block_number_message">Numarayı engellemek istediğinizden emin misiniz?</string>
-    <string name="block_number">Blok numarası</string>
+    <string name="block_number">Numara engelleme</string>
     <string name="unblock_number_message">Numara engellemesini kaldırmak istediğinizden emin misiniz?</string>
     <string name="unblock_number">Numaranın engellemesini kaldır</string>
     <string name="block_number_permission">İzinsiz numarayı engelleyemeyiz</string>
-    <string name="block">Engellemek</string>
+    <string name="block">Engelle</string>
     <string name="dark_mode">Karanlık Mod</string>
-    <string name="set_kim_bu_as_default_calling_app_text">Kim bu\`nun sizi istenmeyen aramalardan korumak için gelen aramaları tanımlayabilmesi için Kim bu\`yu varsayılan arama uygulaması olarak ayarlayın</string>
-    <string name="set_as_default">Varsayılan olarak ayarla</string>
+    <string name="set_kim_bu_as_default_calling_app_text">Ziyaretçilerimizin, uygulamalarımızdaki performanslarını, deneyimlerini, nasıl kullandıklarına dair bilgilerini almak, telefon rehberindeki kişi bilgilerini edinerek; site trafiğini analiz etmek, kullanıcılarımıza kişiselleştirilmiş/lokasyon bazlı kampanya ve içerik göstermek ve de sosyal medya içeriklerimizle etkileşime geçebilmesi için partnerlerimizle beraber ticari amaçlı verileri kullanmak için amaçlı bilgilerime ulaşmasına onay veriyorum.</string>
+    <string name="set_as_default">Kabul ediyorum</string>
     <string name="last_name">Soy isim</string>
     <string name="phone_number">Telefon numarası</string>
     <string name="input_email_address">Lütfen e-posta adresini giriniz</string>
     <string name="input_password">Lütfen şifrenizi giriniz</string>
     <string name="input_first_name">Lütfen adınızı giriniz</string>
-    <string name="input_last_name">Lütfen soyadını giriniz</string>
-    <string name="input_phone_number">Lütfen telefon numarasını girin</string>
+    <string name="input_last_name">Lütfen soyadınızı giriniz</string>
+    <string name="input_phone_number">Lütfen telefon numaranızı girin</string>
     <string name="sign_out">Oturumu Kapat</string>
     <string name="canceled">İptal edildi</string>
     <string name="somethine_went_wrong">Bir şeyler yanlış gitti</string>
@@ -75,6 +75,7 @@
     <string name="back">Geri</string>
     <string name="please_check_your_mail">Lütfen emailinizi kontrol edin</string>
     <string name="privacy_policy">Gizlilik Politikası</string>
-    <string name="please_accept_permission">Please accept permission</string>
+    <string name="please_accept_permission">Lütfen Gizlilik Politikasını kabul edin</string>
+    <string name="accept_privacy_policy">Okudum Anladım</string>
 
 </resources>

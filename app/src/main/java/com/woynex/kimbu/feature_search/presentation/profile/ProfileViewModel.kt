@@ -52,6 +52,9 @@ class ProfileViewModel @Inject constructor(
     private val _tagsResponse = MutableStateFlow<Resource<List<Tag>>>(Resource.Empty())
     val tagsResponse = _tagsResponse.asStateFlow()
 
+    private val _uploadingResponse = MutableStateFlow<Resource<String>>(Resource.Empty())
+    val uploadingResponse = _uploadingResponse.asStateFlow()
+
     private val currentUser = dataStore.data.map { preferences ->
         User(
             id = preferences[KimBuPreferencesKey.USER_ID_KEY],
@@ -146,6 +149,7 @@ class ProfileViewModel @Inject constructor(
     }
 
     fun saveNewProfilePhoto(uri: Uri) = viewModelScope.launch {
+        _uploadingResponse.value = Resource.Loading<String>()
         val storageRef = Firebase.storage.getReference(FIREBASE_STORAGE_PROFILE_IMAGES_CHILD)
         val profileImagesRef = storageRef.child(user.id!!)
         val imageRef =
@@ -164,12 +168,15 @@ class ProfileViewModel @Inject constructor(
                                         preferences[KimBuPreferencesKey.USER_PROFILE_PHOTO_KEY] =
                                             url.toString()
                                         user.profile_photo = url.toString()
+                                        _uploadingResponse.value =
+                                            Resource.Success<String>(url.toString())
                                     }
                                 }
                             }
                     }
 
             }.addOnFailureListener {
+                _uploadingResponse.value = Resource.Error<String>(it.localizedMessage)
                 println("Error: ${it.localizedMessage}")
             }
     }

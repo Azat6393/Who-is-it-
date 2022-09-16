@@ -7,7 +7,7 @@
     <string name="app_name">KimBu</string>
     <string name="search">Search</string>
     <string name="settings">Settings</string>
-    <string name="search_by_number">Search by number</string>
+    <string name="search_by_number">Search without typing the country code</string>
     <string name="feed">Feed</string>
     <string name="call_history">Call history</string>
     <string name="notifications">Notifications</string>
@@ -44,7 +44,7 @@
     <string name="verify_your_phone_number">Verify your phone number</string>
     <string name="add_contact_permission">Without permission we cannot add contact</string>
     <string name="contact_added">Contact has been added</string>
-    <string name="add_contact_cancelled">Cancelled Added Contact</string>
+    <string name="add_contact_cancelled">Add Contact Cancelled</string>
     <string name="cancel">Cancel</string>
     <string name="block_number_message">Are you sure to block number</string>
     <string name="block_number">Block number</string>
@@ -53,8 +53,8 @@
     <string name="block_number_permission">Without permission we cannot block number</string>
     <string name="block">Block</string>
     <string name="dark_mode">Dark Mode</string>
-    <string name="set_kim_bu_as_default_calling_app_text">Set Kim bu as default calling app so that Kim bu can identify incoming calls to protect you from spam calls</string>
-    <string name="set_as_default">Set as default</string>
+    <string name="set_kim_bu_as_default_calling_app_text">To get information about our visitors\' performance, experience and how they use our applications, by obtaining contact information in the phone book; I give my consent to access my purposeful information to analyze site traffic, to show our users personalized/location-based campaigns and content, and to use commercial data with our partners so that they can interact with our social media content.</string>
+    <string name="set_as_default">Accept</string>
     <string name="last_name">Last name</string>
     <string name="phone_number">Phone number</string>
     <string name="input_email_address">Please input email address</string>
@@ -75,6 +75,7 @@
     <string name="back">Back</string>
     <string name="please_check_your_mail">Please check your email</string>
     <string name="privacy_policy">Privacy policy</string>
-    <string name="please_accept_permission">Please accept permission</string>
+    <string name="please_accept_permission">Please accept the Privacy Policy</string>
+    <string name="accept_privacy_policy">Understood</string>
 
 </resources>

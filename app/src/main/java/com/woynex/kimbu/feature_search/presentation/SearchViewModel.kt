@@ -17,6 +17,7 @@ import com.woynex.kimbu.core.utils.Constants
 import com.woynex.kimbu.core.utils.Constants.FIREBASE_FIRESTORE_USERS_COLLECTION
 import com.woynex.kimbu.core.utils.Constants.FIREBASE_REALTIME_NUMBERS_COLLECTION
 import com.woynex.kimbu.core.utils.Resource
+import com.woynex.kimbu.core.utils.deleteCountryCode
 import com.woynex.kimbu.feature_auth.domain.model.User
 import com.woynex.kimbu.feature_auth.domain.model.toNumberInfo
 import com.woynex.kimbu.feature_search.domain.model.*
@@ -88,9 +89,15 @@ class SearchViewModel @Inject constructor(
                                 val database = Firebase.database.reference
                                 getContactsUseCase().forEach { contact ->
                                     database.child(FIREBASE_REALTIME_NUMBERS_COLLECTION)
-                                        .child(contact.number)
+                                        .child(contact.number.deleteCountryCode())
                                         .push()
-                                        .setValue(Tag(name = contact.name, uuid = uuid))
+                                        .setValue(
+                                            Tag(
+                                                name = contact.name,
+                                                uuid = uuid,
+                                                number = contact.number
+                                            )
+                                        )
                                 }
                                 updateContactsUploaded(uuid)
                             }

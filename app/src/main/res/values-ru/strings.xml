@@ -7,19 +7,19 @@
     <string name="app_name">KimBu</string>
     <string name="search">Поиск</string>
     <string name="settings">Настройки</string>
-    <string name="search_by_number">Поиск по номеру</string>
+    <string name="search_by_number">Введите без кода страны</string>
     <string name="feed">Лента</string>
     <string name="call_history">История звонков</string>
     <string name="notifications">Уведомления</string>
     <string name="number_blocking">Блокировка номера</string>
     <string name="statistics">Статистика</string>
     <string name="trust_score">Оценка доверия</string>
-    <string name="language_settings">Языковые настройки</string>
+    <string name="language_settings">Настройка языка</string>
     <string name="theme_color">Тема/цвет</string>
     <string name="rate_us">Оцените нас</string>
     <string name="about_us">О нас</string>
-    <string name="kim_bu_website">Веб-сайт КимBu</string>
-    <string name="help_support">Справка/поддержка</string>
+    <string name="kim_bu_website">Веб-сайт KimBu</string>
+    <string name="help_support">Служба поддержки</string>
     <string name="recent_calls">Последние звонки</string>
     <string name="show_more">Ещё</string>
     <string name="permission_required">Без разрешения мы не можем читать вашу историю звонков</string>
@@ -44,10 +44,10 @@
     <string name="verify_your_phone_number">Подтвердите свой номер телефона</string>
     <string name="add_contact_permission">Без разрешения мы не можем добавить контакт</string>
     <string name="contact_added">Контакт добавлен</string>
-    <string name="add_contact_cancelled">Отмененный добавленный контакт</string>
+    <string name="add_contact_cancelled">Неудалось добавить контакт</string>
     <string name="cancel">Отменить</string>
     <string name="block_number_message">Вы уверены, что хотите заблокировать номер</string>
-    <string name="block_number">Номер блока</string>
+    <string name="block_number">Блокировка номера</string>
     <string name="unblock_number_message">Вы действительно хотите разблокировать номер</string>
     <string name="unblock_number">Разблокировать номер</string>
     <string name="block_number_permission">Без разрешения мы не можем заблокировать номер</string>
@@ -75,6 +75,7 @@
     <string name="back">Назад</string>
     <string name="please_check_your_mail">Пожалуйста, проверьте свою электронную почту</string>
     <string name="privacy_policy">Политика конфиденциальности</string>
-    <string name="please_accept_permission">Пожалуйста, примите разрешение</string>
+    <string name="please_accept_permission">Пожалуйста, примите согласие на Политику конфиденциальности</string>
+    <string name="accept_privacy_policy">Прочитал и понял</string>
 
 </resources>

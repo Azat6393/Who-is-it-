@@ -1,5 +1,7 @@
 package com.woynex.kimbu.feature_search.domain.model
 
+import com.woynex.kimbu.core.utils.deleteCountryCode
+
 data class Contact(
     val id: String,
     val number: String,
@@ -9,14 +11,7 @@ data class Contact(
 fun Contact.toTag(uuid: String): Tag {
     return Tag(
         name = name,
-        uuid = uuid
+        uuid = uuid,
+        number = number.deleteCountryCode()
     )
-}
-
-fun List<Contact>.toTagMap(uuid: String): Map<String, Tag> {
-    val list = mutableMapOf<String, Tag>()
-    this.forEach { contact ->
-        list[contact.number] = contact.toTag(uuid)
-    }
-    return list
 }
