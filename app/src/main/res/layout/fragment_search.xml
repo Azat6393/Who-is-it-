@@ -62,7 +62,7 @@
                 android:inputType="number"
                 android:maxLines="1"
                 android:textColor="@color/white"
-                android:textSize="15sp" />
+                android:textSize="14sp" />
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>

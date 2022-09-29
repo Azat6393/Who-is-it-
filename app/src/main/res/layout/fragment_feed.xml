@@ -328,7 +328,7 @@
             android:background="?attr/background_color"
             android:gravity="center"
             android:orientation="vertical"
-            tools:visibility="visible">
+            tools:visibility="gone">
 
             <TextView
                 android:id="@+id/textView3"
