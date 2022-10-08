@@ -28,12 +28,19 @@
                 android:backgroundTint="?attr/surface_color"
                 app:cardCornerRadius="15dp">
 
-                <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/adView"
+                <pl.droidsonroids.gif.GifImageView
+                    android:id="@+id/kargo_bul_banner"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    ads:adSize="LARGE_BANNER"
-                    ads:adUnitId="ca-app-pub-8594335878312175/9090666894" />
+                    android:src="@drawable/banner_dark_theme" />
+
+
+                <!--   <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+                       android:id="@+id/adView"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       ads:adSize="LARGE_BANNER"
+                       ads:adUnitId="ca-app-pub-8594335878312175/9090666894" />-->
 
             </androidx.cardview.widget.CardView>
 

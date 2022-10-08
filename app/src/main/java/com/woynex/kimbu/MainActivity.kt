@@ -11,9 +11,6 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
-import com.google.android.gms.ads.MobileAds
-import com.google.android.material.shape.CornerFamily
-import com.google.android.material.shape.MaterialShapeDrawable
 import com.woynex.kimbu.core.service.CallReceiver
 import com.woynex.kimbu.core.utils.isAppDefaultDialer
 import com.woynex.kimbu.databinding.ActivityMainBinding
@@ -62,7 +59,6 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, CallReceiver::class.java)
             this.sendBroadcast(intent)
         }
-        MobileAds.initialize(this)
 
         if (isAppDefaultDialer()) {
             viewModel.uploadContactsToDatabase()

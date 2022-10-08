@@ -5,7 +5,6 @@ import android.content.Intent
 import android.graphics.Rect
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.ViewTreeObserver
 import android.view.inputmethod.InputMethodManager
@@ -21,13 +20,6 @@ import androidx.navigation.fragment.findNavController
 import coil.decode.SvgDecoder
 import coil.load
 import coil.transform.CircleCropTransformation
-import com.google.android.gms.ads.AdError
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.FullScreenContentCallback
-import com.google.android.gms.ads.LoadAdError
-import com.google.android.gms.ads.interstitial.InterstitialAd
-import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.tabs.TabLayoutMediator
 import com.woynex.kimbu.R
 import com.woynex.kimbu.core.utils.*
@@ -35,6 +27,7 @@ import com.woynex.kimbu.databinding.FragmentSearchBinding
 import com.woynex.kimbu.feature_search.domain.model.CountryInfo
 import com.woynex.kimbu.feature_search.domain.model.NumberInfo
 import com.woynex.kimbu.feature_search.presentation.adapter.ViewPagerAdapter
+import com.woynex.kimbu.feature_settings.presentation.web_view.PopUpDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -46,7 +39,6 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     private var selectedCountry: CountryInfo? = null
     private val viewModel: SearchViewModel by viewModels()
 
-    private var mInterstitialAd: InterstitialAd? = null
     private var searchedNumber: NumberInfo? = null
     private final var TAG = "SearchFragment"
 
@@ -61,8 +53,6 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
             val action = SearchFragmentDirections.actionSearchFragmentToUserProfileFragment()
             findNavController().navigate(action)
         }
-
-        initAdMob()
         initFab()
         initViewPager()
         initSearchCountryEditText()
@@ -70,62 +60,16 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         observe()
     }
 
-    private fun initAdMob() {
-        var adRequest = AdRequest.Builder().build()
-
-        InterstitialAd.load(
-            requireContext(),
-            "ca-app-pub-8594335878312175/2469418225",
-            adRequest,
-            object : InterstitialAdLoadCallback() {
-                override fun onAdFailedToLoad(p0: LoadAdError) {
-                    super.onAdFailedToLoad(p0)
-                    p0.toString().let { Log.d(TAG, it) }
-                    mInterstitialAd = null
-                }
-
-                override fun onAdLoaded(p0: InterstitialAd) {
-                    super.onAdLoaded(p0)
-                    Log.d(TAG, "Ad was loaded.")
-                    mInterstitialAd = p0
-                    mInterstitialAd?.fullScreenContentCallback =
-                        object : FullScreenContentCallback() {
-                            override fun onAdClicked() {
-                                Log.d(TAG, "Ad was clicked.")
-                                searchedNumber?.let { navigateToProfileScreen(it) }
-                            }
-
-                            override fun onAdDismissedFullScreenContent() {
-                                Log.d(TAG, "Ad dismissed fullscreen content.")
-                                searchedNumber?.let { navigateToProfileScreen(it) }
-                                mInterstitialAd = null
-                            }
-
-                            override fun onAdFailedToShowFullScreenContent(p0: AdError) {
-                                Log.e(TAG, "Ad failed to show fullscreen content.")
-                                searchedNumber?.let { navigateToProfileScreen(it) }
-                                mInterstitialAd = null
-                            }
-
-                            override fun onAdImpression() {
-                                Log.d(TAG, "Ad recorded an impression.")
-                                searchedNumber?.let { navigateToProfileScreen(it) }
-                            }
-
-                            override fun onAdShowedFullScreenContent() {
-                                Log.d(TAG, "Ad showed fullscreen content.")
-                            }
-                        }
-                }
-            })
-    }
-
     private fun showFullScreenAd(number: NumberInfo) {
-        if (mInterstitialAd != null) {
-            mInterstitialAd?.show(requireActivity())
-        } else {
-            navigateToProfileScreen(number)
-        }
+        PopUpDialog(
+            onClick = {
+                val action = SearchFragmentDirections.actionSearchFragmentToWebViewFragment()
+                findNavController().navigate(action)
+            },
+            onClose = {
+                navigateToProfileScreen(number)
+            }
+        ).show(childFragmentManager, "PopUp Dialog")
     }
 
     private fun navigateToProfileScreen(number: NumberInfo) {

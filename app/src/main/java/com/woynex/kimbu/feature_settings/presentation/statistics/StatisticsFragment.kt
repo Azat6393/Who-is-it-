@@ -2,7 +2,6 @@ package com.woynex.kimbu.feature_settings.presentation.statistics
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.isVisible
@@ -13,17 +12,13 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.gms.ads.*
-import com.google.android.gms.ads.rewarded.RewardItem
-import com.google.android.gms.ads.rewarded.RewardedAd
-import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.woynex.kimbu.R
 import com.woynex.kimbu.core.utils.*
 import com.woynex.kimbu.databinding.FragmentStatisticsBinding
 import com.woynex.kimbu.feature_search.domain.model.Statistics
 import com.woynex.kimbu.feature_settings.presentation.adapter.SearchedDateAdapter
+import com.woynex.kimbu.feature_settings.presentation.web_view.PopUpDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import org.eazegraph.lib.models.ValueLinePoint
@@ -38,7 +33,6 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics),
     private val viewModel: StatisticsViewModel by viewModels()
     private val mAdapter: SearchedDateAdapter by lazy { SearchedDateAdapter(this) }
 
-    private var mRewardedAd: RewardedAd? = null
     private final var TAG = "StatisticsFragment"
     private var searchedUserName = ""
 
@@ -49,73 +43,21 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics),
         _binding.backBtn.setOnClickListener {
             findNavController().popBackStack()
         }
-        initAdMob()
         initRecyclerView()
         observe()
     }
 
-    private fun initAdMob() {
-        var adRequest = AdRequest.Builder().build()
-
-        RewardedAd.load(
-            requireContext(),
-            "ca-app-pub-8594335878312175/9020731745",
-            adRequest,
-            object : RewardedAdLoadCallback() {
-                override fun onAdFailedToLoad(p0: LoadAdError) {
-                    super.onAdFailedToLoad(p0)
-                    p0.toString().let { Log.d(TAG, it) }
-                    mRewardedAd = null
-                }
-
-                override fun onAdLoaded(p0: RewardedAd) {
-                    super.onAdLoaded(p0)
-                    Log.d(TAG, "Ad was loaded.")
-                    mRewardedAd = p0
-                    mRewardedAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
-                        override fun onAdClicked() {
-                            Log.d(TAG, "Ad was clicked.")
-                            showSearchedUserName()
-                        }
-
-                        override fun onAdDismissedFullScreenContent() {
-                            Log.d(TAG, "Ad dismissed fullscreen content.")
-                            showSearchedUserName()
-                            mRewardedAd = null
-                        }
-
-                        override fun onAdFailedToShowFullScreenContent(p0: AdError) {
-                            Log.e(TAG, "Ad failed to show fullscreen content.")
-                            showSearchedUserName()
-                            mRewardedAd = null
-                        }
-
-                        override fun onAdImpression() {
-                            Log.d(TAG, "Ad recorded an impression.")
-                            showSearchedUserName()
-
-                        }
-
-                        override fun onAdShowedFullScreenContent() {
-                            Log.d(TAG, "Ad showed fullscreen content.")
-                        }
-                    }
-                }
-            })
-    }
 
     private fun showFullScreenAd() {
-        if (mRewardedAd != null) {
-            mRewardedAd?.show(requireActivity(), OnUserEarnedRewardListener() {
-                fun onUserEarnedReward(rewardItem: RewardItem) {
-                    var rewardAmount = rewardItem.amount
-                    var rewardType = rewardItem.type
-                    Log.d(TAG, "User earned the reward.")
-                }
-            })
-        } else {
-            showSearchedUserName()
-        }
+        PopUpDialog(
+            onClick = {
+                val action = StatisticsFragmentDirections.actionStatisticsFragmentToWebViewFragment()
+                findNavController().navigate(action)
+            },
+            onClose = {
+                showSearchedUserName()
+            }
+        ).show(childFragmentManager, "PopUp Dialog")
     }
 
     private fun showSearchedUserName() {

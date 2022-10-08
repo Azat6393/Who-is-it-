@@ -12,20 +12,20 @@ import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
-import com.google.android.gms.ads.AdListener
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.LoadAdError
-import com.google.android.gms.ads.MobileAds
 import com.woynex.kimbu.MainActivity
 import com.woynex.kimbu.R
-import com.woynex.kimbu.core.utils.*
 import com.woynex.kimbu.core.utils.Constants.dateFormat
+import com.woynex.kimbu.core.utils.isAppDefaultDialer
+import com.woynex.kimbu.core.utils.millisToDate
+import com.woynex.kimbu.core.utils.requestPermission
+import com.woynex.kimbu.core.utils.showToastMessage
 import com.woynex.kimbu.databinding.FragmentFeedBinding
 import com.woynex.kimbu.feature_search.domain.model.NumberInfo
 import com.woynex.kimbu.feature_search.presentation.SearchFragment
@@ -66,13 +66,20 @@ class FeedFragment : Fragment(R.layout.fragment_feed) {
                 }
             }
         }
-        initAdMob()
+
+        _binding.kargoBulBanner.setOnClickListener {
+            val action = SearchFragmentDirections.actionSearchFragmentToWebViewFragment()
+            findNavController().navigate(action)
+        }
+        setAd()
     }
 
-    private fun initAdMob() {
-        MobileAds.initialize(requireContext())
-        val adRequest = AdRequest.Builder().build()
-        _binding.adView.loadAd(adRequest)
+    private fun setAd(){
+        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+            _binding.kargoBulBanner.setImageResource(R.drawable.banner_dark_theme)
+        } else {
+            _binding.kargoBulBanner.setImageResource(R.drawable.banner_light_theme)
+        }
     }
 
 

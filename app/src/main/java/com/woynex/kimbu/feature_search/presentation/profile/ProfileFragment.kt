@@ -25,8 +25,7 @@ import coil.decode.SvgDecoder
 import coil.load
 import coil.size.Scale
 import coil.transform.CircleCropTransformation
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.MobileAds
+
 import com.woynex.kimbu.R
 import com.woynex.kimbu.core.utils.Resource
 import com.woynex.kimbu.core.utils.requestPermission
@@ -114,16 +113,9 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
             }
         }
         initRecyclerView()
-        initAdMob()
         viewModel.getTags(args.numberInfo.number)
         viewModel.checkForBlockedNumber(args.numberInfo.number)
         observe()
-    }
-
-    private fun initAdMob() {
-        MobileAds.initialize(requireContext())
-        val adRequest = AdRequest.Builder().build()
-        _binding.adView.loadAd(adRequest)
     }
 
 
@@ -151,7 +143,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                         is Resource.Loading -> Unit
                         is Resource.Success -> {
                             _binding.nameTv.text = result.data?.name
-                            if (!result.data?.profilePhoto.isNullOrBlank()){
+                            if (!result.data?.profilePhoto.isNullOrBlank()) {
                                 _binding.profilePhotoIv.load(result.data?.profilePhoto) {
                                     crossfade(false)
                                     placeholder(R.drawable.profile_photo)

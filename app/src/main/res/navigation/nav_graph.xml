@@ -27,6 +27,14 @@
             app:exitAnim="@anim/to_left"
             app:popEnterAnim="@anim/from_left"
             app:popExitAnim="@anim/to_right" />
+
+        <action
+            android:id="@+id/action_searchFragment_to_webViewFragment"
+            app:destination="@id/webViewFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
@@ -87,7 +95,15 @@
     <fragment
         android:id="@+id/statisticsFragment"
         android:name="com.woynex.kimbu.feature_settings.presentation.statistics.StatisticsFragment"
-        android:label="StatisticsFragment" />
+        android:label="StatisticsFragment" >
+        <action
+            android:id="@+id/action_statisticsFragment_to_webViewFragment"
+            app:destination="@id/webViewFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
+    </fragment>
     <fragment
         android:id="@+id/notificationsFragment"
         android:name="com.woynex.kimbu.feature_settings.presentation.notification.NotificationsFragment"
@@ -129,4 +145,8 @@
         android:id="@+id/kimBuWebsiteFragment"
         android:name="com.woynex.kimbu.feature_settings.presentation.website.KimBuWebsiteFragment"
         android:label="KimBuWebsiteFragment" />
+    <fragment
+        android:id="@+id/webViewFragment"
+        android:name="com.woynex.kimbu.feature_settings.presentation.web_view.WebViewFragment"
+        android:label="WebViewFragment" />
 </navigation>

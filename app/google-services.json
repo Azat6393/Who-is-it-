@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "809821627700",
+    "firebase_url": "https://kim-bu-1024b-default-rtdb.firebaseio.com",
     "project_id": "kim-bu-1024b",
     "storage_bucket": "kim-bu-1024b.appspot.com"
   },
@@ -13,6 +14,22 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "809821627700-2pdke4s8njoitasj48djv1ke69g7gc54.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.woynex.kimbu",
+            "certificate_hash": "2eb1cfc5acf1629e197ab97261a1e477470ea369"
+          }
+        },
+        {
+          "client_id": "809821627700-6fr62ekk2b833v8v02tevgafisotr755.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.woynex.kimbu",
+            "certificate_hash": "6b7d6d030fc5cbdec43bd91d6093b80697c5331d"
+          }
+        },
         {
           "client_id": "809821627700-qekd4783i5sg18phgav85k304c0v0iru.apps.googleusercontent.com",
           "client_type": 1,
