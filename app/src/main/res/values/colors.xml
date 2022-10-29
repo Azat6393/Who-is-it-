@@ -13,6 +13,9 @@
     <color name="gray">#3e3e3e</color>
     <color name="red">#d90429</color>
 
+    <color name="light_primary_color">#DAF2FD</color>
+
+
     <!-- Dark theme colors -->
 
     <color name="dark_primary">#2BA4E2</color>

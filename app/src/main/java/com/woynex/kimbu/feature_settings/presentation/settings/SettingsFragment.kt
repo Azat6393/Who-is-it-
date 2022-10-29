@@ -1,5 +1,7 @@
 package com.woynex.kimbu.feature_settings.presentation.settings
 
+import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -31,16 +33,27 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     private lateinit var _binding: FragmentSettingsBinding
     private val viewModel: SettingsViewModel by viewModels()
 
+    @SuppressLint("CommitPrefEdits")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentSettingsBinding.bind(view)
 
         _binding.apply {
+            val mSharedPreferences =
+                requireActivity().getSharedPreferences("UI", Context.MODE_PRIVATE)
+            val editor = mSharedPreferences.edit()
+            val isDarkMode = mSharedPreferences.getBoolean("DARK_MODE", false);
+
+            themeSwitch.isChecked = isDarkMode
             themeSwitch.setOnCheckedChangeListener { compoundButton, b ->
                 if (b) {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                    editor.putBoolean("DARK_MODE", true)
+                    editor.apply()
                 } else {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                    editor.putBoolean("DARK_MODE", false)
+                    editor.apply()
                 }
             }
             signOutBtn.setOnClickListener {
@@ -93,7 +106,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.currentUser.collect { user ->
                     _binding.nameTv.text = "${user.first_name} ${user.last_name}"
-                    if (!user.profile_photo.isNullOrBlank()){
+                    if (!user.profile_photo.isNullOrBlank()) {
                         _binding.profilePhotoIv.load(user.profile_photo) {
                             crossfade(false)
                             placeholder(R.drawable.profile_photo)

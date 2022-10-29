@@ -7,5 +7,7 @@ interface BlockedNumberRepository {
     suspend fun unblockNumber(number: String)
 
     suspend fun getBlockedNumbers(): List<String>
+
+    suspend fun isBlockedNumber(number: String): Boolean
 }
 

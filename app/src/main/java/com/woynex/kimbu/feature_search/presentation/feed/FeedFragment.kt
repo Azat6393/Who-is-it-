@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.role.RoleManager
 import android.content.Context.ROLE_SERVICE
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.telecom.TelecomManager
@@ -21,11 +22,8 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.woynex.kimbu.MainActivity
 import com.woynex.kimbu.R
+import com.woynex.kimbu.core.utils.*
 import com.woynex.kimbu.core.utils.Constants.dateFormat
-import com.woynex.kimbu.core.utils.isAppDefaultDialer
-import com.woynex.kimbu.core.utils.millisToDate
-import com.woynex.kimbu.core.utils.requestPermission
-import com.woynex.kimbu.core.utils.showToastMessage
 import com.woynex.kimbu.databinding.FragmentFeedBinding
 import com.woynex.kimbu.feature_search.domain.model.NumberInfo
 import com.woynex.kimbu.feature_search.presentation.SearchFragment
@@ -42,10 +40,24 @@ class FeedFragment : Fragment(R.layout.fragment_feed) {
     private lateinit var _binding: FragmentFeedBinding
     private val viewModel: SearchViewModel by activityViewModels()
 
-    private val requestPermissionLauncher =
+
+
+    private val requestCallLogsPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             if (isGranted) {
                 getCallLog()
+            }
+        }
+
+    private val requestMultiplePermissionLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.RequestMultiplePermissions()
+        ) { result ->
+            val granted = !result.containsValue(false)
+            if(granted){
+                viewModel.updateCallLogs()
+                startActivity(Intent(requireActivity(), MainActivity::class.java))
+                requireActivity().finish()
             }
         }
 
@@ -74,7 +86,7 @@ class FeedFragment : Fragment(R.layout.fragment_feed) {
         setAd()
     }
 
-    private fun setAd(){
+    private fun setAd() {
         if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
             _binding.kargoBulBanner.setImageResource(R.drawable.banner_dark_theme)
         } else {
@@ -86,7 +98,7 @@ class FeedFragment : Fragment(R.layout.fragment_feed) {
     private fun initContent() {
         _binding.setAsDefaultView.visibility = View.GONE
         _binding.showAllBtn.setOnClickListener {
-            requireParentFragment().viewPager.currentItem = 2
+            requireParentFragment().viewPager.currentItem = 1
         }
         requestReadCallLogPermission()
         observe()
@@ -172,22 +184,28 @@ class FeedFragment : Fragment(R.layout.fragment_feed) {
             }
         }
 
-
     private fun offerReplacingDefaultDialer() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             val roleManager = requireContext().getSystemService(ROLE_SERVICE) as RoleManager?
             val intent = roleManager!!.createRequestRoleIntent(RoleManager.ROLE_DIALER)
             resultLauncher.launch(intent)
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            val intent = Intent(TelecomManager.ACTION_CHANGE_DEFAULT_DIALER).apply {
-                putExtra(
-                    TelecomManager.EXTRA_CHANGE_DEFAULT_DIALER_PACKAGE_NAME,
-                    requireContext().packageName
-                )
-            }
-            resultLauncher.launch(intent)
+        val intent = Intent(TelecomManager.ACTION_CHANGE_DEFAULT_DIALER).apply {
+            putExtra(
+                TelecomManager.EXTRA_CHANGE_DEFAULT_DIALER_PACKAGE_NAME,
+                requireContext().packageName
+            )
         }
+        resultLauncher.launch(intent)
+        /*if (!requireContext().isAppDefaultDialer()){
+            requestMultiplePermissionLauncher.launch(
+                arrayOf(
+                    Manifest.permission.READ_CONTACTS,
+                    Manifest.permission.READ_CALL_LOG,
+                    Manifest.permission.CALL_PHONE
+                )
+            )
+        }*/
     }
 
     private fun requestReadCallLogPermission() {
@@ -200,7 +218,7 @@ class FeedFragment : Fragment(R.layout.fragment_feed) {
             if (granted) {
                 getCallLog()
             } else {
-                requestPermissionLauncher.launch(
+                requestCallLogsPermissionLauncher.launch(
                     Manifest.permission.READ_CALL_LOG
                 )
             }

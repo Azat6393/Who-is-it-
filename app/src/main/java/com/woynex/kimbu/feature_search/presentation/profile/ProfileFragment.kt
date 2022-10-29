@@ -7,6 +7,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.BlockedNumberContract.canCurrentUserBlockNumbers
 import android.provider.ContactsContract
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
@@ -25,7 +26,6 @@ import coil.decode.SvgDecoder
 import coil.load
 import coil.size.Scale
 import coil.transform.CircleCropTransformation
-
 import com.woynex.kimbu.R
 import com.woynex.kimbu.core.utils.Resource
 import com.woynex.kimbu.core.utils.requestPermission
@@ -92,20 +92,24 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                 requestAddContactPermission()
             }
             reportButton.setOnClickListener {
-                if (isBlocked) {
-                    requireContext().showAlertDialog(
-                        getString(R.string.unblock_number_message),
-                        getString(R.string.unblock_number)
-                    ) {
-                        unblockNumber()
+                if (canCurrentUserBlockNumbers(requireContext())) {
+                    if (isBlocked) {
+                        requireContext().showAlertDialog(
+                            getString(R.string.unblock_number_message),
+                            getString(R.string.unblock_number)
+                        ) {
+                            unblockNumber()
+                        }
+                    } else {
+                        requireContext().showAlertDialog(
+                            getString(R.string.block_number_message),
+                            getString(R.string.block_number)
+                        ) {
+                            blockNumber()
+                        }
                     }
                 } else {
-                    requireContext().showAlertDialog(
-                        getString(R.string.block_number_message),
-                        getString(R.string.block_number)
-                    ) {
-                        blockNumber()
-                    }
+                    requireContext().showToastMessage("Cannot")
                 }
             }
             backBtn.setOnClickListener {
@@ -114,7 +118,9 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         }
         initRecyclerView()
         viewModel.getTags(args.numberInfo.number)
-        viewModel.checkForBlockedNumber(args.numberInfo.number)
+        if (canCurrentUserBlockNumbers(requireContext())) {
+            viewModel.checkForBlockedNumber(args.numberInfo.number)
+        }
         observe()
     }
 

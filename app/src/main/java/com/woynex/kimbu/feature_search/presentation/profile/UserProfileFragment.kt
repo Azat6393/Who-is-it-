@@ -1,6 +1,8 @@
 package com.woynex.kimbu.feature_search.presentation.profile
 
+import android.Manifest
 import android.annotation.SuppressLint
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.text.InputType
@@ -22,6 +24,8 @@ import coil.size.Scale
 import coil.transform.CircleCropTransformation
 import com.woynex.kimbu.R
 import com.woynex.kimbu.core.utils.Resource
+import com.woynex.kimbu.core.utils.checkPermission
+import com.woynex.kimbu.core.utils.requestPermission
 import com.woynex.kimbu.core.utils.showToastMessage
 import com.woynex.kimbu.databinding.FragmentUserProfileBinding
 import com.woynex.kimbu.feature_search.presentation.adapter.TagsAdapter
@@ -50,6 +54,25 @@ class UserProfileFragment : Fragment(R.layout.fragment_user_profile) {
                 scale(Scale.FILL)
                 build()
             }
+            if (imageUri == null || imageUri.equals("")) {
+                if (!viewModel.user.profile_photo.isNullOrBlank()) {
+                    _binding.profilePhotoIv.load(viewModel.user.profile_photo) {
+                        crossfade(false)
+                        placeholder(R.drawable.profile_photo)
+                        decoderFactory(SvgDecoder.Factory())
+                        transformations(CircleCropTransformation())
+                        scale(Scale.FILL)
+                        build()
+                    }
+                }
+            }
+        }
+
+    private val requestGetContentPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (isGranted) {
+                getContent.launch("image/*")
+            }
         }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -69,7 +92,13 @@ class UserProfileFragment : Fragment(R.layout.fragment_user_profile) {
             }
             profilePhotoCardView.setOnClickListener {
                 if (isEditMode) {
-                    getContent.launch("image/*")
+                    if (requireContext().checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+                        == PackageManager.PERMISSION_GRANTED
+                    ) {
+                        getContent.launch("image/*")
+                    } else {
+                        requestGetContentPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+                    }
                 }
             }
         }
@@ -116,7 +145,7 @@ class UserProfileFragment : Fragment(R.layout.fragment_user_profile) {
     @SuppressLint("SetTextI18n")
     private fun initProfileDetails() {
         _binding.apply {
-            if (!viewModel.user.profile_photo.isNullOrBlank()){
+            if (!viewModel.user.profile_photo.isNullOrBlank()) {
                 profilePhotoIv.load(viewModel.user.profile_photo) {
                     crossfade(false)
                     placeholder(R.drawable.profile_photo)

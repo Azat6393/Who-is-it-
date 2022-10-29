@@ -5,8 +5,8 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
 import android.os.Build
-import android.provider.BlockedNumberContract
 import android.provider.BlockedNumberContract.BlockedNumbers
+import android.provider.BlockedNumberContract.isBlocked
 import androidx.annotation.RequiresApi
 import com.woynex.kimbu.feature_search.domain.repository.BlockedNumberRepository
 import javax.inject.Inject
@@ -63,5 +63,10 @@ class BlockedNumberRepositoryImpl @Inject constructor(
             blockedList.add(stringNumber)
         }
         return blockedList
+    }
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    override suspend fun isBlockedNumber(number: String): Boolean {
+        return isBlocked(context, number)
     }
 }

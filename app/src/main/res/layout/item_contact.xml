@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="10dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginEnd="10dp"
+    android:background="?attr/selectableItemBackground"
+    android:orientation="horizontal"
+    android:weightSum="10">
+
+    <ImageView
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="5dp"
+        android:padding="2dp"
+        android:src="@drawable/profile_photo" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="20dp"
+        android:layout_weight="8"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="?attr/secondary"
+            android:textSize="16sp"
+            tools:text="Ahmet Celik" />
+
+        <TextView
+            android:id="@+id/phone_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:alpha="0.7"
+            android:textColor="?attr/secondary"
+            android:textSize="13sp"
+            tools:text="+905538554489" />
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:paddingTop="10dp"
+        android:layout_weight="2"
+        android:alpha="0.7"
+        android:paddingBottom="10dp"
+        android:layout_gravity="end"
+        android:src="@drawable/ic_baseline_phone_24"
+        app:tint="?attr/secondary" />
+
+</LinearLayout>

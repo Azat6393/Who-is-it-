@@ -44,7 +44,18 @@ class CallHistoryFragment : Fragment(R.layout.fragment_call_history),
     private val viewModel: SearchViewModel by activityViewModels()
     private var number = ""
 
-    private val requestPermissionLauncher =
+    private val requestMultiplePermissionLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.RequestMultiplePermissions()
+        ) { result ->
+            val granted = !result.containsValue(false)
+            if (granted) {
+                viewModel.updateCallLogs()
+                startActivity(Intent(requireActivity(), MainActivity::class.java))
+                requireActivity().finish()
+            }
+        }
+    private val requestStartCallPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             if (isGranted) {
                 startCall(number)
@@ -60,10 +71,10 @@ class CallHistoryFragment : Fragment(R.layout.fragment_call_history),
             initContent()
         } else {
             _binding.setAsDefaultBtn.setOnClickListener {
-                if (_binding.chackBox.isChecked){
+                if (_binding.chackBox.isChecked) {
                     viewModel.updateHasPermission(true)
                     offerReplacingDefaultDialer()
-                }else{
+                } else {
                     requireContext().showToastMessage(getString(R.string.please_accept_permission))
                 }
             }
@@ -74,6 +85,7 @@ class CallHistoryFragment : Fragment(R.layout.fragment_call_history),
         _binding.setAsDefaultView.visibility = View.GONE
         initRecyclerView()
         observe()
+        viewModel.getLogs()
     }
 
     private fun initRecyclerView() {
@@ -88,7 +100,7 @@ class CallHistoryFragment : Fragment(R.layout.fragment_call_history),
     private fun observe() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.getLogs().collect { result ->
+                viewModel.callLogs.collect { result ->
                     result.let {
                         mAdapter.submitList(it)
                         //mAdapter.submitData(it)
@@ -150,6 +162,15 @@ class CallHistoryFragment : Fragment(R.layout.fragment_call_history),
             val intent = roleManager!!.createRequestRoleIntent(RoleManager.ROLE_DIALER)
             resultLauncher.launch(intent)
         }
+        /* if (!requireContext().isAppDefaultDialer()){
+             requestMultiplePermissionLauncher.launch(
+                 arrayOf(
+                     Manifest.permission.READ_CONTACTS,
+                     Manifest.permission.READ_CALL_LOG,
+                     Manifest.permission.CALL_PHONE
+                 )
+             )
+         }*/
     }
 
     private fun requestCallPhonePermission() {
@@ -162,8 +183,8 @@ class CallHistoryFragment : Fragment(R.layout.fragment_call_history),
             if (granted) {
                 startCall(number)
             } else {
-                requestPermissionLauncher.launch(
-                    Manifest.permission.READ_CALL_LOG
+                requestStartCallPermissionLauncher.launch(
+                    Manifest.permission.CALL_PHONE
                 )
             }
         }

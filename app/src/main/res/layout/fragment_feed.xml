@@ -11,7 +11,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
         <LinearLayout
             android:id="@+id/content"
             android:layout_width="match_parent"
@@ -73,6 +72,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
+                        android:background="?attr/selectableItemBackground"
                         android:layout_marginTop="15dp"
                         android:layout_marginEnd="10dp"
                         android:layout_marginBottom="10dp"
@@ -150,6 +150,7 @@
                         android:id="@+id/second_call_log"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackground"
                         android:layout_marginStart="10dp"
                         android:layout_marginEnd="10dp"
                         android:orientation="horizontal">
@@ -226,6 +227,7 @@
                         android:id="@+id/third_call_log"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackground"
                         android:layout_margin="10dp"
                         android:orientation="horizontal">
 

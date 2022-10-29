@@ -1,12 +1,12 @@
 package com.woynex.kimbu
 
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
@@ -17,6 +17,7 @@ import com.woynex.kimbu.databinding.ActivityMainBinding
 import com.woynex.kimbu.feature_search.presentation.SearchViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
+
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
@@ -25,7 +26,9 @@ class MainActivity : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
-        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+        val mSharedPreferences = getSharedPreferences("UI", Context.MODE_PRIVATE)
+        val isDarkMode = mSharedPreferences.getBoolean("DARK_MODE", false)
+        if (isDarkMode) {
             setTheme(R.style.Theme_KimBu_Dark)
         } else {
             setTheme(R.style.Theme_KimBu_Light)
@@ -38,14 +41,6 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment
         navController = navHostController.findNavController()
         binding.bottomNavigationView.setupWithNavController(navController)
-
-        /*val bottomNavigationViewBackground =
-            binding.bottomNavigationView.background as MaterialShapeDrawable
-        bottomNavigationViewBackground.shapeAppearanceModel =
-            bottomNavigationViewBackground.shapeAppearanceModel.toBuilder()
-                .setTopRightCorner(CornerFamily.ROUNDED, 40F)
-                .setTopLeftCorner(CornerFamily.ROUNDED, 40F)
-                .build()*/
 
         binding.bottomNavigationView.setupWithNavController(navController)
         binding.bottomNavigationView.background = null

@@ -1,16 +1,14 @@
 package com.woynex.kimbu.core.utils
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Context.TELECOM_SERVICE
 import android.content.pm.PackageManager
-import android.os.Build
 import android.telecom.TelecomManager
-import android.telephony.PhoneNumberUtils
 import android.view.View
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -51,6 +49,16 @@ fun getJsonFromAssets(context: Context, fileName: String): String? {
 fun String.fromJsonToCountyList(): List<CountryInfo> {
     val gson = Gson()
     return gson.fromJson(this, Array<CountryInfo>::class.java).asList()
+}
+
+fun Context.checkPermission(permission: String): Int {
+    if (ContextCompat.checkSelfPermission(
+            this, permission
+        ) == PackageManager.PERMISSION_GRANTED
+    ) {
+        return 0
+    }
+    return -1
 }
 
 fun requestPermission(
@@ -111,10 +119,16 @@ fun Context.showAlertDialog(message: String, title: String, onPositive: () -> Un
 }
 
 
-@RequiresApi(Build.VERSION_CODES.M)
 fun Context.isAppDefaultDialer(): Boolean {
-    val telecomManager = getSystemService(TELECOM_SERVICE) as TelecomManager
-    return packageName == telecomManager.defaultDialerPackage
+    /*if (this.checkPermission(Manifest.permission.READ_CALL_LOG) == PackageManager.PERMISSION_DENIED) {
+        return false
+    }
+    if (this.checkPermission(Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_DENIED) {
+        return false
+    }
+    return this.checkPermission(Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_DENIED*/
+      val telecomManager = getSystemService(TELECOM_SERVICE) as TelecomManager
+      return packageName == telecomManager.defaultDialerPackage
 }
 
 fun MutableMap<String, Int>.getLastValue(): Int {
@@ -129,19 +143,15 @@ fun MutableMap<String, Int>.getLastValue(): Int {
     return lastValue
 }
 
-interface OnReceiveMessageListener {
-    fun receiverMessage()
-}
-
 fun String.deleteCountryCode(): String {
     val phoneInstance = PhoneNumberUtil.getInstance()
     try {
-        if (this.startsWith("+")) {
+        return if (this.startsWith("+")) {
             val phoneNumber = phoneInstance.parse(this, null)
-            return phoneNumber?.nationalNumber?.toString() ?: this
+            phoneNumber?.nationalNumber?.toString() ?: this
         } else {
             val phoneNumber = phoneInstance.parse(this, "CN")
-            return phoneNumber?.nationalNumber?.toString() ?: this
+            phoneNumber?.nationalNumber?.toString() ?: this
         }
     } catch (e: Exception) {
 

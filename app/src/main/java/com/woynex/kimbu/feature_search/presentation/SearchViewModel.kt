@@ -41,7 +41,7 @@ class SearchViewModel @Inject constructor(
     private val database: KimBuDatabase
 ) : ViewModel() {
 
-    private val _callLogs = MutableStateFlow<PagingData<NumberInfo>?>(null)
+    private val _callLogs = MutableStateFlow<List<NumberInfo>>(emptyList())
     val callLogs = _callLogs.asStateFlow()
 
     private val _lastCallLogs = MutableStateFlow<List<NumberInfo>>(emptyList())
@@ -185,23 +185,23 @@ class SearchViewModel @Inject constructor(
         _phoneNumberResponse.value = Resource.Empty()
     }
 
-    fun getCallLog() = viewModelScope.launch {
-        getCallLogsUseCase()
-            .flow.cachedIn(viewModelScope)
-            .onEach {
-                _callLogs.value = it
-            }.launchIn(viewModelScope)
-    }
-
     fun updateCallLogs() = viewModelScope.launch {
         updateCallLogsUseCase()
     }
 
     fun getLastCallLogs() = viewModelScope.launch {
-        getLastCallLogsUseCase().onEach {
-            _lastCallLogs.value = it
-        }.launchIn(viewModelScope)
+        if(lastCallLogs.value.isEmpty()){
+            getLastCallLogsUseCase().onEach {
+                _lastCallLogs.value = it
+            }.launchIn(viewModelScope)
+        }
     }
 
-    fun getLogs() = database.callHistoryDao.getLogs()
+    fun getLogs() = viewModelScope.launch {
+        if(callLogs.value.isEmpty()){
+            database.callHistoryDao.getLogs().onEach {
+                _callLogs.value = it
+            }.launchIn(viewModelScope)
+        }
+    }
 }

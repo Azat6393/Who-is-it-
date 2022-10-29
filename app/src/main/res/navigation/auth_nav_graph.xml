@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/auth_nav_graph"
-    app:startDestination="@id/fragmentAuth">
+    app:startDestination="@id/commitmentFragment">
     <fragment
         android:id="@+id/fragmentAuth"
         android:name="com.woynex.kimbu.feature_auth.presentation.sign_up.AuthFragment"
@@ -72,5 +72,16 @@
             app:exitAnim="@anim/to_right"
             app:popEnterAnim="@anim/from_right"
             app:popExitAnim="@anim/to_left" />
+    </fragment>
+    <fragment
+        android:id="@+id/commitmentFragment"
+        android:name="com.woynex.kimbu.feature_auth.presentation.commitment.CommitmentFragment"
+        android:label="fragment_commitment"
+        tools:layout="@layout/fragment_commitment" >
+        <action
+            android:id="@+id/action_commitmentFragment_to_fragmentAuth"
+            app:destination="@id/fragmentAuth"
+            app:popUpTo="@id/fragmentAuth"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>

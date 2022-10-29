@@ -1,10 +1,14 @@
 package com.woynex.kimbu
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.ContextThemeWrapper
+import android.view.LayoutInflater
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
@@ -22,7 +26,9 @@ class AuthActivity : AppCompatActivity() {
     private val viewModel: AuthViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+        val mSharedPreferences = getSharedPreferences("UI", Context.MODE_PRIVATE)
+        val isDarkMode = mSharedPreferences.getBoolean("DARK_MODE", false)
+        if (isDarkMode) {
             setTheme(R.style.Theme_KimBu_Dark)
         } else {
             setTheme(R.style.Theme_KimBu_Light)

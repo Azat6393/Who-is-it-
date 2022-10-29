@@ -1,7 +1,10 @@
 package com.woynex.kimbu.feature_auth.presentation.email_log_in
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.ContextThemeWrapper
+import android.view.LayoutInflater
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -88,6 +91,19 @@ class EmailLogInFragment : Fragment(R.layout.fragment_email_log_in) {
                     }
                 }
             }
+        }
+    }
+
+    override fun onGetLayoutInflater(savedInstanceState: Bundle?): LayoutInflater {
+        val inflater = super.onGetLayoutInflater(savedInstanceState)
+        val mSharedPreferences = requireActivity().getSharedPreferences("UI", Context.MODE_PRIVATE)
+        val isDarkMode = mSharedPreferences.getBoolean("DARK_MODE", false)
+        return if (isDarkMode) {
+            val contextThemeWrapper: Context = ContextThemeWrapper(requireContext(), R.style.Theme_KimBu_Dark)
+            inflater.cloneInContext(contextThemeWrapper)
+        } else {
+            val contextThemeWrapper: Context = ContextThemeWrapper(requireContext(), R.style.Theme_KimBu_Light)
+            inflater.cloneInContext(contextThemeWrapper)
         }
     }
 

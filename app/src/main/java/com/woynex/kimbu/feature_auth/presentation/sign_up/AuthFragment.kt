@@ -1,10 +1,14 @@
 package com.woynex.kimbu.feature_auth.presentation.sign_up
 
+import android.content.Context
 import android.content.Intent
 import android.content.IntentSender
 import android.os.Bundle
 import android.util.Log
+import android.view.ContextThemeWrapper
+import android.view.LayoutInflater
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -30,8 +34,8 @@ import com.woynex.kimbu.databinding.FragmentAuthBinding
 import com.woynex.kimbu.feature_auth.presentation.AuthViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.launch
+
 
 @AndroidEntryPoint
 class AuthFragment : Fragment(R.layout.fragment_auth) {
@@ -85,6 +89,27 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
             }
         }
         observe()
+
+        val callback: OnBackPressedCallback =
+            object : OnBackPressedCallback(true /* enabled by default */) {
+                override fun handleOnBackPressed() {
+                    requireActivity().finish()
+                }
+            }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
+    }
+
+    override fun onGetLayoutInflater(savedInstanceState: Bundle?): LayoutInflater {
+        val inflater = super.onGetLayoutInflater(savedInstanceState)
+        val mSharedPreferences = requireActivity().getSharedPreferences("UI", Context.MODE_PRIVATE)
+        val isDarkMode = mSharedPreferences.getBoolean("DARK_MODE", false)
+        return if (isDarkMode) {
+            val contextThemeWrapper: Context = ContextThemeWrapper(requireContext(), R.style.Theme_KimBu_Dark)
+            inflater.cloneInContext(contextThemeWrapper)
+        } else {
+            val contextThemeWrapper: Context = ContextThemeWrapper(requireContext(), R.style.Theme_KimBu_Light)
+            inflater.cloneInContext(contextThemeWrapper)
+        }
     }
 
     private fun registerFacebookCallBack() {

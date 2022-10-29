@@ -77,5 +77,12 @@
     <string name="privacy_policy">Privacy policy</string>
     <string name="please_accept_permission">Please accept the Privacy Policy</string>
     <string name="accept_privacy_policy">Understood</string>
+    <string name="search_contacts">Search contacts</string>
+    <string name="contacts">Contacts</string>
+    <string name="our_commitment_to_protecting_your_privacy">Our commitment to protecting your privacy</string>
+    <string name="please_scroll_below">Please scroll below to review the key points of our Privacy Policy and Terms of service</string>
+    <string name="amp"><![CDATA[&]]></string>
+    <string name="agree_and_continue">Agree and Continue</string>
+    <string name="we_use_data_for_the_following_purposes_n_n_to_enable_personalise_deliver_and_improve_our_services_n_n_to_protect_the_right_and_safety_of_kimbu_and_its_users_including_against_malicious_and_unwanted_calls_n_n_n_tags_and_your_current_stored_data_n_n_your_contacts_in_your_phonebook_are_never_stored_somewhere_n_n_when_you_search_for_a_phone_number_or_view_a_user_s_profile_the_phone_number_profile_is_searched_in_our_services_n_n_n_if_you_do_not_with_to_accept_you_may_uninstall_kimbu">We use data for the following purposes:\n\n • To enable, personalise, deliver and improve our Services,\n\n • To protect the right and safety of KimBu and its users, including against malicious and unwanted calls.\n\n\n Tags and your current stored data:\n\n • Your contacts in your phonebook are never stored somewhere,\n\n • When you search for a phone number or view a user\'s profile, the phone number/profile is searched in our Services.\n\n\n If you do not with to accept, you may uninstall KimBu</string>
 
 </resources>

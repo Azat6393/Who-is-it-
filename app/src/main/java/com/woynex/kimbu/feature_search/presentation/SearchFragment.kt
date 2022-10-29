@@ -1,14 +1,18 @@
 package com.woynex.kimbu.feature_search.presentation
 
 import android.content.Context
-import android.content.Intent
 import android.graphics.Rect
-import android.net.Uri
 import android.os.Bundle
+import android.util.TypedValue.COMPLEX_UNIT_DIP
+import android.util.TypedValue.applyDimension
 import android.view.View
 import android.view.ViewTreeObserver
+import android.view.animation.Animation
+import android.view.animation.Transformation
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintLayout.LayoutParams
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -17,9 +21,11 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import coil.decode.SvgDecoder
 import coil.load
 import coil.transform.CircleCropTransformation
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayoutMediator
 import com.woynex.kimbu.R
 import com.woynex.kimbu.core.utils.*
@@ -35,7 +41,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class SearchFragment : Fragment(R.layout.fragment_search) {
 
-    private lateinit var _binding: FragmentSearchBinding
+    lateinit var _binding: FragmentSearchBinding
     private var selectedCountry: CountryInfo? = null
     private val viewModel: SearchViewModel by viewModels()
 
@@ -43,21 +49,31 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     private final var TAG = "SearchFragment"
 
     private var searchedNumberString = ""
+    var isSearchFragment = 0
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentSearchBinding.bind(view)
 
-
         _binding.profileLogo.setOnClickListener {
             val action = SearchFragmentDirections.actionSearchFragmentToUserProfileFragment()
             findNavController().navigate(action)
         }
-        initFab()
         initViewPager()
         initSearchCountryEditText()
         initAutoComplete()
         observe()
+
+        if (!requireContext().isAppDefaultDialer()) {
+            _binding.callFab.isVisible = false
+        }
+
+
+        _binding.searchEditText.setOnFocusChangeListener { view, b ->
+            if (b) {
+                isSearchFragment = 1
+            }
+        }
     }
 
     private fun showFullScreenAd(number: NumberInfo) {
@@ -79,20 +95,6 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                 number
             )
         findNavController().navigate(action)
-    }
-
-    private fun initFab() {
-        _binding.callFab.setOnClickListener {
-            CallBottomSheet() { number ->
-                if (requireContext().isAppDefaultDialer()) {
-                    val callIntent = Intent(Intent.ACTION_CALL)
-                    callIntent.data = Uri.parse("tel:$number")
-                    requireActivity().startActivity(callIntent)
-                } else {
-                    requireContext().showToastMessage(getString(R.string.set_kim_bu_as_default))
-                }
-            }.show(childFragmentManager, "Call Bottom Sheet")
-        }
     }
 
 
@@ -119,7 +121,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
     private fun initViewPager() {
         _binding.viewPager.adapter = ViewPagerAdapter(this)
-        _binding.viewPager.offscreenPageLimit = 1
+        _binding.viewPager.offscreenPageLimit = 2
         TabLayoutMediator(_binding.tabLayout, _binding.viewPager) { tab, position ->
             when (position) {
                 0 -> {
@@ -128,8 +130,56 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                 1 -> {
                     tab.text = getString(R.string.call_history)
                 }
+                2 -> {
+                    tab.text = getString(R.string.contacts)
+                }
             }
         }.attach()
+        _binding.viewPager.setCurrentItem(0, false)
+        _binding.viewPager.registerOnPageChangeCallback(onPageChange)
+
+    }
+
+    private val onPageChange = object : OnPageChangeCallback() {
+        override fun onPageScrolled(
+            position: Int,
+            positionOffset: Float,
+            positionOffsetPixels: Int
+        ) {
+            if (position == 0 || position == 1) {
+                showBarsVisibility(true)
+            }
+        }
+    }
+
+    fun showBarsVisibility(state: Boolean) {
+        val dip = -100f
+        val px = applyDimension(
+            COMPLEX_UNIT_DIP,
+            dip,
+            resources.displayMetrics
+        )
+        val a: Animation = object : Animation() {
+            override fun applyTransformation(interpolatedTime: Float, t: Transformation) {
+                val params: LayoutParams = _binding.topViews.layoutParams as LayoutParams
+                if (state) {
+                    params.topMargin = (0 * interpolatedTime).toInt()
+                } else {
+                    params.topMargin = (px * interpolatedTime).toInt()
+                }
+                _binding.topViews.layoutParams = params
+            }
+        }
+        a.duration = 500
+        _binding.topViews.startAnimation(a)
+
+        if (requireContext().isAppDefaultDialer()) {
+            if (state) {
+                _binding.callFab.show()
+            } else {
+                _binding.callFab.hide()
+            }
+        }
     }
 
     private fun observe() {
@@ -247,8 +297,12 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         requireActivity()
             .findViewById<CoordinatorLayout>(R.id.coordinatorLayout)
             .isVisible = !visible
-        _binding.searchContainer.isVisible = visible
-        _binding.callFab.isVisible = !visible
+        if (isSearchFragment == 1){
+            _binding.searchContainer.isVisible = visible
+        }
+        if (isSearchFragment == 2){
+            _binding.searchContainer.isVisible = false
+        }
     }
 
     override fun onStop() {

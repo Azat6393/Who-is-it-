@@ -13,6 +13,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import com.woynex.kimbu.core.data.local.room.KimBuDatabase
 import com.woynex.kimbu.core.utils.deleteCountryCode
+import com.woynex.kimbu.core.utils.isAppDefaultDialer
 import com.woynex.kimbu.feature_search.data.local.room.CallHistoryPagingSource
 import com.woynex.kimbu.feature_search.domain.model.Contact
 import com.woynex.kimbu.feature_search.domain.model.NumberInfo
@@ -129,50 +130,54 @@ class SearchRepositoryImpl @Inject constructor(
 
     @SuppressLint("Range")
     override suspend fun getAllContacts(): List<Contact> {
-        val cursorContacts =
-            context.contentResolver.query(
-                ContactsContract.Contacts.CONTENT_URI,
-                null, null, null, null
-            )
-        val contacts = mutableSetOf<Contact>()
-        cursorContacts?.let {
-            cursorContacts.moveToFirst()
-            cursorContacts.let {
-                while (cursorContacts.moveToNext()) {
-                    val id = cursorContacts.getString(
-                        cursorContacts.getColumnIndex(ContactsContract.Contacts._ID)
-                    )
-                    val name = cursorContacts.getString(
-                        cursorContacts.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME)
-                    )
-                    val phoneNumber = (cursorContacts.getString(
-                        cursorContacts.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER)
-                    )).toInt()
-
-                    if (phoneNumber > 0) {
-                        val cursorPhone = context.contentResolver.query(
-                            ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-                            null,
-                            ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "=?",
-                            arrayOf(id),
-                            null
+        if (context.isAppDefaultDialer()){
+            val cursorContacts =
+                context.contentResolver.query(
+                    ContactsContract.Contacts.CONTENT_URI,
+                    null, null, null, null
+                )
+            val contacts = mutableSetOf<Contact>()
+            cursorContacts?.let {
+                cursorContacts.moveToFirst()
+                cursorContacts.let {
+                    while (cursorContacts.moveToNext()) {
+                        val id = cursorContacts.getString(
+                            cursorContacts.getColumnIndex(ContactsContract.Contacts._ID)
                         )
+                        val name = cursorContacts.getString(
+                            cursorContacts.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME)
+                        )
+                        val phoneNumber = (cursorContacts.getString(
+                            cursorContacts.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER)
+                        )).toInt()
 
-                        if (cursorPhone?.count!! > 0) {
-                            while (cursorPhone.moveToNext()) {
-                                val phoneNumValue = cursorPhone.getString(
-                                    cursorPhone.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)
-                                ).filter { !it.isWhitespace() }
-                                contacts.add(Contact(id = id, number = phoneNumValue, name = name))
+                        if (phoneNumber > 0) {
+                            val cursorPhone = context.contentResolver.query(
+                                ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                                null,
+                                ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "=?",
+                                arrayOf(id),
+                                null
+                            )
+
+                            if (cursorPhone?.count!! > 0) {
+                                while (cursorPhone.moveToNext()) {
+                                    val phoneNumValue = cursorPhone.getString(
+                                        cursorPhone.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)
+                                    ).filter { !it.isWhitespace() }
+                                    contacts.add(Contact(id = id, number = phoneNumValue, name = name))
+                                }
                             }
+                            cursorPhone.close()
                         }
-                        cursorPhone.close()
                     }
+                    cursorContacts.close()
                 }
-                cursorContacts.close()
             }
+            return contacts.toList()
+        }else {
+            return emptyList()
         }
-        return contacts.toList()
     }
 
 

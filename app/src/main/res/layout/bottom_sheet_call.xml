@@ -4,14 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?attr/background_color"
     android:orientation="vertical">
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:background="@color/light_primary_color"
+        android:clickable="true"
+        android:orientation="vertical"
+        android:focusable="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -25,9 +27,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="8"
-                android:background="?attr/background_color"
                 android:textAlignment="center"
-                android:textColor="?attr/secondary"
+                android:textColor="@color/black"
                 android:textSize="25sp"
                 tools:text="553085645" />
 
@@ -37,9 +38,11 @@
                 android:layout_width="0dp"
                 android:layout_height="30dp"
                 android:layout_weight="2"
-                android:padding="5dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:layout_gravity="center"
                 android:src="@drawable/material_backspace"
-                app:tint="?attr/secondary" />
+                app:tint="@color/black" />
 
         </LinearLayout>
 
@@ -52,7 +55,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
             android:orientation="horizontal"
             android:weightSum="9">
 
@@ -62,18 +64,38 @@
                 android:layout_height="@dimen/call_button_height"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
                 android:layout_weight="3"
-                app:cardBackgroundColor="?attr/surface_color"
+                android:background="@null"
+                android:elevation="0dp"
+                app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="30dp">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:fontFamily="sans-serif-medium"
                     android:gravity="center"
-                    android:text="1"
-                    android:textColor="?attr/secondary"
-                    android:textSize="25sp" />
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="33dp"
+                        android:fontFamily="sans-serif-medium"
+                        android:gravity="center"
+                        android:text="1"
+                        android:textColor="?attr/secondary"
+                        android:textSize="30sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text=""
+                        android:textColor="?attr/secondary"
+                        android:textSize="13sp" />
+
+                </LinearLayout>
 
             </androidx.cardview.widget.CardView>
 
@@ -81,18 +103,41 @@
                 android:id="@+id/two_btn"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/call_button_height"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
                 android:layout_weight="3"
-                app:cardBackgroundColor="?attr/surface_color"
+                android:background="@null"
+                android:elevation="0dp"
+                app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="30dp">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:fontFamily="sans-serif-medium"
                     android:gravity="center"
-                    android:text="2"
-                    android:textColor="?attr/secondary"
-                    android:textSize="25sp" />
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="33dp"
+                        android:fontFamily="sans-serif-medium"
+                        android:gravity="center"
+                        android:text="2"
+                        android:textColor="?attr/secondary"
+                        android:textSize="30sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="abc"
+                        android:textColor="?attr/secondary"
+                        android:textSize="13sp" />
+
+                </LinearLayout>
+
 
             </androidx.cardview.widget.CardView>
 
@@ -102,19 +147,38 @@
                 android:layout_height="@dimen/call_button_height"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
                 android:layout_weight="3"
-                app:cardBackgroundColor="?attr/surface_color"
+                android:background="@null"
+                android:elevation="0dp"
+                app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="30dp">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:fontFamily="sans-serif-medium"
                     android:gravity="center"
-                    android:text="3"
-                    android:textColor="?attr/secondary"
-                    android:textSize="25sp" />
+                    android:orientation="vertical">
 
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="33dp"
+                        android:fontFamily="sans-serif-medium"
+                        android:gravity="center"
+                        android:text="3"
+                        android:textColor="?attr/secondary"
+                        android:textSize="30sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="def"
+                        android:textColor="?attr/secondary"
+                        android:textSize="13sp" />
+
+                </LinearLayout>
             </androidx.cardview.widget.CardView>
 
         </LinearLayout>
@@ -122,7 +186,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
             android:orientation="horizontal"
             android:weightSum="9">
 
@@ -132,18 +195,38 @@
                 android:layout_height="@dimen/call_button_height"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
                 android:layout_weight="3"
-                app:cardBackgroundColor="?attr/surface_color"
+                android:background="@null"
+                android:elevation="0dp"
+                app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="30dp">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:fontFamily="sans-serif-medium"
                     android:gravity="center"
-                    android:text="4"
-                    android:textColor="?attr/secondary"
-                    android:textSize="25sp" />
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="33dp"
+                        android:fontFamily="sans-serif-medium"
+                        android:gravity="center"
+                        android:text="4"
+                        android:textColor="?attr/secondary"
+                        android:textSize="30sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="ghi"
+                        android:textColor="?attr/secondary"
+                        android:textSize="13sp" />
+
+                </LinearLayout>
 
             </androidx.cardview.widget.CardView>
 
@@ -151,18 +234,40 @@
                 android:id="@+id/five_btn"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/call_button_height"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
                 android:layout_weight="3"
-                app:cardBackgroundColor="?attr/surface_color"
+                android:background="@null"
+                android:elevation="0dp"
+                app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="30dp">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:fontFamily="sans-serif-medium"
                     android:gravity="center"
-                    android:text="5"
-                    android:textColor="?attr/secondary"
-                    android:textSize="25sp" />
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="33dp"
+                        android:fontFamily="sans-serif-medium"
+                        android:gravity="center"
+                        android:text="5"
+                        android:textColor="?attr/secondary"
+                        android:textSize="30sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="jkl"
+                        android:textColor="?attr/secondary"
+                        android:textSize="13sp" />
+
+                </LinearLayout>
 
             </androidx.cardview.widget.CardView>
 
@@ -172,18 +277,38 @@
                 android:layout_height="@dimen/call_button_height"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
                 android:layout_weight="3"
-                app:cardBackgroundColor="?attr/surface_color"
+                android:background="@null"
+                android:elevation="0dp"
+                app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="30dp">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:fontFamily="sans-serif-medium"
                     android:gravity="center"
-                    android:text="6"
-                    android:textColor="?attr/secondary"
-                    android:textSize="25sp" />
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="33dp"
+                        android:fontFamily="sans-serif-medium"
+                        android:gravity="center"
+                        android:text="6"
+                        android:textColor="?attr/secondary"
+                        android:textSize="30sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="mno"
+                        android:textColor="?attr/secondary"
+                        android:textSize="13sp" />
+
+                </LinearLayout>
 
             </androidx.cardview.widget.CardView>
 
@@ -192,7 +317,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
             android:orientation="horizontal"
             android:weightSum="9">
 
@@ -202,18 +326,38 @@
                 android:layout_height="@dimen/call_button_height"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
                 android:layout_weight="3"
-                app:cardBackgroundColor="?attr/surface_color"
+                android:background="@null"
+                android:elevation="0dp"
+                app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="30dp">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:fontFamily="sans-serif-medium"
                     android:gravity="center"
-                    android:text="7"
-                    android:textColor="?attr/secondary"
-                    android:textSize="25sp" />
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="33dp"
+                        android:fontFamily="sans-serif-medium"
+                        android:gravity="center"
+                        android:text="7"
+                        android:textColor="?attr/secondary"
+                        android:textSize="30sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="pqrs"
+                        android:textColor="?attr/secondary"
+                        android:textSize="13sp" />
+
+                </LinearLayout>
 
             </androidx.cardview.widget.CardView>
 
@@ -221,19 +365,40 @@
                 android:id="@+id/eight_btn"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/call_button_height"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
                 android:layout_weight="3"
-                app:cardBackgroundColor="?attr/surface_color"
+                android:background="@null"
+                android:elevation="0dp"
+                app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="30dp">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:fontFamily="sans-serif-medium"
                     android:gravity="center"
-                    android:text="8"
-                    android:textColor="?attr/secondary"
-                    android:textSize="25sp" />
+                    android:orientation="vertical">
 
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="33dp"
+                        android:fontFamily="sans-serif-medium"
+                        android:gravity="center"
+                        android:text="8"
+                        android:textColor="?attr/secondary"
+                        android:textSize="30sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="tuv"
+                        android:textColor="?attr/secondary"
+                        android:textSize="13sp" />
+
+                </LinearLayout>
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
@@ -242,18 +407,38 @@
                 android:layout_height="@dimen/call_button_height"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
                 android:layout_weight="3"
-                app:cardBackgroundColor="?attr/surface_color"
+                android:background="@null"
+                android:elevation="0dp"
+                app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="30dp">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:fontFamily="sans-serif-medium"
                     android:gravity="center"
-                    android:text="9"
-                    android:textColor="?attr/secondary"
-                    android:textSize="25sp" />
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="33dp"
+                        android:fontFamily="sans-serif-medium"
+                        android:gravity="center"
+                        android:text="9"
+                        android:textColor="?attr/secondary"
+                        android:textSize="30sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="wxyz"
+                        android:textColor="?attr/secondary"
+                        android:textSize="13sp" />
+
+                </LinearLayout>
 
             </androidx.cardview.widget.CardView>
 
@@ -262,7 +447,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
             android:orientation="horizontal"
             android:weightSum="9">
 
@@ -272,8 +456,12 @@
                 android:layout_height="@dimen/call_button_height"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
                 android:layout_weight="3"
-                app:cardBackgroundColor="?attr/surface_color"
+                android:background="@null"
+                android:elevation="0dp"
+                app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="30dp">
 
                 <TextView
@@ -291,18 +479,40 @@
                 android:id="@+id/zero_btn"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/call_button_height"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
                 android:layout_weight="3"
-                app:cardBackgroundColor="?attr/surface_color"
+                android:background="@null"
+                android:elevation="0dp"
+                app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="30dp">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:fontFamily="sans-serif-medium"
                     android:gravity="center"
-                    android:text="0"
-                    android:textColor="?attr/secondary"
-                    android:textSize="25sp" />
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="33dp"
+                        android:fontFamily="sans-serif-medium"
+                        android:gravity="center"
+                        android:text="0"
+                        android:textColor="?attr/secondary"
+                        android:textSize="30sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="+"
+                        android:textColor="?attr/secondary"
+                        android:textSize="13sp" />
+
+                </LinearLayout>
 
             </androidx.cardview.widget.CardView>
 
@@ -312,8 +522,12 @@
                 android:layout_height="@dimen/call_button_height"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
                 android:layout_weight="3"
-                app:cardBackgroundColor="?attr/surface_color"
+                android:background="@null"
+                android:elevation="0dp"
+                app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="30dp">
 
                 <TextView
@@ -329,28 +543,55 @@
 
         </LinearLayout>
 
-        <androidx.cardview.widget.CardView
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/call_button_height"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="20dp"
-            app:cardBackgroundColor="#25a244"
-            app:cardCornerRadius="30dp">
+            android:layout_height="wrap_content">
 
-            <Button
+            <androidx.cardview.widget.CardView
+                android:id="@+id/number_btn"
+                android:layout_width="80dp"
+                android:layout_height="@dimen/call_button_height"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="30dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/call_btn"
+                app:layout_constraintHorizontal_bias="0.30"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="17dp"
+                    app:tint="@color/black"
+                    android:src="@drawable/numbers_icon" />
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
                 android:id="@+id/call_btn"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@null"
-                android:backgroundTint="#25a244"
-                android:drawableLeft="@drawable/ic_baseline_phone_24"
-                android:text="@string/call"
-                android:textColor="@color/white"
-                tools:ignore="RtlHardcoded" />
+                android:layout_width="80dp"
+                android:layout_height="@dimen/call_button_height"
+                app:cardBackgroundColor="#25a244"
+                app:cardCornerRadius="30dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-        </androidx.cardview.widget.CardView>
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="17dp"
+                    android:src="@drawable/ic_baseline_phone_24" />
+
+            </androidx.cardview.widget.CardView>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     </LinearLayout>
 
